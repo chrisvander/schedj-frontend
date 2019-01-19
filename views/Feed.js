@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { FeedStyle, NavStyle } from '../styles';
 
 export default class FeedScreen extends React.Component {
   render() {
@@ -10,17 +11,8 @@ export default class FeedScreen extends React.Component {
       		paddingTop: 47,
 	        paddingLeft: 16 
 	      }}>
-	      	<Text style={{
-	        	fontSize: 14,
-	        	fontFamily: 'System',
-	        	fontWeight: '600',
-	        	color: '#8E8E93',
-	        }}>WELCOME</Text>
-	        <Text style={{
-	        	fontSize: 34,
-	        	fontFamily: 'System',
-	        	fontWeight: 'bold'
-        	}}>Christian</Text>
+	      	<Text style={[NavStyle.subTitle]}>WELCOME</Text>
+	        <Text style={[NavStyle.bigTitle]}>Christian</Text>
         </View>
       </SafeAreaView>
     );
