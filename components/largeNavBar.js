@@ -6,7 +6,8 @@ export default class LargeNavBar extends React.Component {
 	render() {
 		return (
 			<View style={[ NavStyle.largeNavBarView ]}>
-				<Text>{this.props.title}</Text>
+				<Text style={[NavStyle.subTitle]}>{this.props.preTitle}</Text>
+				<Text style={[ NavStyle.bigTitle ]}>{this.props.title}</Text>
 			</View>
 		);
 	}
