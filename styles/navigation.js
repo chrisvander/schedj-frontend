@@ -13,6 +13,10 @@ export default StyleSheet.create({
     	fontWeight: 'bold'
 		},
 		largeNavBarView: {
-			
+			height: 150,
+			borderBottomWidth: 0,
+			paddingLeft: 16,
+			elevation: 5,
+			justifyContent: 'flex-end'
 		}
 });
