@@ -7,7 +7,7 @@ export default class FeedScreen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-      	<LargeNavBar title="Christian" preTitle="WELCOME"/>
+      	<LargeNavBar shadow={false} title="Christian" preTitle="WELCOME"/>
       </View>
     );
   }

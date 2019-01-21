@@ -13,10 +13,33 @@ export default StyleSheet.create({
     	fontWeight: 'bold'
 		},
 		largeNavBarView: {
-			height: 150,
-			borderBottomWidth: 0,
+			height: 120,
 			paddingLeft: 16,
-			elevation: 5,
-			justifyContent: 'flex-end'
+			paddingBottom: 6,
+			justifyContent: 'space-between',
+			backgroundColor: '#FFFFFF',
+			flexDirection: 'row'
+		},
+		largeNavBarContainer: {
+			shadowColor: "#000000",
+	    shadowOpacity: 0.16,
+	    elevation: 5,
+	    shadowRadius: 10,
+	    shadowOffset: {
+	      height: 3,
+	      width: 1
+	    },
+	    height: '100%',
+	    width: '100%'
+		},
+		gearContainer: {
+			flexDirection: 'column',
+			alignSelf: 'flex-end',
+			paddingBottom: 6,
+			paddingRight: 16
+		},
+		gear: {
+			width: 36, 
+			height: 36
 		}
 });

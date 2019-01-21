@@ -8,7 +8,7 @@ export default class ScheduleScreen extends React.Component {
     	<React.Fragment>
 	    	<LargeNavBar title="Schedule" />
 	      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-	        <Text>Schedule</Text>
+	        <Text></Text>
 	      </View>
       </React.Fragment>
     );

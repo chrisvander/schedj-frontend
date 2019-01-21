@@ -6,6 +6,6 @@ import { Login } from './views'
 
 export default class App extends React.Component {
   render() {
-    return ( <Login /> );
+    return ( <Tabs /> );
   }
 } 
