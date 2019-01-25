@@ -1,11 +1,22 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { Tabs } from './navigation'
-import { Login } from './views'
+import { Login, Settings } from './views'
+import { createAppContainer, createStackNavigator} from 'react-navigation';
 
+const RootStack = createStackNavigator({
+	Home: {
+		screen: Tabs,
+		navigationOptions: {
+			header: null
+		}
+	},
+	Login: {
+		screen: Login
+	},
+	Settings: {
+		screen: Settings
+	},
+});
 
-export default class App extends React.Component {
-  render() {
-    return ( <Tabs /> );
-  }
-} 
+export default createAppContainer(RootStack);

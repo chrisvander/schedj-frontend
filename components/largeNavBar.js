@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 import { NavStyle } from '../styles';
 
 export default class LargeNavBar extends React.Component {
 	settings = () => {
-		
+		this.props.navigation.navigate('Settings');
 	}
 
 	render() {
@@ -21,9 +21,14 @@ export default class LargeNavBar extends React.Component {
 								<Text style={[ NavStyle.bigTitle ]}>{this.props.title}</Text>
 							</View>
 							<View style={[ NavStyle.gearContainer ]}>
-								<TouchableHighlight onPress={this.settings}>
-									<Image style={[ NavStyle.gear ]} source={require('../assets/gear.png')}/>
-								</TouchableHighlight>
+								<TouchableOpacity onPress={this.settings}>
+									<Image 
+										style={[ NavStyle.gear ]} 
+										source={require('../assets/gear.png')} 
+										defaultSource={require('../assets/gear.png')}
+										resizeMode="cover"
+									/>
+								</TouchableOpacity>
 							</View>
 						</View>
 					</SafeAreaView>

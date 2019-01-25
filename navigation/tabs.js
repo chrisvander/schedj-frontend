@@ -45,8 +45,10 @@ const TabNavigator = createBottomTabNavigator(
       	backgroundColor: '#2699FB'
       }
     },
+    animationEnabled: true,
+    swipeEnabled: true
   }
 );
 
-export default createAppContainer(TabNavigator);
+export default TabNavigator;
 

@@ -3,6 +3,8 @@ import { Text, View } from 'react-native';
 import { LargeNavBar } from '../components';
 
 export default class SettingsScreen extends React.Component {
+	static navigationOptions = { title: "Settings" }
+
   render() {
     return (
     	<React.Fragment>

@@ -6,7 +6,7 @@ export default class ScheduleScreen extends React.Component {
   render() {
     return (
     	<React.Fragment>
-	    	<LargeNavBar title="Schedule" />
+	    	<LargeNavBar navigation={this.props.navigation} title="Schedule" />
 	      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 	        <Text></Text>
 	      </View>
