@@ -49,6 +49,10 @@ const styles = StyleSheet.create({
   }
 })
 
+function changeStatus(next) {
+	next();
+}
+
 export default class App extends React.Component {
 	constructor() {
 		super();
@@ -58,7 +62,9 @@ export default class App extends React.Component {
 	}
 
 	componentDidMount() {
-
+		changeStatus(() => {
+			this.setState({ authorized: true });
+		});
 	}
 
 	loading() {
