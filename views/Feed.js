@@ -7,7 +7,7 @@ export default class FeedScreen extends React.Component {
 	static navigationOptions = { header: null }
 	
   render() {
-    return (
+  	return (
     	<View>
 	      <View style={{ flex: 1 }}>
 	      	<LargeNavBar navigation={this.props.navigation} shadow={false} title="Christian" preTitle="WELCOME"/>

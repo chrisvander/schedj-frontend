@@ -47,7 +47,7 @@ export default class FeedScreen extends React.Component {
           			color='#FFFFFF' 
           			style={[LoginStyle.button]} 
           			containerStyle={[LoginStyle.buttonContainer]}
-          			onPress={()=>{}}
+          			onPress={()=>{this.props.navigation.navigate('Home')}}
           		>
           			LOGIN
           		</Button>

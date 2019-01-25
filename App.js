@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, SafeAreaView, ActivityIndicator, StyleSheet } from 'react-native';
 import { Tabs } from './navigation'
 import { Login, Settings } from './views'
 import { createAppContainer, createStackNavigator} from 'react-navigation';
@@ -11,12 +11,67 @@ const RootStack = createStackNavigator({
 			header: null
 		}
 	},
-	Login: {
-		screen: Login
-	},
 	Settings: {
 		screen: Settings
 	},
 });
 
-export default createAppContainer(RootStack);
+const AuthStack = createStackNavigator({
+	Home: {
+		screen: RootStack,
+		navigationOptions: {
+			header: null
+		}
+	},
+	Login: {
+		screen: Login,
+		navigationOptions: {
+			header: null
+		}
+	}
+},
+{
+  mode: 'modal',
+  headerMode: 'none',
+});
+
+var MainView = createAppContainer(AuthStack);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10
+  }
+})
+
+export default class App extends React.Component {
+	constructor() {
+		super();
+		this.state = {
+			authorized: false
+		}
+	}
+
+	componentDidMount() {
+
+	}
+
+	loading() {
+		return (
+			<SafeAreaView style={[ styles.container, styles.horizontal ]}>
+				<ActivityIndicator size="large" color="#0000ff" />
+			</SafeAreaView>
+		);
+	}
+
+	render() {
+		if (this.state.authorized)
+			return (<MainView />);
+		else return this.loading();
+	}
+}
