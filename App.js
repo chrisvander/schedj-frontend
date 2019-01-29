@@ -3,6 +3,7 @@ import { Text, View, SafeAreaView, ActivityIndicator, StyleSheet } from 'react-n
 import { Tabs } from './navigation'
 import { Login, Settings } from './views'
 import { createAppContainer, createStackNavigator} from 'react-navigation';
+var authorize = require('./auth/');
 
 const RootStack = createStackNavigator({
 	Home: {
@@ -49,10 +50,6 @@ const styles = StyleSheet.create({
   }
 })
 
-function changeStatus(next) {
-	next();
-}
-
 export default class App extends React.Component {
 	constructor() {
 		super();
@@ -62,8 +59,8 @@ export default class App extends React.Component {
 	}
 
 	componentDidMount() {
-		changeStatus(() => {
-			this.setState({ authorized: true });
+		authorize((authorized) => {
+			if (authorized) this.setState({ authorized: true });
 		});
 	}
 
