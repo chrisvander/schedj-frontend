@@ -9,9 +9,7 @@ export default class FeedScreen extends React.Component {
   render() {
   	return (
     	<View>
-	      <View style={{ flex: 1 }}>
-	      	<LargeNavBar navigation={this.props.navigation} shadow={false} title="Christian" preTitle="WELCOME"/>
-	      </View>
+	      <LargeNavBar navigation={this.props.navigation} shadow={false} title="Christian" preTitle="WELCOME"/>
       </View>
     );
   }
