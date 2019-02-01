@@ -24,7 +24,12 @@ export default class FeedScreen extends React.Component {
     // alert('Keyboard Hidden');
   }
 
+  componentWillMount() {
+    this.sis_man = (<Image style={{ marginTop: 43, marginBottom: 30 }} source={require('../assets/sis_man.png')} />);
+  }
+
   render() {
+    const {navigate, goBack} = this.props.navigation;
     return (
       <View style={{ flex: 1, justifyContent: 'flex-end', height: '100%' }}>
       	<LinearGradient
@@ -32,7 +37,7 @@ export default class FeedScreen extends React.Component {
           style={{ padding: 24, alignItems: 'center', height: '100%' }}
           start={[0.33,0.33]}>
           <SafeAreaView style={{ alignItems: 'center', height: '100%', width:'100%' }}>
-          	<Image style={{ marginTop: 43, marginBottom: 30 }} width={113} height={132} source={require('../assets/sis_man.png')} />
+          	{this.sis_man}
 	          <RoundedCard style={{padding:23}}>
 	          	<Text style={[LoginStyle.rensselaerText]}>Rensselaer's</Text>
 	          	<Text style={[LoginStyle.sisText]}>Student Information System</Text>
@@ -47,7 +52,7 @@ export default class FeedScreen extends React.Component {
           			color='#FFFFFF' 
           			style={[LoginStyle.button]} 
           			containerStyle={[LoginStyle.buttonContainer]}
-          			onPress={()=>{}}
+          			onPress={()=>navigate('Home')}
           		>
           			LOGIN
           		</Button>

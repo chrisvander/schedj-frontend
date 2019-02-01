@@ -3,7 +3,7 @@ import { Text, View, SafeAreaView, ActivityIndicator, StyleSheet } from 'react-n
 import { Tabs } from './navigation'
 import { Login, Settings } from './views'
 import { createAppContainer, createStackNavigator} from 'react-navigation';
-var authorize = require('./auth/');
+import { isSignedIn } from './auth/';
 
 const RootStack = createStackNavigator({
 	Home: {
@@ -17,7 +17,7 @@ const RootStack = createStackNavigator({
 	},
 });
 
-const AuthStack = createStackNavigator({
+const AuthStack = (authorized) => createStackNavigator({
 	Home: {
 		screen: RootStack,
 		navigationOptions: {
@@ -34,9 +34,8 @@ const AuthStack = createStackNavigator({
 {
   mode: 'modal',
   headerMode: 'none',
+  initialRouteName: authorized ? 'Home' : 'Login'
 });
-
-var MainView = createAppContainer(AuthStack);
 
 const styles = StyleSheet.create({
   container: {
@@ -51,17 +50,24 @@ const styles = StyleSheet.create({
 })
 
 export default class App extends React.Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
-			authorized: false
+			authorized: false,
+			checkedAuth: false
 		}
 	}
 
 	componentDidMount() {
-		authorize((authorized) => {
-			if (authorized) this.setState({ authorized: true });
-		});
+		isSignedIn()
+			.then((valid) => {
+				if (valid) 
+					this.setState({ authorized: true });
+				this.setState({ checkedAuth: true });
+			})
+			.catch((err) => {
+				this.setState({ checkedAuth: true });
+			})
 	}
 
 	loading() {
@@ -73,8 +79,11 @@ export default class App extends React.Component {
 	}
 
 	render() {
-		if (this.state.authorized)
-			return (<MainView />);
-		else return this.loading();
+		const Layout = createAppContainer(AuthStack(this.state.authorized));
+
+		if (!this.state.checkedAuth) 
+			return this.loading();
+
+		return <Layout />;
 	}
 }
