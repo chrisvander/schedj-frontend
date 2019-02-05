@@ -17,7 +17,7 @@ const cardStyle = StyleSheet.create({
 	view: {
 		borderRadius: 20,
 		backgroundColor: '#FFFFFF',
-		height: 400,
+		height: 350,
 		width: '100%',
 		elevation: 3,
 	},
