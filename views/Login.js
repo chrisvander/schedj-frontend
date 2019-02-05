@@ -15,14 +15,21 @@ import Button from 'react-native-button';
 import { RoundedCard } from '../components';
 import { LoginStyle } from '../styles';
 import { LinearGradient } from 'expo';
+import { validate } from '../auth';
 
 export default class FeedScreen extends React.Component {
   componentWillMount() {
     this.sis_man = (<Image style={{ marginTop: 43, marginBottom: 30 }} source={require('../assets/sis_man.png')} />);
+    this.setState({ username: '', password: ''});
   }
 
   login(nav) {
-    nav('Home');
+    validate(this.state.username, this.state.password)
+      .then((valid) => {
+        nav('Home');
+      }).catch((err) => {
+        alert(err);
+      });
   }
 
   render() {
@@ -48,6 +55,7 @@ export default class FeedScreen extends React.Component {
                     keyboardType='default'
                     returnKeyType='next'
                     onSubmitEditing={() => { this.passwordField.focus(); }}
+                    onChangeText={(username) => this.setState({username})}
                     blurOnSubmit={false}
                   />
   	          	</View>
@@ -61,6 +69,7 @@ export default class FeedScreen extends React.Component {
                     returnKeyType='go'
                     ref={(input) => { this.passwordField = input; }}
                     onSubmitEditing={()=>this.login(navigate)}
+                    onChangeText={(password) => this.setState({password})}
                   />
   	          	</View>
             		<Button 

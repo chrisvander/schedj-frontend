@@ -1,5 +1,6 @@
 import { AsyncStorage } from "react-native";
 import * as Keychain from "react-native-keychain";
+import { SERVER } from "../globals.js";
 
 export const session = "SESSID";
 
@@ -20,3 +21,8 @@ export const isSignedIn = () => {
       .catch(err => reject(err));
   });
 };
+
+export const signIn = (user, pass) => new Promise((resolve,reject) => {
+  
+  return fetch(SERVER);
+});
