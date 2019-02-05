@@ -1,31 +1,28 @@
 import React from 'react';
-import { Image, Keyboard, StyleSheet, SafeAreaView, ScrollView, Text, View, TextInput, KeyboardAvoidingView } from 'react-native';
+import { 
+  Image, 
+  Keyboard, 
+  StyleSheet, 
+  SafeAreaView, 
+  ScrollView, 
+  Text, 
+  View, 
+  TextInput, 
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback
+} from 'react-native';
 import Button from 'react-native-button';
 import { RoundedCard } from '../components';
 import { LoginStyle } from '../styles';
 import { LinearGradient } from 'expo';
 
 export default class FeedScreen extends React.Component {
-	componentDidMount() {
-		this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
-	}
-
-	componentWillUnmount () {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
-  }
-
-  _keyboardDidShow () {
-    // alert('Keyboard Shown');
-  }
-
-  _keyboardDidHide () {
-    // alert('Keyboard Hidden');
-  }
-
   componentWillMount() {
     this.sis_man = (<Image style={{ marginTop: 43, marginBottom: 30 }} source={require('../assets/sis_man.png')} />);
+  }
+
+  login(nav) {
+    nav('Home');
   }
 
   render() {
@@ -43,17 +40,35 @@ export default class FeedScreen extends React.Component {
   	          	<Text style={[LoginStyle.rensselaerText]}>Rensselaer's</Text>
   	          	<Text style={[LoginStyle.sisText]}>Student Information System</Text>
   	          	<View style={[LoginStyle.textInputContainer]}>
-  	          		<TextInput placeholderTextColor='#BCE0FD' style={[LoginStyle.textInput]} placeholder='RIN' autoCorrect={false} />
+  	          		<TextInput 
+                    placeholderTextColor='#BCE0FD' 
+                    style={[LoginStyle.textInput]} 
+                    placeholder='RIN' 
+                    autoCorrect={false}
+                    keyboardType='default'
+                    returnKeyType='next'
+                    onSubmitEditing={() => { this.passwordField.focus(); }}
+                    blurOnSubmit={false}
+                  />
   	          	</View>
   	          	<View style={[LoginStyle.textInputContainer]}>
-  	          		<TextInput placeholderTextColor='#BCE0FD' style={[LoginStyle.textInput]} placeholder='Password' autoCorrect={false} secureTextEntry={true}/>
+  	          		<TextInput 
+                    placeholderTextColor='#BCE0FD' 
+                    style={[LoginStyle.textInput]} 
+                    placeholder='Password' 
+                    autoCorrect={false} 
+                    secureTextEntry={true}
+                    returnKeyType='go'
+                    ref={(input) => { this.passwordField = input; }}
+                    onSubmitEditing={()=>this.login(navigate)}
+                  />
   	          	</View>
             		<Button 
             			activeOpacity={0.7}
             			color='#FFFFFF' 
             			style={[LoginStyle.button]} 
             			containerStyle={[LoginStyle.buttonContainer]}
-            			onPress={()=>navigate('Home')}
+            			onPress={()=>this.login(navigate)}
             		>
             			LOGIN
             		</Button>
