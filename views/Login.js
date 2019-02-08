@@ -15,7 +15,7 @@ import Button from 'react-native-button';
 import { RoundedCard } from '../components';
 import { LoginStyle } from '../styles';
 import { LinearGradient } from 'expo';
-import { validate } from '../auth';
+import { signIn } from '../auth';
 
 export default class FeedScreen extends React.Component {
   componentWillMount() {
@@ -24,7 +24,7 @@ export default class FeedScreen extends React.Component {
   }
 
   login(nav) {
-    validate(this.state.username, this.state.password)
+    signIn(this.state.username, this.state.password)
       .then((valid) => {
         nav('Home');
       }).catch((err) => {
@@ -82,8 +82,7 @@ export default class FeedScreen extends React.Component {
             			LOGIN
             		</Button>
             		<View style={{justifyContent: 'center', alignItems: 'center'}}>
-  		          	<Text style={[LoginStyle.privacy]}>By logging into SIS, you agree to our</Text>
-  		          	<Text style={[LoginStyle.privacy]}>Terms of Service and Privacy Policy</Text>
+  		          	<Text style={[LoginStyle.privacy]}>By logging into SIS, you agree to our {"\n"} Terms of Service and Privacy Policy</Text>
   	          	</View>
   	          </RoundedCard>
             </KeyboardAvoidingView>

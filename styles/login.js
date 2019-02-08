@@ -37,8 +37,8 @@ export default StyleSheet.create({
 			fontWeight: 'bold'
 		},
 		privacy: {
-			fontFamily: 'Arial',
+			fontFamily: 'Helvetica Neue',
 			fontSize: 10,
-			color: '#2699FB'
-		}
+			color: '#2699FB',
+		},
 });

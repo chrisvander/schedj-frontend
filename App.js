@@ -1,4 +1,5 @@
 import React from 'react';
+import { Font } from 'expo';
 import { Text, View, SafeAreaView, ActivityIndicator, StyleSheet } from 'react-native';
 import { Tabs } from './navigation'
 import { Login, Settings } from './views'
@@ -54,11 +55,12 @@ export default class App extends React.Component {
 		super(props);
 		this.state = {
 			authorized: false,
-			checkedAuth: false
+			checkedAuth: false,
+			fontLoaded: false
 		}
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
 		isSignedIn()
 			.then((valid) => {
 				if (valid) 
@@ -68,6 +70,10 @@ export default class App extends React.Component {
 			.catch((err) => {
 				this.setState({ checkedAuth: true });
 			})
+		await Font.loadAsync({
+      'Helvetica Neue': require('./assets/fonts/HelveticaNeue.ttf'),
+    });
+		this.setState({ fontLoaded: true })
 	}
 
 	loading() {
@@ -81,7 +87,7 @@ export default class App extends React.Component {
 	render() {
 		const Layout = createAppContainer(AuthStack(this.state.authorized));
 
-		if (!this.state.checkedAuth) 
+		if (!this.state.checkedAuth || !this.state.fontLoaded) 
 			return this.loading();
 
 		return <Layout />;

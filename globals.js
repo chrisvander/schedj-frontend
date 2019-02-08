@@ -1,4 +1,9 @@
+const server = 'http://localhost:8080';
+
 export default {
 	USES_BIOMETRICS: 'false',
-	SERVER: 'http://google.com/'
+	SERVER: server,
+	ROUTES: {
+		login: server + '/login'
+	}
 }
