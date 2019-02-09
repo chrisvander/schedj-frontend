@@ -25,11 +25,10 @@ export const isSignedIn = () => {
 export const signIn = (user, pass) => new Promise((resolve,reject) => {
   fetch(globals.ROUTES.login, {
     method: 'POST'
-  })
-    .then((body) => {
-      resolve(body);
-    })
-    .catch((err) => {
-      reject(err);
-    });
+  }).then((body) => {
+    console.log(body);
+    resolve(body);
+  }).catch((err) => {
+    reject(err);
+  });
 });
