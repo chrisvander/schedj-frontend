@@ -23,11 +23,17 @@ export const isSignedIn = () => {
 };
 
 export const signIn = (user, pass) => new Promise((resolve,reject) => {
-  fetch(globals.ROUTES.login, {
-    method: 'POST'
+  const url = globals.ROUTES.login + 
+    `?user=${encodeURIComponent(user)}&pass=${encodeURIComponent(pass)}`;
+  fetch(url, {
+    method: 'POST',
   }).then((body) => {
-    console.log(body);
-    resolve(body);
+    var data = JSON.parse(body._bodyInit);
+    globals.TERM = data.term;
+    globals.NAME = data.name.split('+');
+    globals.SESSID = data.sessid;
+    if (body.ok) resolve(body);
+    else reject("Unauthorized");
   }).catch((err) => {
     reject(err);
   });

@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, Text, View, Button } from 'react-native';
 import { FeedStyle, NavStyle } from '../styles';
 import { LargeNavBar } from '../components';
+import globals from '../globals.js';
 
 export default class FeedScreen extends React.Component {
 	static navigationOptions = { header: null }
@@ -9,7 +10,7 @@ export default class FeedScreen extends React.Component {
   render() {
   	return (
     	<View>
-	      <LargeNavBar navigation={this.props.navigation} shadow={false} title="Christian" preTitle="WELCOME"/>
+	      <LargeNavBar navigation={this.props.navigation} shadow={false} title={globals.NAME[0]} preTitle="WELCOME"/>
       </View>
     );
   }
