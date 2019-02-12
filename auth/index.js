@@ -7,16 +7,19 @@ export const onSignIn = () => AsyncStorage.setItem(session, "true");
 export const onSignOut = () => AsyncStorage.removeItem(session);
 
 export const isSignedIn = () => {
-  return new Promise((resolve, reject) => {
-    AsyncStorage.getItem(session)
-      .then(res => {
-        if (res !== null) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
+  return new Promise(async (resolve, reject) => {
+    var user = await SecureStore.getItemAsync("username");
+    var pass = await SecureStore.getItemAsync("password");
+    if (user && pass) {
+      signIn(user,pass)
+      .then(() => {
+        resolve(true);
       })
-      .catch(err => reject(err));
+      .catch((err) => {
+        resolve(false);
+      });
+    }
+    else reject(false);
   });
 };
 
@@ -26,7 +29,13 @@ export const signIn = (user, pass) => new Promise((resolve,reject) => {
   fetch(url, {
     method: 'POST',
   }).then(async (body) => {
-    var data = JSON.parse(body._bodyInit);
+    try {
+      var data = JSON.parse(body._bodyInit);
+    }
+    catch (err) {
+      reject("No response from server");
+    }
+          console.log(user);
     globals.TERM = data.term;
     globals.NAME = data.name.split('+');
     globals.SESSID = data.sessid;
