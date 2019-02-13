@@ -1,6 +1,6 @@
 import React from 'react';
 import { Font } from 'expo';
-import { Text, View, SafeAreaView, ActivityIndicator, StyleSheet } from 'react-native';
+import { Button, Alert, Text, View, SafeAreaView, ActivityIndicator, StyleSheet } from 'react-native';
 import { Tabs } from './navigation'
 import { Login, Settings } from './views'
 import { createAppContainer, createStackNavigator} from 'react-navigation';
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 10
-  }
+  },
 })
 
 export default class App extends React.Component {
@@ -56,24 +56,42 @@ export default class App extends React.Component {
 		this.state = {
 			authorized: false,
 			checkedAuth: false,
+			isConnected: true,
 			fontLoaded: false
 		}
 	}
 
+	async loadNetwork() {
+		try {
+			isSignedIn()
+				.then((valid) => {
+					if (valid) 
+						this.setState({ authorized: true });
+					this.setState({ checkedAuth: true });
+				})
+				.catch((err) => {
+					this.setState({ checkedAuth: true });
+					if (err)
+						alert(err);
+				})
+		}
+		catch (err) {
+			this.setState({ checkedAuth: true });
+			this.setState({ isConnected: false });
+			Alert.alert(
+	      "Network Error",
+	      "Schedj is not reachable",
+	      { cancelable: false }
+	    );
+		}
+	}
+
 	async componentDidMount() {
-		isSignedIn()
-			.then((valid) => {
-				if (valid) 
-					this.setState({ authorized: true });
-				this.setState({ checkedAuth: true });
-			})
-			.catch((err) => {
-				this.setState({ checkedAuth: true });
-			})
 		await Font.loadAsync({
       'Helvetica Neue': require('./assets/fonts/HelveticaNeue.ttf'),
     });
 		this.setState({ fontLoaded: true })
+		this.loadNetwork();
 	}
 
 	loading() {
@@ -84,12 +102,29 @@ export default class App extends React.Component {
 		);
 	}
 
+	networkFailed() {
+		return (
+			<SafeAreaView style={[ styles.container, styles.horizontal ]}>
+			
+				<Button title="Refresh" onPress={() => {
+					this.setState({ authorized: false, checkedAuth: false, isConnected: true, });
+					this.loadNetwork();
+				}}/>
+			</SafeAreaView>
+		);
+	}
+
 	render() {
 		const Layout = createAppContainer(AuthStack(this.state.authorized));
+
+		if (!this.state.isConnected)
+			return this.networkFailed();
 
 		if (!this.state.checkedAuth || !this.state.fontLoaded) 
 			return this.loading();
 
-		return <Layout />;
+		return (
+				<Layout />
+		);
 	}
 }
