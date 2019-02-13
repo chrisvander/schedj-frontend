@@ -1,5 +1,6 @@
 import React from 'react';
 import { 
+  Alert,
   Image, 
   Keyboard, 
   StyleSheet, 
@@ -33,8 +34,12 @@ export default class FeedScreen extends React.Component {
     signIn(this.state.username, this.state.password)
       .then((valid) => {
         nav('Home');
-      }).catch((err) => {
-        alert(err);
+      }).catch((err, title) => {
+        Alert.alert(
+          title ? title : "Authentication Error",
+          err,
+          { cancelable: false }
+        );
         this.setState({ loading: false });
       });
   }

@@ -71,19 +71,19 @@ export default class App extends React.Component {
 					this.setState({ checkedAuth: true });
 				})
 				.catch((err) => {
-					this.setState({ checkedAuth: true });
+					this.setState({ authorized: false, checkedAuth: true });
 					if (err)
-						alert(err);
+						Alert.alert(
+				      "Network Error",
+				      err,
+				      { cancelable: false }
+				    );
 				})
 		}
 		catch (err) {
 			this.deauthorize();
 			this.setState({ isConnected: false });
-			Alert.alert(
-	      "Network Error",
-	      "Schedj is not reachable",
-	      { cancelable: false }
-	    );
+			
 		}
 	}
 

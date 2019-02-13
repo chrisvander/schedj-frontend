@@ -60,6 +60,7 @@ export const isSignedIn = () => {
 };
 
 export const signIn = (user, pass) => new Promise((resolve,reject) => {
+  if (!(user && pass)) reject("No username or password provided");
   const url = globals.ROUTES.login + 
     `?user=${encodeURIComponent(user)}&pass=${encodeURIComponent(pass)}`;
   fetch(url, {
@@ -70,7 +71,7 @@ export const signIn = (user, pass) => new Promise((resolve,reject) => {
       var data = JSON.parse(body._bodyInit);
     }
     catch (err) {
-      reject("No response from server");
+      reject("Username or password are incorrect");
     }
     globals.TERM = data.term;
     globals.NAME = data.name.split('+');
@@ -80,6 +81,10 @@ export const signIn = (user, pass) => new Promise((resolve,reject) => {
     if (body.ok) resolve(body);
     else reject("Unauthorized");
   }).catch((err) => {
-    reject(err);
+    handshake().then(()=> {
+      reject("Login failed")
+    }).catch((err) => {
+      reject("Failed to find Schedj Backend service", "Network Error");
+    });
   });
 });
