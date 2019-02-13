@@ -5,6 +5,7 @@ import { Tabs } from './navigation'
 import { Login, Settings } from './views'
 import { createAppContainer, createStackNavigator} from 'react-navigation';
 import { isSignedIn } from './auth/';
+import { EventRegister } from 'react-native-event-listeners';
 
 const RootStack = createStackNavigator({
 	Home: {
@@ -61,6 +62,11 @@ export default class App extends React.Component {
 		}
 	}
 
+	deauthorize() {
+		this.setState({ authorized: false });
+		this.loadNetwork();
+	}
+
 	async loadNetwork() {
 		try {
 			isSignedIn()
@@ -76,7 +82,7 @@ export default class App extends React.Component {
 				})
 		}
 		catch (err) {
-			this.setState({ checkedAuth: true });
+			this.deauthorize();
 			this.setState({ isConnected: false });
 			Alert.alert(
 	      "Network Error",
@@ -92,6 +98,9 @@ export default class App extends React.Component {
     });
 		this.setState({ fontLoaded: true })
 		this.loadNetwork();
+		EventRegister.addEventListener('logout', (data) => {
+        this.deauthorize();
+    })
 	}
 
 	loading() {
@@ -105,7 +114,6 @@ export default class App extends React.Component {
 	networkFailed() {
 		return (
 			<SafeAreaView style={[ styles.container, styles.horizontal ]}>
-			
 				<Button title="Refresh" onPress={() => {
 					this.setState({ authorized: false, checkedAuth: false, isConnected: true, });
 					this.loadNetwork();

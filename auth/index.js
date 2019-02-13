@@ -1,5 +1,6 @@
 import { AsyncStorage } from "react-native";
 import { SecureStore } from "expo";
+import { EventRegister } from 'react-native-event-listeners';
 import globals from "../globals.js";
 
 function timeout(ms, promise) {
@@ -20,6 +21,12 @@ export const handshake = () => timeout(2000, new Promise((resolve,reject) => {
     reject("Did not find Schedj Backend service");
   })
 }));
+
+export const logout = () => {
+  SecureStore.deleteItemAsync("username");
+  SecureStore.deleteItemAsync("password");
+  EventRegister.emit('logout')
+}
 
 export const onSignIn = () => AsyncStorage.setItem(session, "true");
 
