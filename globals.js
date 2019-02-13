@@ -7,6 +7,7 @@ export default {
 	SERVER: server,
 	ROUTES: {
 		login: server + '/login',
+		logout: server + '/logout',
 		handshake: server + '/verify_status'
 	},
 	TERM: '',

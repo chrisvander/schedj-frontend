@@ -23,9 +23,12 @@ export const handshake = () => timeout(2000, new Promise((resolve,reject) => {
 }));
 
 export const logout = () => {
-  SecureStore.deleteItemAsync("username");
-  SecureStore.deleteItemAsync("password");
-  EventRegister.emit('logout')
+  EventRegister.emit('begin_logout');
+  Promise.all([
+    SecureStore.deleteItemAsync("username"),
+    SecureStore.deleteItemAsync("password"),
+    fetch(globals.ROUTES.logout)
+  ]).then(() => EventRegister.emit('logout'));
 }
 
 export const onSignIn = () => AsyncStorage.setItem(session, "true");

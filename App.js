@@ -62,11 +62,6 @@ export default class App extends React.Component {
 		}
 	}
 
-	deauthorize() {
-		this.setState({ authorized: false });
-		this.loadNetwork();
-	}
-
 	async loadNetwork() {
 		try {
 			isSignedIn()
@@ -98,8 +93,12 @@ export default class App extends React.Component {
     });
 		this.setState({ fontLoaded: true })
 		this.loadNetwork();
-		EventRegister.addEventListener('logout', (data) => {
-        this.deauthorize();
+
+		EventRegister.addEventListener('begin_logout', (data) => {
+        this.setState({ authorized: false, checkedAuth: false });
+    })
+    EventRegister.addEventListener('logout', (data) => {
+        this.loadNetwork();
     })
 	}
 
