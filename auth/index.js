@@ -2,21 +2,50 @@ import { AsyncStorage } from "react-native";
 import { SecureStore } from "expo";
 import globals from "../globals.js";
 
+function timeout(ms, promise) {
+  return new Promise(function(resolve, reject) {
+    setTimeout(function() {
+      reject(new Error("Did not find Schedj Backend service in time"))
+    }, ms)
+    promise.then(resolve, reject)
+  })
+}
+
+export const handshake = () => timeout(2000, new Promise((resolve,reject) => {
+  fetch(globals.ROUTES.handshake)
+  .then((res) => {
+    resolve(JSON.parse(res._bodyInit).status==="active")
+  })
+  .catch((err) => {
+    reject("Did not find Schedj Backend service");
+  })
+}));
+
 export const onSignIn = () => AsyncStorage.setItem(session, "true");
 
 export const onSignOut = () => AsyncStorage.removeItem(session);
 
 export const isSignedIn = () => {
-  return new Promise((resolve, reject) => {
-    AsyncStorage.getItem(session)
-      .then(res => {
-        if (res !== null) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
+  return new Promise(async (resolve, reject) => {
+    try {
+      var res = await handshake();
+    }
+    catch (err) {
+      reject(err);
+    }
+    var user = await SecureStore.getItemAsync("username");
+    var pass = await SecureStore.getItemAsync("password");
+    if (user && pass) {
+      signIn(user,pass)
+      .then(() => {
+        resolve(true);
       })
-      .catch(err => reject(err));
+      .catch((err) => {
+        console.log(err)
+        resolve(false);
+      });
+    }
+    else reject(null);
   });
 };
 
@@ -25,8 +54,14 @@ export const signIn = (user, pass) => new Promise((resolve,reject) => {
     `?user=${encodeURIComponent(user)}&pass=${encodeURIComponent(pass)}`;
   fetch(url, {
     method: 'POST',
+    timeout: 20,
   }).then(async (body) => {
-    var data = JSON.parse(body._bodyInit);
+    try {
+      var data = JSON.parse(body._bodyInit);
+    }
+    catch (err) {
+      reject("No response from server");
+    }
     globals.TERM = data.term;
     globals.NAME = data.name.split('+');
     globals.SESSID = data.sessid;

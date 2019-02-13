@@ -17,6 +17,10 @@ import { LoginStyle } from '../styles';
 import { LinearGradient } from 'expo';
 import { signIn } from '../auth';
 
+function dismiss() {
+  Keyboard.dismiss();
+}
+
 export default class FeedScreen extends React.Component {
   componentWillMount() {
     this.sis_man = (<Image style={{ marginTop: 43, marginBottom: 30 }} source={require('../assets/sis_man.png')} />);
@@ -24,6 +28,7 @@ export default class FeedScreen extends React.Component {
   }
 
   login(nav) {
+    dismiss();
     this.setState({ loading: true });
     signIn(this.state.username, this.state.password)
       .then((valid) => {

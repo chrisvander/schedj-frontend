@@ -6,7 +6,8 @@ export default {
 	USES_BIOMETRICS: 'false',
 	SERVER: server,
 	ROUTES: {
-		login: server + '/login'
+		login: server + '/login',
+		handshake: server + '/verify_status'
 	},
 	TERM: '',
 	SESSID: '',
