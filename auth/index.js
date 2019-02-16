@@ -1,17 +1,18 @@
 import { AsyncStorage } from "react-native";
 import { SecureStore } from "expo";
+import { EventRegister } from 'react-native-event-listeners';
 import globals from "../globals.js";
 
 function timeout(ms, promise) {
   return new Promise(function(resolve, reject) {
     setTimeout(function() {
-      reject(new Error("Did not find Schedj Backend service in time"))
+      reject("Did not find Schedj Backend service in time")
     }, ms)
     promise.then(resolve, reject)
   })
 }
 
-export const handshake = () => timeout(2000, new Promise((resolve,reject) => {
+export const handshake = () => timeout(5000, new Promise((resolve,reject) => {
   fetch(globals.ROUTES.handshake)
   .then((res) => {
     resolve(JSON.parse(res._bodyInit).status==="active")
@@ -21,18 +22,21 @@ export const handshake = () => timeout(2000, new Promise((resolve,reject) => {
   })
 }));
 
+export const logout = () => {
+  EventRegister.emit('begin_logout');
+  Promise.all([
+    SecureStore.deleteItemAsync("username"),
+    SecureStore.deleteItemAsync("password"),
+    fetch(globals.ROUTES.logout)
+  ]).then(() => EventRegister.emit('logout'));
+}
+
 export const onSignIn = () => AsyncStorage.setItem(session, "true");
 
 export const onSignOut = () => AsyncStorage.removeItem(session);
 
 export const isSignedIn = () => {
   return new Promise(async (resolve, reject) => {
-    try {
-      var res = await handshake();
-    }
-    catch (err) {
-      reject(err);
-    }
     var user = await SecureStore.getItemAsync("username");
     var pass = await SecureStore.getItemAsync("password");
     if (user && pass) {
@@ -41,7 +45,6 @@ export const isSignedIn = () => {
         resolve(true);
       })
       .catch((err) => {
-        console.log(err)
         resolve(false);
       });
     }
@@ -50,26 +53,32 @@ export const isSignedIn = () => {
 };
 
 export const signIn = (user, pass) => new Promise((resolve,reject) => {
+  if (!(user && pass)) reject("No username or password provided");
   const url = globals.ROUTES.login + 
     `?user=${encodeURIComponent(user)}&pass=${encodeURIComponent(pass)}`;
-  fetch(url, {
-    method: 'POST',
-    timeout: 20,
-  }).then(async (body) => {
-    try {
-      var data = JSON.parse(body._bodyInit);
-    }
-    catch (err) {
-      reject("No response from server");
-    }
-    globals.TERM = data.term;
-    globals.NAME = data.name.split('+');
-    globals.SESSID = data.sessid;
-    await SecureStore.setItemAsync("username", user);
-    await SecureStore.setItemAsync("password", pass);
-    if (body.ok) resolve(body);
-    else reject("Unauthorized");
+  handshake().then(()=> {
+    fetch(url, {
+      method: 'POST',
+      timeout: 20,
+    }).then(async (body) => {
+      try {
+        var data = JSON.parse(body._bodyInit);
+      }
+      catch (err) {
+        reject("Username or password are incorrect");
+      }
+      globals.TERM = data.term;
+      globals.NAME = data.name.split('+');
+      globals.SESSID = data.sessid;
+      await SecureStore.setItemAsync("username", user);
+      await SecureStore.setItemAsync("password", pass);
+      if (body.ok) resolve(body);
+      else reject("Unauthorized");
+    }).catch((err) => {
+      reject("Login failed")
+    });
   }).catch((err) => {
-    reject(err);
+    reject("Failed to find Schedj Backend service", "Network Error");
   });
+  
 });
