@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
 })
 
 export default class SettingsScreen extends React.Component {
+  
 	static navigationOptions = { 
     title: "SETTINGS",
   }
@@ -35,7 +36,7 @@ export default class SettingsScreen extends React.Component {
       <View style={{ flex: 1, alignItems: 'center' }}>
         <View style={[styles.header]}>
           <Text style={[styles.name]}>{globals.NAME.join(' ')}</Text>
-          <Text style={[styles.location]}>San Fran</Text>
+          <Text style={[styles.location]}>{globals.ADDRESS.city}</Text>
         </View>
         <SButton onPress={()=>logout()} >Logout</SButton>
       </View>

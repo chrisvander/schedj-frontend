@@ -2,6 +2,7 @@ import { AsyncStorage } from "react-native";
 import { SecureStore } from "expo";
 import { EventRegister } from 'react-native-event-listeners';
 import globals from "../globals.js";
+import { getData } from '../import_data.js';
 
 function timeout(ms, promise) {
   return new Promise(function(resolve, reject) {
@@ -67,12 +68,21 @@ export const signIn = (user, pass) => new Promise((resolve,reject) => {
       catch (err) {
         reject("Username or password are incorrect");
       }
-      globals.TERM = data.term;
-      globals.NAME = data.name.split('+');
-      globals.SESSID = data.sessid;
+      globals["TERM"] = data.term;
+      globals["NAME"] = data.name.split('+');
+      globals["SESSID"] = data.sessid;
       await SecureStore.setItemAsync("username", user);
       await SecureStore.setItemAsync("password", pass);
-      if (body.ok) resolve(body);
+      if (body.ok) {
+        try {
+          await getData(data.term);
+        }
+        catch (err) {
+          reject("Gathering data from SIS failed");
+        }
+        console.log(globals);
+        resolve(body);
+      }
       else reject("Unauthorized");
     }).catch((err) => {
       reject("Login failed")
@@ -80,5 +90,4 @@ export const signIn = (user, pass) => new Promise((resolve,reject) => {
   }).catch((err) => {
     reject("Failed to find Schedj Backend service", "Network Error");
   });
-  
 });

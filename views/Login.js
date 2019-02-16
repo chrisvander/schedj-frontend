@@ -16,6 +16,7 @@ import { RoundedCard, LoginView, SButton } from '../components';
 import { LoginStyle } from '../styles';
 import { LinearGradient } from 'expo';
 import { signIn } from '../auth';
+import { EventRegister } from 'react-native-event-listeners';
 import DropdownAlert from 'react-native-dropdownalert';
 
 function dismiss() {
@@ -33,7 +34,7 @@ export default class FeedScreen extends React.Component {
     this.setState({ loading: true });
     signIn(this.state.username, this.state.password)
       .then((valid) => {
-        nav('Home');
+        EventRegister.emit('load_main');
       }).catch((err, title) => {
         title = title ? title : "Authentication Error";
         this.dropdown.alertWithType('error', title, err);

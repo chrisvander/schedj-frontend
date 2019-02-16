@@ -13,12 +13,13 @@ const RootStack = createStackNavigator({
 	Home: {
 		screen: Tabs,
 		navigationOptions: {
-			header: null
+			header: null,
 		}
 	},
 	Settings: {
 		screen: Settings
 	},
+
 },
 {
 	defaultNavigationOptions: {
@@ -42,7 +43,8 @@ const AuthStack = (authorized) => createStackNavigator({
 	Home: {
 		screen: RootStack,
 		navigationOptions: {
-			header: null
+			header: null,
+			gesturesEnabled: false
 		}
 	},
 	Login: {
@@ -107,6 +109,9 @@ export default class App extends React.Component {
     })
     EventRegister.addEventListener('logout', (data) => {
         this.loadNetwork();
+    })
+    EventRegister.addEventListener('load_main', (data) => {
+        this.setState({ authorized: true, checkedAuth: true });
     })
 	}
 
