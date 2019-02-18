@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
 })
 
 export default class SettingsScreen extends React.Component {
-  
 	static navigationOptions = { 
     title: "SETTINGS",
   }
