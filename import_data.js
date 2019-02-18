@@ -7,5 +7,10 @@ export const getData = (term) => {
 	.then(resJson=> {
 		globals["ADDRESS"] = resJson;
 	}));
+	promises.push(fetch(globals.ROUTES.registration + globals.TERM)
+	.then(res=>res.json())
+	.then(resJson=> {
+		globals["REGISTRATION"] = resJson;
+	}));
 	return Promise.all(promises);
 }

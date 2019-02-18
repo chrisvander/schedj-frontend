@@ -29,7 +29,7 @@ export default StyleSheet.create({
 	      height: 3,
 	      width: 1
 	    },
-	    height: '100%',
+	    height: 153,
 	    width: '100%'
 		},
 		gearContainer: {
