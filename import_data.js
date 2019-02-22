@@ -12,5 +12,7 @@ export const getData = (term) => {
 	.then(resJson=> {
 		globals["REGISTRATION"] = resJson;
 	}));
-	return Promise.all(promises);
+	return Promise.all(promises).catch((err) => {
+		console.log(err)
+	});
 }
