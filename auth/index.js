@@ -65,6 +65,7 @@ export const signIn = (user, pass) => new Promise((resolve,reject) => {
   const url = globals.ROUTES.login + 
     `?user=${encodeURIComponent(user)}&pass=${encodeURIComponent(pass)}`;
   handshake().then(()=> {
+    console.log("Handshake done");
     fetch(url, {
       method: 'POST',
       timeout: 20,
@@ -89,6 +90,7 @@ export const signIn = (user, pass) => new Promise((resolve,reject) => {
         catch (err) {
           reject("Gathering data from SIS failed");
         }
+        console.log(globals);
         resolve(body);
       }
       else reject("Unauthorized");

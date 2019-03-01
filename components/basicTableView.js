@@ -5,6 +5,6 @@ const styles = StyleSheet.create({
   
 })
 
-export default class TableView extends React.Component {
+export default class BasicTableView extends React.Component {
 	
 }

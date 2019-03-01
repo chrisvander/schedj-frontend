@@ -9,6 +9,13 @@ import { EventRegister } from 'react-native-event-listeners';
 import { RoundedCard, LoginView } from './components';
 import DropdownAlert from 'react-native-dropdownalert';
 
+const SettingsStack = createStackNavigator({
+	Settings: {
+		screen: SettingsStack
+	},
+
+});
+
 const RootStack = createStackNavigator({
 	Home: {
 		screen: Tabs,
@@ -17,9 +24,8 @@ const RootStack = createStackNavigator({
 		}
 	},
 	Settings: {
-		screen: Settings
+		screen: SettingsStack
 	},
-
 },
 {
 	defaultNavigationOptions: {
