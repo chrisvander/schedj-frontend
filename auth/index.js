@@ -6,7 +6,7 @@ import { getData } from '../import_data.js';
 
 function handleErrors(response) {
     if (!response.ok) {
-        throw Error(response.statusText);
+      console.log(response.statusText);
     }
     return response;
 }
@@ -96,6 +96,7 @@ export const signIn = (user, pass) => new Promise((resolve,reject) => {
       else reject("Unauthorized");
     }).catch((err) => {
       reject("Invalid response from SIS")
+      console.log(err);
     });
   }).catch((err) => {
     reject("Failed to find Schedj Backend service", "Network Error");

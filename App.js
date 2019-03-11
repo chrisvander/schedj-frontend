@@ -11,7 +11,7 @@ import DropdownAlert from 'react-native-dropdownalert';
 
 const SettingsStack = createStackNavigator({
 	Settings: {
-		screen: SettingsStack
+		screen: Settings
 	},
 
 });
