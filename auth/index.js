@@ -4,6 +4,13 @@ import { EventRegister } from 'react-native-event-listeners';
 import globals from "../globals.js";
 import { getData } from '../import_data.js';
 
+function handleErrors(response) {
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+    return response;
+}
+
 function timeout(ms, promise) {
   return new Promise(function(resolve, reject) {
     setTimeout(function() {
@@ -61,7 +68,9 @@ export const signIn = (user, pass) => new Promise((resolve,reject) => {
     fetch(url, {
       method: 'POST',
       timeout: 20,
-    }).then(async (body) => {
+    })
+    .then(handleErrors)
+    .then(async (body) => {
       try {
         var data = JSON.parse(body._bodyInit);
       }
@@ -80,12 +89,11 @@ export const signIn = (user, pass) => new Promise((resolve,reject) => {
         catch (err) {
           reject("Gathering data from SIS failed");
         }
-        console.log(globals);
         resolve(body);
       }
       else reject("Unauthorized");
     }).catch((err) => {
-      reject("Login failed")
+      reject("Invalid response from SIS")
     });
   }).catch((err) => {
     reject("Failed to find Schedj Backend service", "Network Error");
