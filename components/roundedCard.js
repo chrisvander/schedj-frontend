@@ -28,6 +28,7 @@ const cardStyle = StyleSheet.create({
       height: 3,
       width: 0
     },
-    width: '100%'
+    width: '100%',
+    height: '100%'
 	}
 });

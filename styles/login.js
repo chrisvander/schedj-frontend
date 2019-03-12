@@ -41,18 +41,4 @@ export default StyleSheet.create({
 			fontSize: 10,
 			color: '#2699FB',
 		},
-		overlay: {
-	    flex: 1,
-	    position: 'absolute',
-	    left: 0,
-	    top: 0,
-	    opacity: 0.6,
-	    width: '100%',
-	    height: '100%',
-	    backgroundColor: 'white',
-    	justifyContent: 'center',
-    	flexDirection: 'row',
-	    justifyContent: 'space-around',
-	    padding: 10
-	  }
 });
