@@ -20,18 +20,6 @@ export default StyleSheet.create({
 			backgroundColor: '#FFFFFF',
 			flexDirection: 'row'
 		},
-		largeNavBarContainer: {
-			shadowColor: "#000000",
-	    shadowOpacity: 0.16,
-	    elevation: 5,
-	    shadowRadius: 10,
-	    shadowOffset: {
-	      height: 3,
-	      width: 1
-	    },
-	    height: 153,
-	    width: '100%'
-		},
 		gearContainer: {
 			flexDirection: 'column',
 			alignSelf: 'flex-end',
