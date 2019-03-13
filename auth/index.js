@@ -6,7 +6,7 @@ import { getData } from '../import_data.js';
 
 function handleErrors(response) {
     if (!response.ok) {
-        throw Error(response.statusText);
+      console.log(response.statusText);
     }
     return response;
 }
@@ -65,6 +65,7 @@ export const signIn = (user, pass) => new Promise((resolve,reject) => {
   const url = globals.ROUTES.login + 
     `?user=${encodeURIComponent(user)}&pass=${encodeURIComponent(pass)}`;
   handshake().then(()=> {
+    console.log("Handshake done");
     fetch(url, {
       method: 'POST',
       timeout: 20,
@@ -89,11 +90,13 @@ export const signIn = (user, pass) => new Promise((resolve,reject) => {
         catch (err) {
           reject("Gathering data from SIS failed");
         }
+        console.log(globals);
         resolve(body);
       }
       else reject("Unauthorized");
     }).catch((err) => {
       reject("Invalid response from SIS")
+      console.log(err);
     });
   }).catch((err) => {
     reject("Failed to find Schedj Backend service", "Network Error");
