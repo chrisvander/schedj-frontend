@@ -12,6 +12,11 @@ export const getData = (term) => {
 	.then(resJson=> {
 		globals["REGISTRATION"] = resJson;
 	}));
+	promises.push(fetch(globals.ROUTES.holds)
+	.then(res=>res.json())
+	.then(resJson=> {
+		globals["HOLDS"] = resJson;
+	}));
 	return Promise.all(promises).catch((err) => {
 		console.log(err)
 	});
