@@ -19,7 +19,6 @@ const RootStack = createStackNavigator({
 	Settings: {
 		screen: Settings
 	},
-
 },
 {
 	defaultNavigationOptions: {

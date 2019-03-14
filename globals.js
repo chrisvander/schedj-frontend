@@ -1,6 +1,8 @@
 import env from './env.js';
+
 // const server = 'http://129.161.211.147:8080';
 const server = 'http://localhost:8080';
+
 
 export default {
 	SERVER: server,
