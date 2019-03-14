@@ -53,7 +53,9 @@ const styles = StyleSheet.create({
 	},
 	holdsCard: {
 		backgroundColor: '#FF9191', 
-		padding: 20,
+		padding: 10,
+		paddingLeft: 20,
+		paddingRight: 20,
 		justifyContent: 'space-between',
 		flexDirection: 'row',
 		alignItems: 'center',
