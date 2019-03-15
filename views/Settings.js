@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { LargeNavBar, TableView, SButton } from '../components';
+import { LargeNavBar, TableView, SButton, BasicTableView } from '../components';
 import { logout } from '../auth';
 import globals from '../globals.js';
 
@@ -25,6 +25,26 @@ const styles = StyleSheet.create({
   }
 })
 
+const settingsBundle = [
+  {
+    title: 'Notifications',
+    icon: 'notification'
+  },
+  {
+    title: 'General',
+    icon: 'gear',
+  },
+  {
+    title: 'Account',
+    icon: 'profile',
+  },
+  {
+    title: 'Logout',
+    icon: 'logout',
+    onPress: () => logout()
+  }
+]
+
 export default class SettingsScreen extends React.Component {
 	static navigationOptions = { 
     title: "SETTINGS",
@@ -37,7 +57,7 @@ export default class SettingsScreen extends React.Component {
           <Text style={[styles.name]}>{globals.NAME.join(' ')}</Text>
           <Text style={[styles.location]}>{globals.ADDRESS.city}</Text>
         </View>
-        <SButton onPress={()=>logout()} >Logout</SButton>
+        <BasicTableView data={settingsBundle}/>
       </View>
     );
   }
