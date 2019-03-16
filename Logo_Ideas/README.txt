@@ -1,0 +1,1 @@
+This folder contains test ideas for Schedj's app logo for use on android and ios devices
