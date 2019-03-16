@@ -12,26 +12,48 @@ const icons = {
 }
 
 const styles = StyleSheet.create({
-  
+  section: {
+  	display: 'flex',
+  	flexDirection: 'row',
+  	width: '100%',
+  	paddingLeft: 30,
+  	paddingRight: 30,
+  	padding: 16
+  },
+  icon: {
+  	width: 16,
+  	height: 16
+  },
+  title: {
+  	flexGrow: 1,
+  	fontSize: 14,
+  	fontFamily: 'Arial',
+  	fontWeight: 'bold',
+  	color: '#2699FB',
+  	paddingLeft: 32
+  },
+  caret: {
+
+  }
 })
 
 export default class BasicTableView extends React.Component {
 	render() {
-
 		return (
-			<View>
+			<React.Fragment>
 				{this.props.data.map(section => (
 					<TouchableOpacity 
 						key={section.title} 
-						onPress={section.onPress}>
-						<Image source={icons[section.icon]}/>
-						<Text>
+						onPress={section.onPress}
+						style={[styles.section]}>
+						<Image style={[styles.icon]} source={icons[section.icon]}/>
+						<Text style={[styles.title]}>
 							{section.title}
 						</Text>
-						<Image source={icons.right_caret}/>
+						<Image style={[styles.caret]} source={icons.right_caret}/>
 					</TouchableOpacity>
 		    ))}
-			</View>
+			</React.Fragment>
 		);
 	}
 }

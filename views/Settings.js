@@ -9,7 +9,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 106,
     backgroundColor: '#F1F9FF',
-    padding: 32
+    padding: 32,
+    marginBottom: 30
   },
   name: {
     fontFamily: 'Arial',
