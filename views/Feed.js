@@ -11,28 +11,28 @@ import {
 	Animated,
 	Easing,
 	TouchableOpacity } from 'react-native';
-import { FeedStyle } from '../styles';
+import { FN } from '../styles';
 import { LargeNavBar, RoundedCard, CardAnimated } from '../components';
 import globals from '../globals.js';
 
 const styles = StyleSheet.create({
 	registrationCard: {
 		backgroundColor: '#CCEAFF', 
-		padding: 20,
+		padding: FN(20),
 		justifyContent: 'space-between',
 		flexDirection: 'row'
 	},
 	regSuperTitle: {
 		fontFamily: 'Helvetica Neue',
 		fontWeight: '500',
-		fontSize: 18,
+		fontSize: FN(18),
 		color: '#677791'
 	},
 	regTitle: {
 		fontFamily: 'Helvetica Neue',
 		color: 'black',
 		fontWeight: 'bold',
-		fontSize: 21,
+		fontSize: FN(21),
 		marginBottom: 5
 	},
 	regTitleContainer: {
@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
 		alignSelf: 'flex-end'
 	},
 	regButton: {
-		width: 50,
-		height: 50,
+		width: FN(50),
+		height: FN(50),
 		backgroundColor: 'white',
 		borderRadius: 25,
 		justifyContent: 'center', 
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 	},
 	holdsCard: {
 		backgroundColor: '#FF9191', 
-		padding: 10,
+		padding: FN(10),
 		paddingLeft: 20,
 		paddingRight: 20,
 		justifyContent: 'space-between',
@@ -65,18 +65,18 @@ const styles = StyleSheet.create({
 		fontFamily: 'Helvetica Neue',
 		color: 'black',
 		fontWeight: 'bold',
-		fontSize: 23,
-		marginTop: 5,
-		marginLeft: 10
+		fontSize: FN(23),
+		lineHeight: FN(40),
+		marginLeft: FN(10)
 	},
 	holdsContainer: {
 		flexDirection: 'row',
 		alignSelf: 'flex-end'
 	},
 	alertImg: {
-		width: 40,
-		height: 40,
-		marginBottom: 5
+		width: FN(40),
+		height: FN(40),
+		marginBottom: FN(5)
 	}
 });
 

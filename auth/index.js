@@ -90,7 +90,6 @@ export const signIn = (user, pass) => new Promise((resolve,reject) => {
         catch (err) {
           reject("Gathering data from SIS failed");
         }
-        console.log(globals);
         resolve(body);
       }
       else reject("Unauthorized");

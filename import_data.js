@@ -1,7 +1,6 @@
 import globals from "./globals.js";
 
 export const getData = (term) => {
-	console.log(" ---- ");
 	var promises = [];
 	promises.push(fetch(globals.ROUTES.address)
 	.then(res=>res.json())
