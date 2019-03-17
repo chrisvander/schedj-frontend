@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
 		backgroundColor: '#CCEAFF', 
 		padding: FN(20),
 		justifyContent: 'space-between',
-		flexDirection: 'row'
+		flexDirection: 'row',
+		display: 'flex'
 	},
 	regSuperTitle: {
 		fontFamily: 'Helvetica Neue',
@@ -37,15 +38,7 @@ const styles = StyleSheet.create({
 	},
 	regTitleContainer: {
 		flexDirection: 'column',
-		alignSelf: 'flex-end'
-	},
-	regButton: {
-		width: FN(50),
-		height: FN(50),
-		backgroundColor: 'white',
-		borderRadius: 25,
-		justifyContent: 'center', 
-		alignItems: 'center'
+		alignSelf: 'center'
 	},
 	regButtonImg: {
 		width: 10,
@@ -76,7 +69,6 @@ const styles = StyleSheet.create({
 	alertImg: {
 		width: FN(40),
 		height: FN(40),
-		marginBottom: FN(5)
 	}
 });
 
@@ -90,9 +82,10 @@ _openHoldsAsync = async () => {
 };
 
 const HoldsCard = () => {
-	if (globals.HOLDS) return (
+	if (globals.HOLDS) 
+		return (
 	    <CardAnimated onPress={_openHoldsAsync}>
-		    <RoundedCard style={[styles.holdsCard]}>
+		    <RoundedCard style={[styles.holdsCard]} caret={true}>
 		    	<View style={[styles.holdsContainer]}>
 		    		<Image 
 		    			style={[ styles.alertImg ]} 
@@ -103,53 +96,37 @@ const HoldsCard = () => {
 		      		You have a hold
 		      	</Text>
 		    	</View>
-		    	<View style={[ styles.regButton ]}>
-		    		<Image 
-		    			style={[ styles.regButtonImg ]} 
-							source={require('../assets/icons/right_caret.png')} 
-							resizeMode="cover"
-						/>
-		    	</View>
 		    </RoundedCard>
 	   	</CardAnimated>
 		);
-	return (<React.Fragment />);
+	return null;
 }
 
 const RegistrationCard = () => {
-	return (
-		<React.Fragment>{ !globals.REGISTRATION.end_passed && 
-	    <CardAnimated onPress={()=>{}}>
-		    <RoundedCard style={[styles.registrationCard]}>
-		    	<View style={[styles.regTitleContainer]}>
-		      	<Text style={[styles.regSuperTitle]}>
-		      		Course registration {globals.REGISTRATION.start_passed ?  "ends" : "starts"} on:
-		      	</Text>
-		      	<Text style={[styles.regTitle]}>
-		      		{ globals.REGISTRATION.start_passed ? 
-		      				globals.REGISTRATION.end_date + ' at ' + globals.REGISTRATION.end_time :
-		      				globals.REGISTRATION.start_date + ' at ' + globals.REGISTRATION.start_time
-		      		}
-		      	</Text>
-		    	</View>
-		    	<View style={[ styles.regButton ]}>
-		    		<Image 
-		    			style={[ styles.regButtonImg ]} 
-							source={require('../assets/icons/right_caret.png')} 
-							resizeMode="cover"
-						/>
-		    	</View>
-		    </RoundedCard>
-	   	</CardAnimated>}
-	  </React.Fragment>
+	if (!globals.REGISTRATION.end_passed) return (
+		<CardAnimated onPress={()=>{}}>
+	    <RoundedCard style={[styles.registrationCard]} caret={true}>
+	    	<View style={[styles.regTitleContainer]}>
+	      	<Text style={[styles.regSuperTitle]}>
+	      		Course registration {globals.REGISTRATION.start_passed ?  "ends" : "starts"} on:
+	      	</Text>
+	      	<Text style={[styles.regTitle]}>
+	      		{ globals.REGISTRATION.start_passed ? 
+	      				globals.REGISTRATION.end_date + ' at ' + globals.REGISTRATION.end_time :
+	      				globals.REGISTRATION.start_date + ' at ' + globals.REGISTRATION.start_time
+	      		}
+	      	</Text>
+	    	</View>
+	    </RoundedCard>
+   	</CardAnimated>
 	);
+	return null;
 }
 
 export default class FeedScreen extends React.Component {
 	static navigationOptions = { header: null }
 	
   render() {
-  	console.log(globals)
   	return (
     	<React.Fragment>
 	      <LargeNavBar navigation={this.props.navigation} shadow={false} title={globals.NAME[0]} preTitle="WELCOME"/>
