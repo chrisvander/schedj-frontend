@@ -128,13 +128,13 @@ export default class FeedScreen extends React.Component {
 	
   render() {
   	return (
-    	<React.Fragment>
+    	<ScrollView>
 	      <LargeNavBar navigation={this.props.navigation} shadow={false} title={globals.NAME[0]} preTitle="WELCOME"/>
 	      <SafeAreaView style={{margin: 16, marginTop: 30}}>
 	      	<HoldsCard />
 		      <RegistrationCard />
 	      </SafeAreaView>
-     	</React.Fragment>
+     	</ScrollView>
     );
   }
 } 
