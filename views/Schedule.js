@@ -1,8 +1,13 @@
 import React from 'react';
 import { Text, View, SafeAreaView } from 'react-native';
 import { LargeNavBar } from '../components';
+import globals from "../globals.js";
 
 export default class ScheduleScreen extends React.Component {
+  componentWillMount() {
+
+  }
+
   render() {
     return (
     	<React.Fragment>

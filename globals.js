@@ -12,5 +12,8 @@ export default {
 		registration: server + '/feed/registration?term=',
 		holds: server + '/exists_hold',
 		fetch: server + '/fetch?url='
+	},
+	SCHEDULE: {
+		loaded: false
 	}
 }
