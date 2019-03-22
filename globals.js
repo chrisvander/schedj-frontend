@@ -12,9 +12,10 @@ export default {
 		registration: server + '/feed/registration?term=',
 		holds: server + '/exists_hold',
 		fetch: server + '/fetch?url=',
-		schedule_weekly: server + '/schedule'
+		schedule_weekly: server + '/schedule',
+		class_info: server + '/class_info?crn='
 	},
 	SCHEDULE: {
-		loaded: false
+		loaded: false,
 	}
 }

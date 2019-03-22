@@ -28,7 +28,14 @@ const cardStyle = StyleSheet.create({
 		borderRadius: 20,
 		backgroundColor: '#FFFFFF',
 		width: '100%',
-		elevation: 3
+		elevation: 3,
+		padding: FN(20),
+		paddingLeft: 20,
+		paddingRight: 20,
+		justifyContent: 'space-between',
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginBottom: 17
 	},
 	container: {
 		shadowColor: "#000000",

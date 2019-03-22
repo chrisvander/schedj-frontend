@@ -12,7 +12,7 @@ import {
 	Easing,
 	TouchableOpacity } from 'react-native';
 import { FN } from '../styles';
-import { LargeNavBar, RoundedCard, CardAnimated } from '../components';
+import { LargeNavBar, RoundedCard, CardAnimated, UpNext } from '../components';
 import globals from '../globals.js';
 
 const styles = StyleSheet.create({
@@ -133,6 +133,7 @@ export default class FeedScreen extends React.Component {
 	      <SafeAreaView style={{margin: 16, marginTop: 30}}>
 	      	<HoldsCard />
 		      <RegistrationCard />
+		      <UpNext />
 	      </SafeAreaView>
      	</ScrollView>
     );
