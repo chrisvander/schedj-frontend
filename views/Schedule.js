@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, SafeAreaView, ActivityIndicator } from 'react-native';
-import { LargeNavBar } from '../components';
+import { LargeNavBar, UpNext } from '../components';
 import { EventRegister } from 'react-native-event-listeners';
 import globals from "../globals.js";
 
@@ -25,7 +25,9 @@ export default class ScheduleScreen extends React.Component {
 
   loading() {
     return (
-      <ActivityIndicator size="large" color="#0000ff" />
+      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </SafeAreaView>
     );
   }
 
@@ -33,9 +35,12 @@ export default class ScheduleScreen extends React.Component {
     return (
     	<React.Fragment>
 	    	<LargeNavBar navigation={this.props.navigation} title="Schedule" />
-	      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-	        {this.state.loading && this.loading()}
-	      </SafeAreaView>
+        {this.state.loading && this.loading()}
+	      {!this.state.loading && 
+          <SafeAreaView style={{ margin: 16, marginTop: 30 }}>
+            <UpNext />  
+          </SafeAreaView>
+        }
       </React.Fragment>
     );
   }
