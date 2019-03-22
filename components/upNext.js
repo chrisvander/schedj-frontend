@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, ActivityIndicator } from 'react-native';
 import RoundedCard from './roundedCard.js';
 import CardAnimated from './cardAnimated.js';
 import { EventRegister } from 'react-native-event-listeners';
@@ -23,16 +23,21 @@ export default class UpNext extends React.Component {
 	  this.state = {
 	  	className: '',
 	  	tags: [],
-	  	loading: true
+	  	loading: true,
+	  	visible: true
 	  };
 	}
 
 	loadInfo() {
 		var p = globals.get_next_class_info();
 		if (p) p.then(resJson => {
-			console.log(resJson)
-			this.setState({ loading: false, className: resJson });
+			this.setState({ 
+				loading: false, 
+				className: resJson.name, 
+				tags: [resJson.cl.location, resJson.cl.start_time] 
+			});
 		});
+		else this.setState({ visible: false });
 	}
 
 	componentWillMount() {
@@ -45,17 +50,23 @@ export default class UpNext extends React.Component {
 	}
 
 	render() {
-		return (
-			<CardAnimated>
-				<RoundedCard>
-					<Text style={[styles.titleText]}>Up Next</Text>
-					<Text style={[styles.classText]}>Research Methods and Statistics I</Text>
-					<View style={[styles.tagContainer]}>
-						<Tag>Tag1</Tag>
-					</View>
-				</RoundedCard>
-			</CardAnimated>
-		);
+		if (!this.state.loading) 
+			return (
+				<CardAnimated>
+					<RoundedCard>
+						<Text style={[styles.titleText]}>Up Next</Text>
+						<Text style={[styles.classText]}>{this.state.className}</Text>
+						<View style={[styles.tagContainer]}>
+							{this.state.tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
+						</View>
+					</RoundedCard>
+				</CardAnimated>
+			);
+		else if (this.state.visible) 
+			return (
+				<ActivityIndicator size="large" color="#0000ff" />
+			);
+		else return (<React.Fragment />);
 	}
 }
 
@@ -108,12 +119,13 @@ const styles = StyleSheet.create({
 	tag: {
 		backgroundColor: '#EFEFEF',
 		padding: FN(8),
-		borderRadius: 10
+		borderRadius: 10,
+		marginRight: FN(8)
 	},
 	tagText: {
 		color: '#6F9AAA',
 		fontSize: FN(18),
 		fontFamily: 'Arial',
-		fontWeight: 'bold',
+		fontWeight: 'bold'
 	}
 });

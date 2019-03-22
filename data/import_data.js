@@ -8,20 +8,22 @@ export const getData = (term) => {
 		for (var i in globals.SCHEDULE.today){
 			var cl = globals.SCHEDULE.today[i];
 			var next = moment(cl.start_time, 'h:mm a');
-			if (moment().isBefore(next)) return cl.CRN;
+			if (moment('2:00pm', 'h:mm a').isBefore(next)) return cl;
 		}
 		return null;
 	}
 
 	globals.get_next_class = getNextClass;
-	globals.get_class_info = (crn) => {
-		return fetch(globals.ROUTES.class_info + crn)
+	globals.get_class_info = async (cl) => {
+		var resJson = await fetch(globals.ROUTES.class_info + cl.CRN)
 			.then(res=>res.json())
 			.catch(err=>console.log(err));
+		resJson["cl"] = cl;
+		return resJson
 	}
 	globals.get_next_class_info = () => {
-		var crn = getNextClass();
-		if (crn) return globals.get_class_info(crn);
+		var cl = getNextClass();
+		if (cl) return globals.get_class_info(cl);
 		return null;
 	}
 
