@@ -11,7 +11,8 @@ export default {
 		address: server + '/address',
 		registration: server + '/feed/registration?term=',
 		holds: server + '/exists_hold',
-		fetch: server + '/fetch?url='
+		fetch: server + '/fetch?url=',
+		schedule_weekly: server + '/schedule'
 	},
 	SCHEDULE: {
 		loaded: false
