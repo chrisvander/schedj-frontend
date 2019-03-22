@@ -2,7 +2,7 @@ import { AsyncStorage } from "react-native";
 import { SecureStore } from "expo";
 import { EventRegister } from 'react-native-event-listeners';
 import globals from "../globals.js";
-import { getData } from '../import_data.js';
+import { getData } from '../data/import_data.js';
 
 function handleErrors(response) {
     if (!response.ok) {
