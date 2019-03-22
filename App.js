@@ -9,18 +9,9 @@ import { EventRegister } from 'react-native-event-listeners';
 import { RoundedCard, LoginView } from './components';
 import DropdownAlert from 'react-native-dropdownalert';
 
-const ModalStack = createStackNavigator({
-	Home: {
-		screen: Tabs,
-		navigationOptions: {
-			header: null,
-		}
-	},
-});
-
 const AuthStack = (authorized) => createStackNavigator({
 	Home: {
-		screen: ModalStack,
+		screen: Tabs,
 		navigationOptions: {
 			header: null,
 			gesturesEnabled: false
