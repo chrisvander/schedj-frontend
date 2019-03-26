@@ -6,12 +6,12 @@ A mobile application for students to access and manage scheduling and student ac
 ## Installation
 We use the Expo SDK currently. Make sure you have the latest version of [node.js](https://nodejs.org/en/) installed on your computer. Then, open a terminal and browse to your working directory, and run the following:
 ```
-npm install -g expo-cli
 git clone https://github.com/Schedj/schedj-frontend
 cd schedj-frontend
 npm install
 ```
-This will install the Expo CLI, p
+This will install the Expo CLI. Check out the docs for Expo [here](https://expo.io/tools).
+
 Before running, we need to go into `env.js` and change the `server_ip` section to your computer's [public ip](https://www.whatismyip.com/what-is-my-public-ip-address/) (IPv4). This can be found in a number of ways. Setting `local` to true works for on-device emulators (such as macOS's Simulator or the Android Emulator).
 ```
 export default {
