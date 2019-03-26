@@ -11,7 +11,7 @@ git clone https://github.com/Schedj/schedj-frontend
 cd schedj-frontend
 npm install
 ```
-Before running, we need to go into `env.js` and change the `server_ip` section to your computer's external ip. This can be found in a number of ways. Setting `local` to true works for on-device emulators (such as macOS's Simulator or the Android Emulator).
+Before running, we need to go into `env.js` and change the `server_ip` section to your computer's [public ip](https://www.whatismyip.com/what-is-my-public-ip-address/) (IPv4). This can be found in a number of ways. Setting `local` to true works for on-device emulators (such as macOS's Simulator or the Android Emulator).
 ```
 export default {
    server: {
