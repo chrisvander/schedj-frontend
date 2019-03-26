@@ -1,6 +1,8 @@
 import env from './env.js';
 
-const server = 'http://' + env.server.server_ip + ':' + env.server.port;
+const server =  env.server.local ? 
+	'http://localhost:' + env.server.port :
+	'http://' + env.server.server_ip + ':' + env.server.port;
 
 export default {
 	SERVER: server,
