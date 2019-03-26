@@ -112,7 +112,6 @@ const styles = StyleSheet.create({
 		paddingTop: FN(10)
 	},
 	tagContainer: {
-		flex: 1,
 		flexDirection: 'row',
 		marginTop: 11
 	},
