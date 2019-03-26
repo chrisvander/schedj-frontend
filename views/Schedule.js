@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, SafeAreaView, ActivityIndicator, ScrollView } from 'react-native';
-import { LargeNavBar, UpNext } from '../components';
+import { LargeNavBar, UpNext, RoundedCard } from '../components';
 import { EventRegister } from 'react-native-event-listeners';
 import globals from "../globals.js";
 
@@ -40,6 +40,10 @@ export default class ScheduleScreen extends React.Component {
           <ScrollView>
             <SafeAreaView style={{ margin: 16, marginTop: 30 }}>
               <UpNext />  
+              <RoundedCard color={'blue'} caret={true} title={'Weekly Schedule'}/>
+              <RoundedCard color={'blue'} caret={true} title={'Manage Courses'}/>
+              <RoundedCard color={'blue'} caret={true} title={'Course Search'}/>
+              <RoundedCard color={'blue'} caret={true} title={'Course Registration'}/>
             </SafeAreaView>
           </ScrollView>
         }

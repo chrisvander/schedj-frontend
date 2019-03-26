@@ -12,17 +12,10 @@ import {
 	Easing,
 	TouchableOpacity } from 'react-native';
 import { FN } from '../styles';
-import { LargeNavBar, RoundedCard, CardAnimated, UpNext } from '../components';
+import { LargeNavBar, RoundedCard, RoundedCardTitle, UpNext } from '../components';
 import globals from '../globals.js';
 
 const styles = StyleSheet.create({
-	registrationCard: {
-		backgroundColor: '#CCEAFF', 
-		padding: FN(20),
-		justifyContent: 'space-between',
-		flexDirection: 'row',
-		display: 'flex'
-	},
 	regSuperTitle: {
 		fontFamily: 'Helvetica Neue',
 		fontWeight: '500',
@@ -84,44 +77,42 @@ _openHoldsAsync = async () => {
 const HoldsCard = () => {
 	if (globals.HOLDS) 
 		return (
-	    <CardAnimated onPress={_openHoldsAsync}>
-		    <RoundedCard style={[styles.holdsCard]} caret={true}>
-		    	<View style={[styles.holdsContainer]}>
-		    		<Image 
-		    			style={[ styles.alertImg ]} 
-							source={require('../assets/icons/warning.png')} 
-							resizeMode="cover"
-						/>
-		      	<Text style={[styles.holdsTitle]}>
-		      		You have a hold
-		      	</Text>
-		    	</View>
-		    </RoundedCard>
-	   	</CardAnimated>
+	    <RoundedCard onPress={_openHoldsAsync} style={[styles.holdsCard]} caret={true}>
+	    	<View style={[styles.holdsContainer]}>
+	    		<Image 
+	    			style={[ styles.alertImg ]} 
+						source={require('../assets/icons/warning.png')} 
+						resizeMode="cover"
+					/>
+	      	<Text style={[styles.holdsTitle]}>
+	      		You have a hold
+	      	</Text>
+	    	</View>
+	   	</RoundedCard>
 		);
 	return null;
 }
 
 const RegistrationCard = () => {
 	if (!globals.REGISTRATION.end_passed) return (
-		<CardAnimated onPress={()=>{}}>
-	    <RoundedCard style={[styles.registrationCard]} caret={true}>
-	    	<View style={[styles.regTitleContainer]}>
-	      	<Text style={[styles.regSuperTitle]}>
-	      		Course registration {globals.REGISTRATION.start_passed ?  "ends" : "starts"} on:
-	      	</Text>
-	      	<Text style={[styles.regTitle]}>
-	      		{ globals.REGISTRATION.start_passed ? 
-	      				globals.REGISTRATION.end_date + ' at ' + globals.REGISTRATION.end_time :
-	      				globals.REGISTRATION.start_date + ' at ' + globals.REGISTRATION.start_time
-	      		}
-	      	</Text>
-	    	</View>
-	    </RoundedCard>
-   	</CardAnimated>
+		<RoundedCard onPress={()=>{}} style={{ backgroundColor: '#CCEAFF' }} caret={true}>
+    	<View style={[styles.regTitleContainer]}>
+      	<Text style={[styles.regSuperTitle]}>
+      		Course registration {globals.REGISTRATION.start_passed ?  "ends" : "starts"} on:
+      	</Text>
+      	<Text style={[styles.regTitle]}>
+      		{ globals.REGISTRATION.start_passed ? 
+      				globals.REGISTRATION.end_date + ' at ' + globals.REGISTRATION.end_time :
+      				globals.REGISTRATION.start_date + ' at ' + globals.REGISTRATION.start_time
+      		}
+      	</Text>
+    	</View>
+   	</RoundedCard>
 	);
 	return null;
 }
+
+// <RoundedCard style={{ backgroundColor:'#CCEAFF' }} caret={true} title={'hi'} />
 
 export default class FeedScreen extends React.Component {
 	static navigationOptions = { header: null }
@@ -136,6 +127,6 @@ export default class FeedScreen extends React.Component {
 		      <UpNext />
 	      </SafeAreaView>
      	</ScrollView>
-    );
+    );  
   }
 } 

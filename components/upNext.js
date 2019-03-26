@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity, ActivityIndicator } from 'react-native';
 import RoundedCard from './roundedCard.js';
-import CardAnimated from './cardAnimated.js';
 import { EventRegister } from 'react-native-event-listeners';
 import { FN } from '../styles';
 import globals from '../globals';
@@ -42,29 +41,24 @@ export default class UpNext extends React.Component {
 
 	componentWillMount() {
 		if (globals.SCHEDULE.loaded) this.loadInfo();
-    else {
-      EventRegister.addEventListener('load_schedule', (data) => {
-        this.loadInfo();
-      });
-    }
+    else EventRegister.addEventListener('load_schedule', () => this.loadInfo());
 	}
 
 	render() {
-		if (!this.state.loading) 
+		if (this.state.visible) 
 			return (
-				<CardAnimated>
-					<RoundedCard>
-						<Text style={[styles.titleText]}>Up Next</Text>
-						<Text style={[styles.classText]}>{this.state.className}</Text>
-						<View style={[styles.tagContainer]}>
-							{this.state.tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
-						</View>
-					</RoundedCard>
-				</CardAnimated>
-			);
-		else if (this.state.visible) 
-			return (
-				<ActivityIndicator size="large" color="#0000ff" />
+				<RoundedCard style={this.state.loading ? {flexDirection: 'row', justifyContent: 'center'} : {}}>
+					{this.state.className ?  
+						<React.Fragment>
+							<Text style={[styles.titleText]}>Up Next</Text>
+							<Text style={[styles.classText]}>{this.state.className ? this.state.className : ''}</Text>
+							<View style={[styles.tagContainer]}>
+								{this.state.tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
+							</View> 
+						</React.Fragment> : 
+						<ActivityIndicator size={'large'}/> 
+					}
+				</RoundedCard>
 			);
 		else return (<React.Fragment />);
 	}
@@ -103,7 +97,7 @@ const styles = StyleSheet.create({
 	titleText: {
 		fontSize: FN(26),
 		fontWeight: 'bold',
-
+		alignSelf: 'stretch'
 	},
 	classText: {
 		fontSize: FN(18),

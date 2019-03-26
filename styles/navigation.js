@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import FN from './normalize.js';
 
 export default StyleSheet.create({
 		subTitle: {
@@ -13,7 +14,7 @@ export default StyleSheet.create({
     	fontWeight: 'bold'
 		},
 		largeNavBarView: {
-			height: 120,
+			height: FN(120),
 			paddingLeft: 16,
 			paddingBottom: 6,
 			justifyContent: 'space-between',
