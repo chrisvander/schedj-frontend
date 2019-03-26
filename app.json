@@ -24,6 +24,12 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "ios": {
+      "bundleIdentifier": "com.schedj.schedj"
+    },
+    "android": {
+      "package": "com.yourcompany.yourappname"
     }
   }
 }
