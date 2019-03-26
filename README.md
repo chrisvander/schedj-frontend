@@ -14,11 +14,11 @@ npm install
 Before running, we need to go into `env.js` and change the `server_ip` section to your computer's external ip. This can be found in a number of ways. Setting `local` to true works for on-device emulators (such as macOS's Simulator or the Android Emulator).
 ```
 export default {
-	server: {
-		local: true,
-		server_ip: '129.161.145.216',
-		port: '8080'
-	}
+   server: {
+      local: true,
+      server_ip: '129.161.145.216',
+      port: '8080'
+   }
 }
 ```
 
