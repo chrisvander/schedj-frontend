@@ -8,7 +8,7 @@ export const getData = (term) => {
 		for (var i in globals.SCHEDULE.today){
 			var cl = globals.SCHEDULE.today[i];
 			var next = moment(cl.start_time, 'h:mm a');
-			if (moment('2:00pm', 'h:mm a').isBefore(next)) return cl;
+			if (moment().isBefore(next)) return cl;
 		}
 		return null;
 	}
