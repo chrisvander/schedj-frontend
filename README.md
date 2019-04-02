@@ -17,7 +17,7 @@ Before running, we need to go into the main repository and create a file `env.js
 ```
 export default {
    server: {
-      local: true,
+      local: false,
       server_ip: '123.456.789.876',
       port: '8080'
    }
