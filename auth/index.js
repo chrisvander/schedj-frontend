@@ -61,7 +61,10 @@ export const isSignedIn = () => {
 };
 
 export const signIn = (user, pass) => new Promise((resolve,reject) => {
-  if (!(user && pass)) reject("No username or password provided");
+  if (!(user && pass)) {
+    reject("No username or password provided");
+    return;
+  }
   const url = globals.ROUTES.login + 
     `?user=${encodeURIComponent(user)}&pass=${encodeURIComponent(pass)}`;
   handshake().then(()=> {
@@ -100,4 +103,5 @@ export const signIn = (user, pass) => new Promise((resolve,reject) => {
   }).catch((err) => {
     reject("Failed to find Schedj Backend service", "Network Error");
   });
+  return;
 });
