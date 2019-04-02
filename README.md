@@ -12,12 +12,12 @@ npm install
 ```
 This will install the Expo CLI. Check out the docs for Expo [here](https://expo.io/tools).
 
-Before running, we need to go into `env.js` and change the `server_ip` section to your computer's [public ip](https://www.whatismyip.com/what-is-my-public-ip-address/) (IPv4). This can be found in a number of ways. Setting `local` to true works for on-device emulators (such as macOS's Simulator or the Android Emulator).
+Before running, we need to go into the main repository and create a file `env.js` with the template below, but change the `server_ip` section to your computer's [public ip](https://www.whatismyip.com/what-is-my-public-ip-address/) (IPv4). This can be found in a number of ways. Setting `local` to true works for on-device emulators (such as macOS's Simulator or the Android Emulator).
 ```
 export default {
    server: {
       local: true,
-      server_ip: '129.161.145.216',
+      server_ip: '123.456.789.876',
       port: '8080'
    }
 }
