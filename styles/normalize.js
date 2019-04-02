@@ -7,7 +7,6 @@ const {
 } = Dimensions.get('window');
 
 const scale = SCREEN_WIDTH / 400;
-console.log(scale)
 
 export default function(num) {
 	if (Platform.OS === 'ios') {

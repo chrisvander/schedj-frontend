@@ -40,10 +40,9 @@ export default class ScheduleScreen extends React.Component {
           <ScrollView>
             <SafeAreaView style={{ margin: 16, marginTop: 30 }}>
               <UpNext />  
-              <RoundedCard color={'blue'} caret={true} title={'Weekly Schedule'}/>
+              <RoundedCard onPress={()=>{}} color={'blue'} caret={true} title={'Weekly Schedule'}/>
               <RoundedCard color={'blue'} caret={true} title={'Manage Courses'}/>
               <RoundedCard color={'blue'} caret={true} title={'Course Search'}/>
-              <RoundedCard color={'blue'} caret={true} title={'Course Registration'}/>
             </SafeAreaView>
           </ScrollView>
         }

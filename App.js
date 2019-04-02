@@ -1,6 +1,6 @@
 import React from 'react';
 import { Font } from 'expo';
-import { Button, Image, Alert, Text, View, SafeAreaView, ActivityIndicator, StyleSheet } from 'react-native';
+import { Button, Image, Alert, Text, View, SafeAreaView, ActivityIndicator, StyleSheet, StatusBar } from 'react-native';
 import { Tabs } from './navigation'
 import { Login, Settings } from './views'
 import { createAppContainer, createStackNavigator} from 'react-navigation';
@@ -136,6 +136,7 @@ export default class App extends React.Component {
 		var loading = (!this.state.checkedAuth || !this.state.fontLoaded);
 		return (
 			<View style={{ flex: 1, justifyContent: 'flex-end', height: '100%' }}>
+				<StatusBar backgroundColor="blue" barStyle="dark-content" />
         <LoginView hide={loading}>
         	<Text style={{ fontWeight: 'bold', fontSize: 20, paddingBottom: 10 }}>An error has occurred</Text>
         	<Text style={{ fontSize: 16, paddingBottom: 15 }}>{this.state.error}</Text>

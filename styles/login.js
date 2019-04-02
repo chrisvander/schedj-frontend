@@ -18,7 +18,7 @@ export default StyleSheet.create({
 		textInputContainer: {
 			borderColor: '#BCE0FD',
 			borderWidth: 1,
-			marginTop: 16
+			marginTop: 16,
 		},
 		textInput: {
 			padding: 16,

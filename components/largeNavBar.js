@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
-import { NavStyle } from '../styles';
+import { NavStyle, FN } from '../styles';
 
 export default class LargeNavBar extends React.Component {
 	settings = () => {
@@ -12,8 +12,14 @@ export default class LargeNavBar extends React.Component {
 		var shadow = {shadowOpacity: 0.16, shadowRadius: 10};
 		if (this.props.shadow == false) shadow = {shadowOpacity: 0.0};
 		return (
-			<View style={[ shadow ]}>
-				<View style={{backgroundColor:'#FFFFFF'}}>
+			<React.Fragment>
+				<View style={[ 
+					shadow, 
+					this.props.fixed ? 
+						{position: 'absolute', top: 0, left: 0, right: 0, zIndex: 1} : 
+						{}, 
+					{backgroundColor:'#FFFFFF'}]
+				}>
 					<SafeAreaView>
 						<View style={[NavStyle.largeNavBarView]}>
 							<View style={{flexDirection: 'column', justifyContent: 'flex-end'}}>
@@ -33,7 +39,8 @@ export default class LargeNavBar extends React.Component {
 						</View>
 					</SafeAreaView>
 				</View>
-			</View>
+				{this.props.fixed && <SafeAreaView style={{height: FN(120)}}/>}
+			</React.Fragment>
 		);
 	}
 }

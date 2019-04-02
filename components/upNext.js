@@ -37,11 +37,16 @@ export default class UpNext extends React.Component {
 			});
 		});
 		else this.setState({ visible: false });
+		console.log(globals)
 	}
 
 	componentWillMount() {
 		if (globals.SCHEDULE.loaded) this.loadInfo();
     else EventRegister.addEventListener('load_schedule', () => this.loadInfo());
+	}
+
+	componentWillUnmount() {
+		EventRegister.removeListener('load_schedule');
 	}
 
 	render() {

@@ -45,7 +45,7 @@ export default class FeedScreen extends React.Component {
   render() {
     const {navigate, goBack} = this.props.navigation;
     return (
-      <View style={{ flex: 1, justifyContent: 'flex-end', height: '100%' }}>
+      <React.Fragment>
         <LoginView>
           <Text style={[LoginStyle.rensselaerText]}>Rensselaer's</Text>
           <Text style={[LoginStyle.sisText]}>Student Information System</Text>
@@ -86,7 +86,7 @@ export default class FeedScreen extends React.Component {
           </View>
         }
         <DropdownAlert ref={ref => this.dropdown = ref} inactiveStatusBarStyle={'default'} />
-      </View>
+      </React.Fragment>
     );
   }
 } 

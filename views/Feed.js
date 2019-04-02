@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
 		color: 'black',
 		fontWeight: 'bold',
 		fontSize: FN(23),
-		lineHeight: FN(40),
+		lineHeight: FN(50),
 		marginLeft: FN(10)
 	},
 	holdsContainer: {
@@ -60,8 +60,8 @@ const styles = StyleSheet.create({
 		alignSelf: 'flex-end'
 	},
 	alertImg: {
-		width: FN(40),
-		height: FN(40),
+		width: FN(50),
+		height: FN(50),
 	}
 });
 
@@ -112,15 +112,13 @@ const RegistrationCard = () => {
 	return null;
 }
 
-// <RoundedCard style={{ backgroundColor:'#CCEAFF' }} caret={true} title={'hi'} />
-
 export default class FeedScreen extends React.Component {
 	static navigationOptions = { header: null }
 	
   render() {
   	return (
-    	<ScrollView>
-	      <LargeNavBar navigation={this.props.navigation} shadow={false} title={globals.NAME[0]} preTitle="WELCOME"/>
+      <ScrollView>
+      	<LargeNavBar navigation={this.props.navigation} shadow={false} title={globals.NAME[0]} preTitle="WELCOME"/>
 	      <SafeAreaView style={{margin: 16, marginTop: 30}}>
 	      	<HoldsCard />
 		      <RegistrationCard />
