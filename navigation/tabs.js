@@ -1,6 +1,8 @@
 import React from 'react';
 import { Feed, Schedule, Profile } from "../views";
-import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
+import { Grades } from "../views/profile";
+import { Manage } from "../views/schedule";
+import { createBottomTabNavigator, createAppContainer, createStackNavigator } from 'react-navigation';
 import { StyleSheet, View, Image } from 'react-native';
 import { IconComponent } from '../components';
 
@@ -9,13 +11,67 @@ const s = StyleSheet.create({
     width: 21,
     height: 21
   }
-})
+});
+
+const navOptions = {
+  defaultNavigationOptions: {
+    headerStyle: {
+      backgroundColor: '#FFF',
+      elevation: 0,
+      shadowOpacity: 0.3,
+      borderBottomColor:'transparent',
+      borderBottomWidth: 0
+    },
+    headerTintColor: '#2699FB',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      fontFamily: 'Helvetica Neue',
+      fontSize: 14
+    }
+  }
+};
+
+const ProfileStack = createStackNavigator({
+  Profile: {
+    screen: Profile,
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false
+    }
+  },
+  Grades: {
+    screen: Grades,
+  },
+}, navOptions);
+
+const ScheduleStack = createStackNavigator({
+  Schedule: {
+    screen: Schedule,
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false
+    }
+  },
+  Manage: {
+    screen: Manage,
+  },
+}, navOptions);
+
+const FeedStack = createStackNavigator({
+  Feed: {
+    screen: Feed,
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false
+    }
+  }
+}, navOptions);
 
 const TabNavigator = createBottomTabNavigator(
   {
-    Feed: Feed,
-    Schedule: Schedule,
-    Profile: Profile
+    Feed: FeedStack,
+    Schedule: ScheduleStack,
+    Profile: ProfileStack
   },
   {
   	defaultNavigationOptions: ({ navigation }) => ({
@@ -46,7 +102,8 @@ const TabNavigator = createBottomTabNavigator(
       }
     },
     animationEnabled: true,
-    swipeEnabled: true
+    swipeEnabled: true,
+    initialRouteName: 'Feed'
   }
 );
 
