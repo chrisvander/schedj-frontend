@@ -93,9 +93,9 @@ const HoldsCard = () => {
 	return null;
 }
 
-const RegistrationCard = () => {
+const RegistrationCard = (props) => {
 	if (!globals.REGISTRATION.end_passed) return (
-		<RoundedCard onPress={()=>{}} style={{ backgroundColor: '#CCEAFF' }} caret={true}>
+		<RoundedCard onPress={()=>{props.navigation.navigate('Schedule')}} style={{ backgroundColor: '#CCEAFF' }} caret={true}>
     	<View style={[styles.regTitleContainer]}>
       	<Text style={[styles.regSuperTitle]}>
       		Course registration {globals.REGISTRATION.start_passed ?  "ends" : "starts"} on:
@@ -121,7 +121,7 @@ export default class FeedScreen extends React.Component {
       	<LargeNavBar navigation={this.props.navigation} shadow={false} title={globals.NAME[0]} preTitle="WELCOME"/>
 	      <SafeAreaView style={{margin: 16, marginTop: 30}}>
 	      	<HoldsCard />
-		      <RegistrationCard />
+		      <RegistrationCard navigation={this.props.navigation}/>
 		      <UpNext />
 	      </SafeAreaView>
      	</ScrollView>
