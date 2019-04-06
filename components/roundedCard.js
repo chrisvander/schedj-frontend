@@ -17,7 +17,8 @@ export class RoundedCardTitle  extends React.Component {
 				fontFamily: 'Helvetica Neue',
 				color: 'black',
 				fontWeight: 'bold',
-				fontSize: FN(23)
+				fontSize: FN(26),
+				alignSelf: 'stretch'
 			}}>{this.props.children}</Text>
 		);
 	}
@@ -88,6 +89,7 @@ export default class RoundedCard extends React.Component {
 								/>
 				    	</View>
 				    }
+				    {this.props.right}
 					</View>
 				</View>
 			</Animation>
@@ -123,12 +125,14 @@ const cardStyle = StyleSheet.create({
 		display: 'flex'
 	},
 	regButton: {
-		width: FN(42),
-		height: FN(42),
+		width: FN(45),
+		height: FN(45),
 		backgroundColor: 'white',
 		borderRadius: 25,
 		justifyContent: 'center', 
-		alignItems: 'center'
+		alignItems: 'center',
+		borderWidth: 2,
+		borderColor: '#F1F9FF'
 	},
 	regButtonImg: {
 		width: 10,
