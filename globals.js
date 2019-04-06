@@ -15,7 +15,8 @@ export default {
 		holds: server + '/exists_hold',
 		fetch: server + '/fetch?url=',
 		schedule_weekly: server + '/schedule',
-		class_info: server + '/class_info?crn='
+		class_info: server + '/class_info?crn=',
+		grades: server + '/grades'
 	},
 	SCHEDULE: {
 		loaded: false,

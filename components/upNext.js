@@ -1,11 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity, ActivityIndicator } from 'react-native';
 import RoundedCard from './roundedCard.js';
+import { RoundedCardTitle } from './roundedCard.js';
 import { EventRegister } from 'react-native-event-listeners';
 import { FN } from '../styles';
 import globals from '../globals';
+import translate_title from '../data/translate_course_title';
+import { reject } from '../auth';
 
-class Tag extends React.Component {
+export class Tag extends React.Component {
 	render() {
 		return (
 			<View style={[styles.tag]}>
@@ -30,22 +33,28 @@ export default class UpNext extends React.Component {
 	loadInfo() {
 		var p = globals.get_next_class_info();
 		if (p) p.then(resJson => {
-			this.setState({ 
-				loading: false, 
-				className: resJson.name, 
-				tags: [resJson.cl.location, resJson.cl.start_time] 
-			});
+			if (this.mounted) {
+				if (resJson)
+					this.setState({ 
+						loading: false, 
+						className: resJson.name, 
+						tags: [resJson.cl.location, resJson.cl.start_time] 
+					});
+				else 
+					this.setState({ visible: false });
+			}
 		});
 		else this.setState({ visible: false });
-		console.log(globals)
 	}
 
 	componentWillMount() {
+		this.mounted = true;
 		if (globals.SCHEDULE.loaded) this.loadInfo();
     else EventRegister.addEventListener('load_schedule', () => this.loadInfo());
 	}
 
 	componentWillUnmount() {
+		this.mounted = false;
 		EventRegister.removeListener('load_schedule');
 	}
 
@@ -55,8 +64,8 @@ export default class UpNext extends React.Component {
 				<RoundedCard style={this.state.loading ? {flexDirection: 'row', justifyContent: 'center'} : {}}>
 					{this.state.className ?  
 						<React.Fragment>
-							<Text style={[styles.titleText]}>Up Next</Text>
-							<Text style={[styles.classText]}>{this.state.className ? this.state.className : ''}</Text>
+							<RoundedCardTitle>Up Next</RoundedCardTitle>
+							<Text style={[styles.classText]}>{this.state.className ? translate_title(this.state.className) : ''}</Text>
 							<View style={[styles.tagContainer]}>
 								{this.state.tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
 							</View> 

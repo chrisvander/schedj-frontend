@@ -6,5 +6,6 @@ export { default as SButton } from './button';
 export { default as BasicTableView } from './basicTableView';
 export { default as UpNext } from './upNext';
 export { UpNextOverlay } from './upNext';
+export { Tag } from './upNext';
 export { ClassCard } from './upNext';
 export { default as Fade } from './fade'

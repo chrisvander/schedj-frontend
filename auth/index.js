@@ -32,7 +32,7 @@ export const handshake = () => timeout(5000, new Promise((resolve,reject) => {
 
 export const logout = () => {
   EventRegister.emit('begin_logout');
-  Promise.all([
+  return Promise.all([
     SecureStore.deleteItemAsync("username"),
     SecureStore.deleteItemAsync("password"),
     fetch(globals.ROUTES.logout)
@@ -88,7 +88,12 @@ export const signIn = (user, pass) => new Promise((resolve,reject) => {
       await SecureStore.setItemAsync("password", pass);
       if (body.ok) {
         try {
-          await getData(data.term);
+          await getData(data.term, () => {
+            EventRegister.emit('begin_logout');
+            fetch(globals.ROUTES.logout).then(() => {
+              EventRegister.emit('logout');
+            });
+          });
         }
         catch (err) {
           reject("Gathering data from SIS failed");
