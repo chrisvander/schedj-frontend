@@ -9,10 +9,10 @@ appearance, or gender or sexual identity and orientation.
 ## Our Standards
 * Use welcoming and non-exclusionary language.
 * Be respect of differing views and experiences.
-* Openly give and recieve constructive criticism
+* Openly give and receive constructive criticism.
 * Put the good of the project first.
 
-#Examples of improper behavior
+# Examples of improper behavior
 * Unwanted sexualized language or advances.
 * Actions that would be considered inappropriate or unprofessional.
 * Trolling or targeting individuals for their personal views.
