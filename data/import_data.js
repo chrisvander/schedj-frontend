@@ -3,6 +3,19 @@ import globals from "../globals.js";
 
 import moment from "moment";
 
+function calculateGPA(data) {
+	if (data) {
+	  var total=0;
+	  var earned=0;
+	  for (var i in data) for (var j in data[i].content) {
+	    total+=parseFloat(data[i].content[j].GPA_HRS);
+	    earned+=parseFloat(data[i].content[j].POINTS);
+	  }
+	  return Number((earned/total).toFixed(2));    
+	}
+	return '';
+}
+
 export const getData = (term, reject) => {
 	try {
 		function getNextClass() {
