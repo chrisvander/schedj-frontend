@@ -39,7 +39,9 @@ export default class ProfileScreen extends React.Component {
             title={'Grades'} 
             onPress={()=>this.props.navigation.navigate('Grades')}
           >
-            {this.state.loaded && <Text style={{fontSize: 18}}>Overall GPA: {globals.GRADES.gpa}</Text>}
+            {this.state.loaded && <Text style={{fontSize: 18}}>
+              Overall GPA: {globals.GRADES.gpa}
+            </Text>}
           </RoundedCard>
 	      </ScrollView>
 	     </React.Fragment>
