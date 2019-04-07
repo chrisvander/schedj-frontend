@@ -20,5 +20,6 @@ export default {
 	},
 	SCHEDULE: {
 		loaded: false,
-	}
+	},
+	GRADES: {}
 }

@@ -1,6 +1,8 @@
 import React from 'react';
+import { EventRegister } from 'react-native-event-listeners';
 import { Text, View, Button, ScrollView, StyleSheet } from 'react-native';
 import { LargeNavBar, RoundedCard, RoundedCardTitle } from '../components';
+import globals from '../globals.js';
 import { FN } from '../styles';
 
 const styles = StyleSheet.create({
@@ -16,6 +18,15 @@ const styles = StyleSheet.create({
 });
 
 export default class ProfileScreen extends React.Component {
+  componentWillMount() {
+    this.setState({ loaded: false });
+    if (globals.GRADES.loaded) this.setState({ loaded: true });
+    EventRegister.addEventListener('load_grades', () => this.setState({ loaded: true }));
+  }
+
+  componentWillUnmount() {
+    EventRegister.removeEventListener('load_grades');
+  }
   render() {
     return (
     	<React.Fragment>
@@ -27,7 +38,9 @@ export default class ProfileScreen extends React.Component {
             caret={true} 
             title={'Grades'} 
             onPress={()=>this.props.navigation.navigate('Grades')}
-          />
+          >
+            {this.state.loaded && <Text style={{fontSize: 18}}>Overall GPA: {globals.GRADES.gpa}</Text>}
+          </RoundedCard>
 	      </ScrollView>
 	     </React.Fragment>
     );
