@@ -109,7 +109,7 @@ export default class GradesScreen extends React.Component {
                 </Text>
               </View>
               <View style={{
-                backgroundColor: gradeColor(data.ATTEMPTED,data.POINTS), 
+                backgroundColor: gradeColor(data.GPA_HRS,data.POINTS), 
                 width: FN(50),
                 height: FN(50),
                 borderRadius: FN(10),
@@ -145,7 +145,7 @@ export default class GradesScreen extends React.Component {
               alignItems: 'center'
             }}>
               <RoundedCardTitle>Overall</RoundedCardTitle>
-              <Tag>{this.state.gpa} GPA</Tag>
+              <Tag>{Number.parseFloat(this.state.gpa).toFixed(2)} GPA</Tag>
             </View>
             <Accordion
               sections={this.state.grades}

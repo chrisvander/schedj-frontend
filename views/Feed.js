@@ -98,7 +98,7 @@ const HoldsCard = (props) => {
 }
 
 const RegistrationCard = (props) => {
-	if (!globals.REGISTRATION.end_passed) return (
+	if (globals.REGISTRATION.start_date && !globals.REGISTRATION.end_passed) return (
 		<Animatable.View animation={"zoomIn"}>
 			<RoundedCard onPress={()=>{props.navigation.navigate('Schedule')}} style={{ backgroundColor: '#CCEAFF' }} caret={true}>
 	    	<View style={[styles.regTitleContainer]}>

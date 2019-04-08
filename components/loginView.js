@@ -12,7 +12,7 @@ export default class LoginView extends React.Component {
       ()=>this.setState({ keyboardPresent: true }),
     );
     this.keyboardDidHideListener = Keyboard.addListener(
-      'keyboardWillHide',
+      'keyboardDidHide',
       ()=>this.setState({ keyboardPresent: false }),
     );
   }
