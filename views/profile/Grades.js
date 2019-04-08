@@ -10,6 +10,13 @@ import Accordion from 'react-native-collapsible/Accordion';
 import translate_term from '../../data/translate_term';
 import translate_course from '../../data/translate_course_title';
 
+function gradeColor(attempted, points) {
+  if (attempted==0) return '#2699FB';
+  var ratio = points/(attempted*4);
+  const curve = (ratio,scale) => scale*((Math.pow((ratio*2)-1,3)+1)/2);
+  return 'hsl('+curve(ratio,100)+',80%,50%)';
+}
+
 export default class GradesScreen extends React.Component {
 	static navigationOptions = { 
     title: "GRADES",
@@ -18,33 +25,18 @@ export default class GradesScreen extends React.Component {
   loadInfo(data) {
     if (data) {
       var grades = [];
-      for (entry in data) {
-        if (entry != 'loaded') {
+      for (entry in data)
+        if (entry != 'loaded' && entry != 'gpa')
           grades.push({ term: translate_term(entry), content: data[entry] });
-        }
-      }
       grades.sort().reverse();
-      this.setState({ grades: grades });
+      this.setState({ grades: grades, gpa: data.gpa });
     }
     else this.setState({ failed: true });
     this.setState({ loaded: true });
   }
 
-  calculateGPA(data) {
-    if (data) {
-      var total=0;
-      var earned=0;
-      for (var i in data) for (var j in data[i].content) {
-        total+=parseFloat(data[i].content[j].GPA_HRS);
-        earned+=parseFloat(data[i].content[j].POINTS);
-      }
-      return Number((earned/total).toFixed(2));    
-    }
-    return '';
-  }
-
   componentWillMount() {
-    this.setState({ loaded: false, failed: false, activeSections: [0], grades: [] });
+    this.setState({ loaded: false, failed: false, gpa: '', activeSections: [0], grades: [] });
     if (globals.GRADES.loaded) this.loadInfo(globals.GRADES);
     else EventRegister.addEventListener('load_grades', (data) => this.loadInfo(data));
   }
@@ -117,7 +109,7 @@ export default class GradesScreen extends React.Component {
                 </Text>
               </View>
               <View style={{
-                backgroundColor: '#2699FB', 
+                backgroundColor: gradeColor(data.ATTEMPTED,data.POINTS), 
                 width: FN(50),
                 height: FN(50),
                 borderRadius: FN(10),
@@ -142,26 +134,27 @@ export default class GradesScreen extends React.Component {
         {!this.state.loaded && <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <ActivityIndicator />
         </View>}
-        <ScrollView>
-          <View style={{
-            padding:FN(15), 
-            paddingTop: FN(25), 
-            flexDirection:'row', 
-            alignItems: 'center', 
-            justifyContent: 'space-between',
-            alignItems: 'center'
-          }}>
-            <RoundedCardTitle>Overall</RoundedCardTitle>
-            <Tag>{this.calculateGPA(this.state.grades)} GPA</Tag>
-          </View>
-          <Accordion
-            sections={this.state.grades}
-            activeSections={this.state.activeSections}
-            renderHeader={this._renderHeader}
-            renderContent={this._renderContent}
-            onChange={this._updateSections}
-          />
-        </ScrollView>
+        {!this.state.failed && 
+          <ScrollView>
+            <View style={{
+              padding: FN(15), 
+              paddingTop: FN(20), 
+              flexDirection:'row', 
+              alignItems: 'center', 
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}>
+              <RoundedCardTitle>Overall</RoundedCardTitle>
+              <Tag>{this.state.gpa} GPA</Tag>
+            </View>
+            <Accordion
+              sections={this.state.grades}
+              activeSections={this.state.activeSections}
+              renderHeader={this._renderHeader}
+              renderContent={this._renderContent}
+              onChange={this._updateSections}
+            />
+          </ScrollView>}
         <DropdownAlert ref={ref => this.dropdown = ref} inactiveStatusBarStyle={'default'} />
       </React.Fragment>
     );
