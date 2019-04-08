@@ -21,5 +21,6 @@ export default {
 	SCHEDULE: {
 		loaded: false,
 	},
-	GRADES: {}
+	GRADES: {},
+	HOLDS: false
 }

@@ -7,6 +7,7 @@ import { FN } from '../styles';
 import globals from '../globals';
 import translate_title from '../data/translate_course_title';
 import { reject } from '../auth';
+import * as Animatable from 'react-native-animatable';
 
 export class Tag extends React.Component {
 	render() {
@@ -55,24 +56,27 @@ export default class UpNext extends React.Component {
 
 	componentWillUnmount() {
 		this.mounted = false;
-		EventRegister.removeListener('load_schedule');
+		EventRegister.removeEventListener('load_schedule');
 	}
 
 	render() {
 		if (this.state.visible) 
 			return (
-				<RoundedCard style={this.state.loading ? {flexDirection: 'row', justifyContent: 'center'} : {}}>
+				<React.Fragment>
 					{this.state.className ?  
-						<React.Fragment>
-							<RoundedCardTitle>Up Next</RoundedCardTitle>
-							<Text style={[styles.classText]}>{this.state.className ? translate_title(this.state.className) : ''}</Text>
-							<View style={[styles.tagContainer]}>
-								{this.state.tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
-							</View> 
-						</React.Fragment> : 
-						<ActivityIndicator size={'large'}/> 
-					}
-				</RoundedCard>
+			      <Animatable.View animation={"zoomIn"}>
+							<RoundedCard style={this.state.loading ? {flexDirection: 'row', justifyContent: 'center'} : {}}>
+								<React.Fragment>
+									<RoundedCardTitle>Up Next</RoundedCardTitle>
+									<Text style={[styles.classText]}>{this.state.className ? translate_title(this.state.className) : ''}</Text>
+									<View style={[styles.tagContainer]}>
+										{this.state.tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
+									</View> 
+								</React.Fragment>
+							</RoundedCard>
+						</Animatable.View> : 
+						<React.Fragment/>}
+				</React.Fragment>
 			);
 		else return (<React.Fragment />);
 	}

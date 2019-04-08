@@ -11,8 +11,10 @@ import {
 	Animated,
 	Easing,
 	TouchableOpacity } from 'react-native';
+import { EventRegister } from 'react-native-event-listeners';
 import { FN } from '../styles';
 import { LargeNavBar, RoundedCard, RoundedCardTitle, UpNext } from '../components';
+import * as Animatable from 'react-native-animatable';
 import globals from '../globals.js';
 
 const styles = StyleSheet.create({
@@ -74,45 +76,58 @@ _openHoldsAsync = async () => {
   }
 };
 
-const HoldsCard = () => {
-	if (globals.HOLDS) 
+const HoldsCard = (props) => {
+	if (props.holds) 
 		return (
-	    <RoundedCard onPress={_openHoldsAsync} style={[styles.holdsCard]} caret={true}>
-	    	<View style={[styles.holdsContainer]}>
-	    		<Image 
-	    			style={[ styles.alertImg ]} 
-						source={require('../assets/icons/warning.png')} 
-						resizeMode="cover"
-					/>
-	      	<Text style={[styles.holdsTitle]}>
-	      		You have a hold
-	      	</Text>
-	    	</View>
-	   	</RoundedCard>
+			<Animatable.View animation={"zoomIn"}>
+		    <RoundedCard onPress={_openHoldsAsync} style={[styles.holdsCard]} caret={true}>
+		    	<View style={[styles.holdsContainer]}>
+		    		<Image 
+		    			style={[ styles.alertImg ]} 
+							source={require('../assets/icons/warning.png')} 
+							resizeMode="cover"
+						/>
+		      	<Text style={[styles.holdsTitle]}>
+		      		You have a hold
+		      	</Text>
+		    	</View>
+		   	</RoundedCard>
+			</Animatable.View>
 		);
 	return null;
 }
 
 const RegistrationCard = (props) => {
 	if (!globals.REGISTRATION.end_passed) return (
-		<RoundedCard onPress={()=>{props.navigation.navigate('Schedule')}} style={{ backgroundColor: '#CCEAFF' }} caret={true}>
-    	<View style={[styles.regTitleContainer]}>
-      	<Text style={[styles.regSuperTitle]}>
-      		Course registration {globals.REGISTRATION.start_passed ?  "ends" : "starts"} on:
-      	</Text>
-      	<Text style={[styles.regTitle]}>
-      		{ globals.REGISTRATION.start_passed ? 
-      				globals.REGISTRATION.end_date + ' at ' + globals.REGISTRATION.end_time :
-      				globals.REGISTRATION.start_date + ' at ' + globals.REGISTRATION.start_time
-      		}
-      	</Text>
-    	</View>
-   	</RoundedCard>
+		<Animatable.View animation={"zoomIn"}>
+			<RoundedCard onPress={()=>{props.navigation.navigate('Schedule')}} style={{ backgroundColor: '#CCEAFF' }} caret={true}>
+	    	<View style={[styles.regTitleContainer]}>
+	      	<Text style={[styles.regSuperTitle]}>
+	      		Course registration {globals.REGISTRATION.start_passed ?  "ends" : "starts"} on:
+	      	</Text>
+	      	<Text style={[styles.regTitle]}>
+	      		{ globals.REGISTRATION.start_passed ? 
+	      				globals.REGISTRATION.end_date + ' at ' + globals.REGISTRATION.end_time :
+	      				globals.REGISTRATION.start_date + ' at ' + globals.REGISTRATION.start_time
+	      		}
+	      	</Text>
+	    	</View>
+	   	</RoundedCard>
+   	</Animatable.View>
 	);
 	return null;
 }
 
 export default class FeedScreen extends React.Component {
+	componentWillMount() {
+		this.setState({ holds: false });
+		if (globals.HOLDS) this.setState({ holds: globals.HOLDS });
+		else EventRegister.addEventListener('load_holds', () => this.setState({ holds: globals.HOLDS }));
+	}
+
+	componentWillUnmount() {
+		EventRegister.removeEventListener('load_holds');
+	}
 	static navigationOptions = { header: null }
 	
   render() {
@@ -120,9 +135,9 @@ export default class FeedScreen extends React.Component {
       <ScrollView>
       	<LargeNavBar navigation={this.props.navigation} shadow={false} title={globals.NAME[0]} preTitle="WELCOME"/>
 	      <SafeAreaView style={{margin: 16, marginTop: 30}}>
-	      	<HoldsCard />
-		      <RegistrationCard navigation={this.props.navigation}/>
-		      <UpNext />
+	      	<HoldsCard holds={this.state.holds}/>   	
+		      <RegistrationCard navigation={this.props.navigation}/>     
+	      	<UpNext />
 	      </SafeAreaView>
      	</ScrollView>
     );  

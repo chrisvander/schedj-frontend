@@ -1,15 +1,21 @@
 import { EventRegister } from 'react-native-event-listeners';
 import globals from "../globals.js";
+import translate_term from './translate_term';
 
 import moment from "moment";
 
 function calculateGPA(data) {
-	if (data) {
+	var grades = [];
+  for (entry in data)
+    if (entry != 'loaded')
+      grades.push({ term: translate_term(entry), content: data[entry] });
+  grades.sort().reverse();
+	if (grades) {
 	  var total=0;
 	  var earned=0;
-	  for (var i in data) for (var j in data[i].content) {
-	    total+=parseFloat(data[i].content[j].GPA_HRS);
-	    earned+=parseFloat(data[i].content[j].POINTS);
+	  for (var i in grades) for (var j in grades[i].content) {
+	    total+=parseFloat(grades[i].content[j].GPA_HRS);
+	    earned+=parseFloat(grades[i].content[j].POINTS);
 	  }
 	  return Number((earned/total).toFixed(2));    
 	}
@@ -60,10 +66,20 @@ export const getData = (term, reject) => {
 	.then(resJson=> {
 		globals["GRADES"] = resJson;
 		globals.GRADES.loaded = true;
+		globals.GRADES["gpa"] = calculateGPA(globals.GRADES);
 		EventRegister.emit('load_grades', globals.GRADES);
 	})
 	.catch(err=>{
 		EventRegister.emit('load_grades', null);
+	});
+	fetch(globals.ROUTES.holds)
+	.then(res=>res.json())
+	.then(resJson=> {
+		globals["HOLDS"] = resJson;
+		EventRegister.emit('load_holds', globals.HOLDS);
+	})
+	.catch(err=>{
+		EventRegister.emit('load_holds', false);
 	});
 
 	var promises = [];
@@ -76,11 +92,6 @@ export const getData = (term, reject) => {
 	.then(res=>res.json())
 	.then(resJson=> {
 		globals["REGISTRATION"] = resJson;
-	}));
-	promises.push(fetch(globals.ROUTES.holds)
-	.then(res=>res.json())
-	.then(resJson=> {
-		globals["HOLDS"] = resJson;
 	}));
 	promises.push(fetch(globals.ROUTES.schedule_weekly)
 	.then(res=>res.json())
