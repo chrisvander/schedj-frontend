@@ -72,6 +72,7 @@ export const signIn = (user, pass) => new Promise((resolve,reject) => {
     fetch(url, {
       method: 'POST',
       timeout: 20,
+      credentials: "same-origin"
     })
     .then(handleErrors)
     .then(async (body) => {

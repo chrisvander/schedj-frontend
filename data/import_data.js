@@ -61,7 +61,7 @@ export const getData = (term, reject) => {
 	}	
 
 	// async requests (occur in background, regardless of current screen)
-	fetch(globals.ROUTES.grades)
+	fetch(globals.ROUTES.grades, {credentials: 'include'})
 	.then(res=>res.json())
 	.then(resJson=> {
 		globals["GRADES"] = resJson;
@@ -72,7 +72,7 @@ export const getData = (term, reject) => {
 	.catch(err=>{
 		EventRegister.emit('load_grades', null);
 	});
-	fetch(globals.ROUTES.holds)
+	fetch(globals.ROUTES.holds, {credentials: 'include'})
 	.then(res=>res.json())
 	.then(resJson=> {
 		globals["HOLDS"] = resJson;
@@ -83,25 +83,17 @@ export const getData = (term, reject) => {
 	});
 
 	var promises = [];
-	promises.push(fetch(globals.ROUTES.address)
+	promises.push(fetch(globals.ROUTES.address, {credentials: 'include'})
 	.then(res=>res.json())
 	.then(resJson=> {
 		globals["ADDRESS"] = resJson;
 	}));
-	promises.push(fetch(globals.ROUTES.registration + globals.TERM)
+	promises.push(fetch(globals.ROUTES.registration + globals.TERM, {credentials: 'include'})
 	.then(res=>res.json())
 	.then(resJson=> {
-		// globals["REGISTRATION"] = resJson;
-		globals["REGISTRATION"] = {
-			"end_date": "April 4th",
-			"end_passed": true,
-			"end_time": "11:59 PM",
-			"start_date": "March 28th",
-			"start_passed": true,
-			"start_time": "10:00 AM",
-		}
+		globals["REGISTRATION"] = resJson;
 	}));
-	promises.push(fetch(globals.ROUTES.schedule_weekly)
+	promises.push(fetch(globals.ROUTES.schedule_weekly, {credentials: 'include'})
 	.then(res=>res.json())
 	.then(resJson=> {
 		globals["SCHEDULE"] = resJson;

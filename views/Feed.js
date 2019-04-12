@@ -133,9 +133,14 @@ const RegistrationCard = (props) => {
 
 export default class FeedScreen extends React.Component {
 	componentWillMount() {
-		this.setState({ holds: false, reg: globals.REGISTRATION.start_date && !globals.REGISTRATION.end_passed });
-		if (globals.HOLDS) this.setState({ holds: globals.HOLDS });
-		else EventRegister.addEventListener('load_holds', () => this.setState({ holds: globals.HOLDS }));
+		try { 
+			this.setState({ holds: false, reg: globals.REGISTRATION.start_date && !globals.REGISTRATION.end_passed });
+			if (globals.HOLDS) this.setState({ holds: globals.HOLDS });
+			else EventRegister.addEventListener('load_holds', () => this.setState({ holds: globals.HOLDS }));	
+		}
+		catch (err) {
+			EventRegister.emit('begin_logout');
+		}
 	}
 
 	componentWillUnmount() {
