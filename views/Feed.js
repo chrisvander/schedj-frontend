@@ -64,6 +64,19 @@ const styles = StyleSheet.create({
 	alertImg: {
 		width: FN(50),
 		height: FN(50),
+	},
+	importantBg: {
+		marginTop: 5,
+		backgroundColor: '#DEDEDE',
+		padding: 16,
+		paddingTop: 10,
+		paddingBottom: 10
+	},
+	importantText: {
+		fontWeight: 'bold',
+		fontSize: 16,
+		color: '#5C5C5C',
+		paddingBottom: 10
 	}
 });
 
@@ -79,7 +92,7 @@ _openHoldsAsync = async () => {
 const HoldsCard = (props) => {
 	if (props.holds) 
 		return (
-			<Animatable.View animation={"zoomIn"}>
+			<Animatable.View animation={"fadeIn"}>
 		    <RoundedCard onPress={_openHoldsAsync} style={[styles.holdsCard]} caret={true}>
 		    	<View style={[styles.holdsContainer]}>
 		    		<Image 
@@ -98,8 +111,8 @@ const HoldsCard = (props) => {
 }
 
 const RegistrationCard = (props) => {
-	if (globals.REGISTRATION.start_date && !globals.REGISTRATION.end_passed) return (
-		<Animatable.View animation={"zoomIn"}>
+	if (props.state.reg) return (
+		<Animatable.View animation={"fadeIn"}>
 			<RoundedCard onPress={()=>{props.navigation.navigate('Schedule')}} style={{ backgroundColor: '#CCEAFF' }} caret={true}>
 	    	<View style={[styles.regTitleContainer]}>
 	      	<Text style={[styles.regSuperTitle]}>
@@ -120,7 +133,7 @@ const RegistrationCard = (props) => {
 
 export default class FeedScreen extends React.Component {
 	componentWillMount() {
-		this.setState({ holds: false });
+		this.setState({ holds: false, reg: globals.REGISTRATION.start_date && !globals.REGISTRATION.end_passed });
 		if (globals.HOLDS) this.setState({ holds: globals.HOLDS });
 		else EventRegister.addEventListener('load_holds', () => this.setState({ holds: globals.HOLDS }));
 	}
@@ -134,10 +147,21 @@ export default class FeedScreen extends React.Component {
   	return (
       <ScrollView>
       	<LargeNavBar navigation={this.props.navigation} shadow={false} title={globals.NAME[0]} preTitle="WELCOME"/>
-	      <SafeAreaView style={{margin: 16, marginTop: 30}}>
-	      	<HoldsCard holds={this.state.holds}/>   	
-		      <RegistrationCard navigation={this.props.navigation}/>     
-	      	<UpNext />
+	      <SafeAreaView>
+	      	<Animatable.View animation={"fadeIn"}>
+	      		{ (this.state.holds || this.state.reg) && 
+	      			<View style={[styles.importantBg]}>
+			      		<Text style={[styles.importantText]}>IMPORTANT</Text>
+				      	<HoldsCard holds={this.state.holds}/>   	
+					      <RegistrationCard state={this.state} navigation={this.props.navigation}/>    
+				      </View> 
+	      		}	
+		      </Animatable.View>
+		      <View style={{ margin: 16, marginTop: 20 }}>
+	      		<UpNext />
+	      		<RoundedCard onPress={()=>{this.props.navigation.navigate('Manage')}} color={'blue'} caret={true} title={'Manage Courses'}/>
+            <RoundedCard color={'blue'} caret={true} title={'Course Search'}/>
+	      	</View>
 	      </SafeAreaView>
      	</ScrollView>
     );  

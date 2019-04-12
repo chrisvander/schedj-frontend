@@ -91,7 +91,15 @@ export const getData = (term, reject) => {
 	promises.push(fetch(globals.ROUTES.registration + globals.TERM)
 	.then(res=>res.json())
 	.then(resJson=> {
-		globals["REGISTRATION"] = resJson;
+		// globals["REGISTRATION"] = resJson;
+		globals["REGISTRATION"] = {
+			"end_date": "April 4th",
+			"end_passed": true,
+			"end_time": "11:59 PM",
+			"start_date": "March 28th",
+			"start_passed": true,
+			"start_time": "10:00 AM",
+		}
 	}));
 	promises.push(fetch(globals.ROUTES.schedule_weekly)
 	.then(res=>res.json())

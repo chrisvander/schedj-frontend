@@ -102,7 +102,7 @@ const cardStyle = StyleSheet.create({
 		borderRadius: 20,
 		backgroundColor: '#FFFFFF',
 		width: '100%',
-		elevation: 3,
+		elevation: 6,
 		padding: FN(18),
 		paddingLeft: 20,
 		paddingRight: 20,
