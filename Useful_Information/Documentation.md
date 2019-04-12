@@ -13,7 +13,9 @@ sudo apt-get install -y nodejs
 
 https://docs.expo.io/versions/latest/introduction/installation/
 
+```sh
 npm install -g expo-cli
+```
 
 On your Android or IOS device
 
@@ -26,12 +28,15 @@ https://itunes.apple.com/us/app/expo-client/id982107779?mt=8
 
 back end
 
+```sh
 git clone https://github.com/Schedj/schedj-backend.git
+```
 
 front end
 
+```sh
 git clone https://github.com/Schedj/schedj-frontend.git
-
+```
 
 
 # Step 4: CD to directories and install npm
@@ -40,24 +45,28 @@ Open two terminals
 
 In back end terminal
 
-1. cd YOURPATH/schedj-backend/
-2. npm install
-
+```sh
+cd YOURPATH/schedj-backend/
+npm install
+```
 In front end terminal
 
-
-1. cd YOURPATH/schedj-frontend/
-2. npm install
-
+```sh
+cd YOURPATH/schedj-frontend/
+npm install
+```
 
 
 # Step 5: Run front and back end
 
 In back end terminal
-1. npm start
-
+```sh
+npm start
+```
 In front end terminal
-1. npm start
+```sh
+npm start
+```
 
 On Your mobile device
 
