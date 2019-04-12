@@ -60,6 +60,7 @@ In front end terminal
 1. npm start
 
 On Your mobile device
+
 1. scan the QR code available on the frontend, or on at http://localhost:19002/
 
 The app should now be running in your mobile device
