@@ -5,8 +5,7 @@ https://github.com/nodesource/distributions/blob/master/README.md
 Ubuntu 18.0.4
 
 ```sh
-curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-sudo apt-get install -y nodejs
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -sudo apt-get install -y nodejs
 ```
 
 
