@@ -1,16 +1,3 @@
 # How to Contribute
 
-## Create a new branch
-No changes can be directly made from the master branch, as such changes should be made in your own devlopment branch.
-Please name it something easy to identify, such as your name or username.
-Examples:
-roughk
-kevinr
-joya
-alanj
-
-## Create a pull request
-Once you have tested it is ready, submit a pull request on github and an administrator will check it and pull it to master.
-
-
-
+Create a fork of the repository. This will add a copy of the repo to your user account. Create a branch off of master in your repository, titled appropriately with the name of the feature/fix you are trying to implement. Once it has been coded and added to your repo, attempt a merge in your repo and test that everything works. Then, create an upstream pull request to the original repository for administrators to test and approve.
