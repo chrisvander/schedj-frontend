@@ -44,19 +44,6 @@ const ProfileStack = createStackNavigator({
   },
 }, navOptions);
 
-const ScheduleStack = createStackNavigator({
-  Schedule: {
-    screen: Schedule,
-    navigationOptions: {
-      header: null,
-      gesturesEnabled: false
-    }
-  },
-  Manage: {
-    screen: Manage,
-  },
-}, navOptions);
-
 const FeedStack = createStackNavigator({
   Feed: {
     screen: Feed,
@@ -64,13 +51,16 @@ const FeedStack = createStackNavigator({
       header: null,
       gesturesEnabled: false
     }
+  },
+  Manage: {
+    screen: Manage,
   }
 }, navOptions);
 
 const TabNavigator = createBottomTabNavigator(
   {
     Feed: FeedStack,
-    Schedule: ScheduleStack,
+    Schedule: Schedule,
     Profile: ProfileStack
   },
   {

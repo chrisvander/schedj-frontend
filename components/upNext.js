@@ -78,7 +78,13 @@ export default class UpNext extends React.Component {
 						<React.Fragment/>}
 				</React.Fragment>
 			);
-		else return (<React.Fragment />);
+		else return (
+			<Animatable.View animation={"zoomIn"}>
+				<RoundedCard>
+					<RoundedCardTitle>Up Next</RoundedCardTitle>
+					<Text style={[styles.classText]}>You're done with classes today.</Text>
+				</RoundedCard>
+			</Animatable.View>);
 	}
 }
 

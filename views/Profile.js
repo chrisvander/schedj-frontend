@@ -21,7 +21,7 @@ export default class ProfileScreen extends React.Component {
   componentWillMount() {
     this.setState({ loaded: false, gpa: '' });
     if (globals.GRADES.loaded) this.setState({ gpa: globals.GRADES.gpa, loaded: true });
-    EventRegister.addEventListener('load_grades', (data) => this.setState({ gpa: data.gpa, loaded: true }));
+    else EventRegister.addEventListener('load_grades', (data) => this.setState({ gpa: data.gpa, loaded: true }));
   }
 
   componentWillUnmount() {
@@ -31,15 +31,7 @@ export default class ProfileScreen extends React.Component {
     return (
     	<React.Fragment>
     		<LargeNavBar navigation={this.props.navigation} title="Profile" />
-	      <ScrollView style={{padding: 16, paddingTop: 30}}>
-          <RoundedCard>
-            <View style={{backgroundColor:'#EAF5FD', height: '100%', width: 50}}>
-
-            </View>
-            <View>
-
-            </View>
-          </RoundedCard>
+	      <ScrollView style={{padding: 16, paddingTop: 30, flexDirection: 'column'}}>
           <RoundedCard 
             style={[styles.gradesCard]} 
             color={'blue'} 
