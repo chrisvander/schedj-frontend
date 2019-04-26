@@ -6,7 +6,7 @@ We will foster an environment of open collaboration, with active communication a
 ## Our Standards
 * Use welcoming and non-exclusionary language.
 * Be respect of differing views and experiences.
-* Openly give and receive constructive criticism
+* Openly give and receive constructive criticism.
 * Put the good of the project first.
 
 ## Examples of improper behavior

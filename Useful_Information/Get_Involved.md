@@ -1,3 +1,5 @@
+# Where to Find Us
+
 ## Join one of our chat rooms
 * https://chat.rcos.io/rcos/channels/schedj
 * https://discord.gg/7a7EpAB
@@ -12,7 +14,7 @@
 ## Check out our website
 * http://schedj.com
 
-## Our Team
+# Our Team
 
 ## Project Lead, Senior Programmer
 * Chris Vanderloo
