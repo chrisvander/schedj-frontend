@@ -56,6 +56,8 @@ cd YOURPATH/schedj-frontend/
 npm install
 ```
 
+Create an env.js file on your schedj-frontend folder to allow app to communicate with computer you are running. Check the readme for instruction on how to find your IP, replace the default value, and save the document.
+
 
 # Step 5: Run front and back end
 
