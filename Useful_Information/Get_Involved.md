@@ -9,16 +9,18 @@
 ## Check out our Project Proposal
 * https://docs.google.com/document/d/1wB8WGdqz8KdQQk5ZeuHmsyHPLj7jTbd795EhKfUYPfY
 
+## Check out our website
+* http://schedj.com
 
 ## Our Team
 
-# Project Lead, Senior Programmer
+## Project Lead, Senior Programmer
 * Chris Vanderloo
 
-# Core Contributors
+## Core Contributors
 * Alan Joy
 * Kevin Roughan
 
-# New Contributors
+## New Contributors
 * Gregory Saini
 * Daniel Molzahn
