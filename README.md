@@ -1,6 +1,7 @@
 # SCHEDJ Frontend
 [![Build](https://travis-ci.com/Schedj/schedj-frontend.svg?branch=master)](https://travis-ci.com/Schedj/schedj-frontend)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7669e8aa7aa94466b0a1dc38a84cf8e5)](https://www.codacy.com/app/chrisvander/schedj-frontend?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Schedj/schedj-frontend&amp;utm_campaign=Badge_Grade)
 
 A mobile application for students to access and manage scheduling and student accounts. Utilizes React Native to cross-platform deploy. Connects to the SCHEDJ backend for API and data.
 
