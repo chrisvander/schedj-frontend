@@ -26,7 +26,7 @@ export default class LargeNavBar extends React.Component {
 								<Text style={[NavStyle.subTitle]}>{this.props.preTitle}</Text>
 								<Text style={[ NavStyle.bigTitle ]}>{this.props.title}</Text>
 							</View>
-							<View style={[ NavStyle.gearContainer ]}>
+							{!this.props.gearHidden && <View style={[ NavStyle.gearContainer ]}>
 								<TouchableOpacity onPress={this.settings}>
 									<Image 
 										style={[ NavStyle.gear ]} 
@@ -35,7 +35,7 @@ export default class LargeNavBar extends React.Component {
 										resizeMode="cover"
 									/>
 								</TouchableOpacity>
-							</View>
+							</View>}
 						</View>
 					</SafeAreaView>
 				</View>
