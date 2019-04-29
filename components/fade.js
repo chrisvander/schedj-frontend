@@ -7,17 +7,18 @@ export default class Fade extends React.Component {
     this.state = {
       visible: props.visible,
     };
-  };
+  }
 
   componentWillMount() {
-    this._visibility = new Animated.Value(this.props.visible ? 1 : 0);
+    const { visible } = this.props;
+    this.visibility = new Animated.Value(visible ? 1 : 0);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.visible) {
       this.setState({ visible: true });
     }
-    Animated.timing(this._visibility, {
+    Animated.timing(this.visibility, {
       toValue: nextProps.visible ? 1 : 0,
       duration: 300,
     }).start(() => {
@@ -26,16 +27,18 @@ export default class Fade extends React.Component {
   }
 
   render() {
-    const { visible, style, children, ...rest } = this.props;
+    const {
+      visible, style, children, ...rest
+    } = this.props;
 
     const containerStyle = {
-      opacity: this._visibility.interpolate({
+      opacity: this.visibility.interpolate({
         inputRange: [0, 1],
         outputRange: [0, 1],
       }),
       transform: [
         {
-          scale: this._visibility.interpolate({
+          scale: this.visibility.interpolate({
             inputRange: [0, 1],
             outputRange: [1.1, 1],
           }),
@@ -45,8 +48,8 @@ export default class Fade extends React.Component {
 
     const combinedStyle = [containerStyle, style];
     return (
-      <Animated.View style={this.state.visible ? combinedStyle : containerStyle} {...rest}>
-        {this.state.visible ? children : null}
+      <Animated.View style={visible ? combinedStyle : containerStyle} {...rest}>
+        {visible ? children : null}
       </Animated.View>
     );
   }

@@ -8,4 +8,4 @@ export { default as UpNext } from './upNext';
 export { UpNextOverlay } from './upNext';
 export { Tag } from './upNext';
 export { ClassCard } from './upNext';
-export { default as Fade } from './fade'
+export { default as Fade } from './fade';

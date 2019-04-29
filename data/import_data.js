@@ -1,107 +1,103 @@
 import { EventRegister } from 'react-native-event-listeners';
-import globals from "../globals.js";
-import translate_term from './translate_term';
+import moment from 'moment';
+import globals from '../globals';
+import translateTerm from './translate_term';
 
-import moment from "moment";
 
 function calculateGPA(data) {
-	var grades = [];
-  for (entry in data)
-    if (entry != 'loaded')
-      grades.push({ term: translate_term(entry), content: data[entry] });
+  const grades = [];
+  for (const entry in data) if (entry != 'loaded') grades.push({ term: translateTerm(entry), content: data[entry] });
   grades.sort().reverse();
-	if (grades) {
-	  var total=0;
-	  var earned=0;
-	  for (var i in grades) for (var j in grades[i].content) {
-	    total+=parseFloat(grades[i].content[j].GPA_HRS);
-	    earned+=parseFloat(grades[i].content[j].POINTS);
-	  }
-	  return Number((earned/total).toFixed(2));    
-	}
-	return '';
+  if (grades) {
+    let total = 0;
+    let earned = 0;
+    for (const i in grades) {
+      for (const j in grades[i].content) {
+        total += parseFloat(grades[i].content[j].GPA_HRS);
+        earned += parseFloat(grades[i].content[j].POINTS);
+      }
+    }
+    return Number((earned / total).toFixed(2));
+  }
+  return '';
 }
 
-export const getData = (term, reject) => {
-	try {
-		function getNextClass() {
-			for (var i in globals.SCHEDULE.today){
-				var cl = globals.SCHEDULE.today[i];
-				var next = moment(cl.start_time, 'h:mm a');
-				if (moment().isBefore(next)) return cl;
-			}
-			return null;
-		}
-
-		globals.get_next_class = getNextClass;
-		globals.get_class_info = async (cl) => {
-			if (globals.SCHEDULE.next_class)
-				return globals.SCHEDULE.next_class;
-			var resJson = await fetch(globals.ROUTES.class_info + cl.CRN)
-				.then(res=>res.json())
-				.catch(err=>reject());
-			if (resJson) 
-				resJson["cl"] = cl;
-			else 
-				return null;
-			globals.SCHEDULE.next_class = resJson;
-			return resJson;
-		}
-		globals.get_next_class_info = () => {
-			var cl = getNextClass();
-			if (cl) {
-				var clinfo = globals.get_class_info(cl);
-				if (clinfo) return clinfo;
-			} 
-			return null;
-		}
-	}
-	catch (err) {
-		reject();
-	}	
-
-	// async requests (occur in background, regardless of current screen)
-	fetch(globals.ROUTES.grades, {credentials: 'include'})
-	.then(res=>res.json())
-	.then(resJson=> {
-		globals["GRADES"] = resJson;
-		globals.GRADES.loaded = true;
-		globals.GRADES["gpa"] = calculateGPA(globals.GRADES);
-		EventRegister.emit('load_grades', globals.GRADES);
-	})
-	.catch(err=>{
-		EventRegister.emit('load_grades', null);
-	});
-	fetch(globals.ROUTES.holds, {credentials: 'include'})
-	.then(res=>res.json())
-	.then(resJson=> {
-		globals["HOLDS"] = resJson;
-		EventRegister.emit('load_holds', globals.HOLDS);
-	})
-	.catch(err=>{
-		EventRegister.emit('load_holds', false);
-	});
-
-	var promises = [];
-	promises.push(fetch(globals.ROUTES.address, {credentials: 'include'})
-	.then(res=>res.json())
-	.then(resJson=> {
-		globals["ADDRESS"] = resJson;
-	}));
-	promises.push(fetch(globals.ROUTES.registration + globals.TERM, {credentials: 'include'})
-	.then(res=>res.json())
-	.then(resJson=> {
-		globals["REGISTRATION"] = resJson;
-	}));
-	promises.push(fetch(globals.ROUTES.schedule_weekly, {credentials: 'include'})
-	.then(res=>res.json())
-	.then(resJson=> {
-		globals["SCHEDULE"] = resJson;
-		globals.SCHEDULE.loaded = true;
-		EventRegister.emit('load_schedule', globals.SCHEDULE);
-	}));
-
-	return Promise.all(promises).catch((err) => {
-		console.log(err)
-	});
+function getNextClass() {
+  for (const i in globals.SCHEDULE.today) {
+    const cl = globals.SCHEDULE.today[i];
+    const next = moment(cl.start_time, 'h:mm a');
+    if (moment().isBefore(next)) return cl;
+  }
+  return null;
 }
+
+export default (term, reject) => {
+  try {
+    globals.get_next_class = getNextClass;
+    globals.get_class_info = async (cl) => {
+      if (globals.SCHEDULE.next_class) return globals.SCHEDULE.next_class;
+      const resJson = await fetch(globals.ROUTES.class_info + cl.CRN)
+        .then(res => res.json())
+        .catch(() => reject());
+      if (resJson) resJson.cl = cl;
+      else return null;
+      globals.SCHEDULE.next_class = resJson;
+      return resJson;
+    };
+    globals.get_next_class_info = () => {
+      const cl = getNextClass();
+      if (cl) {
+        const clinfo = globals.get_class_info(cl);
+        if (clinfo) return clinfo;
+      }
+      return null;
+    };
+  } catch (err) {
+    reject();
+  }
+
+  // async requests (occur in background, regardless of current screen)
+  fetch(globals.ROUTES.grades, { credentials: 'include' })
+    .then(res => res.json())
+    .then((resJson) => {
+      globals.GRADES = resJson;
+      globals.GRADES.loaded = true;
+      globals.GRADES.gpa = calculateGPA(globals.GRADES);
+      EventRegister.emit('load_grades', globals.GRADES);
+    })
+    .catch(() => {
+      EventRegister.emit('load_grades', null);
+    });
+  fetch(globals.ROUTES.holds, { credentials: 'include' })
+    .then(res => res.json())
+    .then((resJson) => {
+      globals.HOLDS = resJson;
+      EventRegister.emit('load_holds', globals.HOLDS);
+    })
+    .catch(() => {
+      EventRegister.emit('load_holds', false);
+    });
+
+  const promises = [];
+  promises.push(fetch(globals.ROUTES.address, { credentials: 'include' })
+    .then(res => res.json())
+    .then((resJson) => {
+      globals.ADDRESS = resJson;
+    }));
+  promises.push(fetch(globals.ROUTES.registration + globals.TERM, { credentials: 'include' })
+    .then(res => res.json())
+    .then((resJson) => {
+      globals.REGISTRATION = resJson;
+    }));
+  promises.push(fetch(globals.ROUTES.schedule_weekly, { credentials: 'include' })
+    .then(res => res.json())
+    .then((resJson) => {
+      globals.SCHEDULE = resJson;
+      globals.SCHEDULE.loaded = true;
+      EventRegister.emit('load_schedule', globals.SCHEDULE);
+    }));
+
+  return Promise.all(promises).catch((err) => {
+    throw new Error(err);
+  });
+};
