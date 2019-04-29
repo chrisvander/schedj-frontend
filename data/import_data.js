@@ -1,3 +1,4 @@
+/*  eslint no-restricted-syntax: "off"  */
 import { EventRegister } from 'react-native-event-listeners';
 import moment from 'moment';
 import globals from '../globals';
@@ -6,15 +7,19 @@ import translateTerm from './translate_term';
 
 function calculateGPA(data) {
   const grades = [];
-  for (const entry in data) if (entry != 'loaded') grades.push({ term: translateTerm(entry), content: data[entry] });
+  for (const entry in data) if (entry !== 'loaded') grades.push({ term: translateTerm(entry), content: data[entry] });
   grades.sort().reverse();
   if (grades) {
     let total = 0;
     let earned = 0;
     for (const i in grades) {
-      for (const j in grades[i].content) {
-        total += parseFloat(grades[i].content[j].GPA_HRS);
-        earned += parseFloat(grades[i].content[j].POINTS);
+      if (Object.prototype.hasOwnProperty.call(grades, i)) {
+        for (const j in grades[i].content) {
+          if (Object.prototype.hasOwnProperty.call(grades[i].content, j)) {
+            total += parseFloat(grades[i].content[j].GPA_HRS);
+            earned += parseFloat(grades[i].content[j].POINTS);
+          }
+        }
       }
     }
     return Number((earned / total).toFixed(2));
@@ -24,9 +29,11 @@ function calculateGPA(data) {
 
 function getNextClass() {
   for (const i in globals.SCHEDULE.today) {
-    const cl = globals.SCHEDULE.today[i];
-    const next = moment(cl.start_time, 'h:mm a');
-    if (moment().isBefore(next)) return cl;
+    if (Object.prototype.hasOwnProperty.call(globals.SCHEDULE.today, i)) {
+      const cl = globals.SCHEDULE.today[i];
+      const next = moment(cl.start_time, 'h:mm a');
+      if (moment().isBefore(next)) return cl;
+    }
   }
   return null;
 }
