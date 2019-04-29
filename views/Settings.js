@@ -1,8 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { LargeNavBar, TableView, SButton, BasicTableView } from '../components';
+import {
+  BasicTableView,
+} from '../components';
 import { logout } from '../auth';
-import globals from '../globals.js';
+import globals from '../globals';
 
 const styles = StyleSheet.create({
   header: {
@@ -10,26 +12,26 @@ const styles = StyleSheet.create({
     height: 106,
     backgroundColor: '#F1F9FF',
     padding: 32,
-    marginBottom: 30
+    marginBottom: 30,
   },
   name: {
     fontFamily: 'Arial',
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#2699FB'
+    color: '#2699FB',
   },
   location: {
     fontFamily: 'Arial',
     fontSize: 14,
     color: '#2699FB',
-    marginTop: 3
-  }
-})
+    marginTop: 3,
+  },
+});
 
 const settingsBundle = [
   {
     title: 'Notifications',
-    icon: 'notification'
+    icon: 'notification',
   },
   {
     title: 'General',
@@ -42,24 +44,24 @@ const settingsBundle = [
   {
     title: 'Logout',
     icon: 'logout',
-    onPress: () => logout()
-  }
-]
+    onPress: () => logout(),
+  },
+];
 
 export default class SettingsScreen extends React.Component {
-	static navigationOptions = { 
-    title: "SETTINGS",
-  }
+static navigationOptions = {
+  title: 'SETTINGS',
+}
 
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center' }}>
-        <View style={[styles.header]}>
-          <Text style={[styles.name]}>{globals.NAME.join(' ')}</Text>
-          <Text style={[styles.location]}>{globals.ADDRESS.city}</Text>
-        </View>
-        <BasicTableView data={settingsBundle}/>
+render() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center' }}>
+      <View style={[styles.header]}>
+        <Text style={[styles.name]}>{globals.NAME.join(' ')}</Text>
+        <Text style={[styles.location]}>{globals.ADDRESS.city}</Text>
       </View>
-    );
-  }
+      <BasicTableView data={settingsBundle} />
+    </View>
+  );
+}
 }

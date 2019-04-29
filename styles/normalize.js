@@ -8,10 +8,9 @@ const {
 
 const scale = SCREEN_WIDTH / 400;
 
-export default function(num) {
-	if (Platform.OS === 'ios') {
-    return Math.round(PixelRatio.roundToNearestPixel(num*scale))
-  } else {
-    return Math.round(PixelRatio.roundToNearestPixel(num*scale)) - 2
+export default function (num) {
+  if (Platform.OS === 'ios') {
+    return Math.round(PixelRatio.roundToNearestPixel(num * scale));
   }
+  return Math.round(PixelRatio.roundToNearestPixel(num * scale)) - 2;
 }
