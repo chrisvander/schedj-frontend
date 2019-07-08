@@ -33,13 +33,6 @@ const AuthStack = authorized => createStackNavigator({
 },
 {
   defaultNavigationOptions: {
-    headerStyle: {
-      backgroundColor: '#FFF',
-      elevation: 0,
-      shadowOpacity: 0.3,
-      borderBottomColor: 'transparent',
-      borderBottomWidth: 0,
-    },
     headerTintColor: '#2699FB',
     headerTitleStyle: {
       fontWeight: 'bold',
@@ -122,7 +115,7 @@ export default class App extends React.Component {
           });
       })
       .catch((err) => {
-        this.setState({ checkedAuth: true, isConnected: false, error: err });
+        this.setState({ checkedAuth: true, isConnected: false, error: err.toString() });
       });
   }
 
@@ -155,8 +148,6 @@ export default class App extends React.Component {
     } = this.state;
     const Layout = createAppContainer(AuthStack(authorized));
     if (!isConnected || !checkedAuth || !fontLoaded) return this.networkFailed();
-    return (
-      <Layout />
-    );
+    return (<Layout />);
   }
 }

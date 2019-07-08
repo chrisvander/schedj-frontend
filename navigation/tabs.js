@@ -4,7 +4,7 @@ import { createBottomTabNavigator, createStackNavigator } from 'react-navigation
 import { StyleSheet, Image } from 'react-native';
 import { Feed, Schedule, Profile } from '../views';
 import { Grades } from '../views/profile/index';
-import { Manage } from '../views/schedule/index';
+import { Manage, Search } from '../views/schedule/index';
 
 const s = StyleSheet.create({
   tabIcon: {
@@ -15,13 +15,6 @@ const s = StyleSheet.create({
 
 const navOptions = {
   defaultNavigationOptions: {
-    headerStyle: {
-      backgroundColor: '#FFF',
-      elevation: 0,
-      shadowOpacity: 0.3,
-      borderBottomColor: 'transparent',
-      borderBottomWidth: 0,
-    },
     headerTintColor: '#2699FB',
     headerTitleStyle: {
       fontWeight: 'bold',
@@ -54,6 +47,9 @@ const FeedStack = createStackNavigator({
   },
   Manage: {
     screen: Manage,
+  },
+  Search: {
+    screen: Search,
   },
 }, navOptions);
 

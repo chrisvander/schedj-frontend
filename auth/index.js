@@ -75,8 +75,8 @@ export const signIn = (user, pass) => new Promise((resolve, reject) => {
       .catch(() => {
         reject(new Error('Invalid response from SIS'));
       });
-  }).catch(() => {
-    reject(new Error('Failed to find Schedj Backend service', 'Network Error'));
+  }).catch((err) => {
+    reject(err);
   });
 });
 

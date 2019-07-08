@@ -11,14 +11,8 @@ const sisMan = require('../assets/sis_man.png');
 export default class LoginView extends React.Component {
   componentWillMount() {
     this.setState({ keyboardPresent: false });
-    this.keyboardDidShowListener = Keyboard.addListener(
-      'keyboardWillShow',
-      this.setState({ keyboardPresent: true }),
-    );
-    this.keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      this.setState({ keyboardPresent: false }),
-    );
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardShown.bind(this));
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardHidden.bind(this));
   }
 
   componentWillUnmount() {
@@ -26,8 +20,17 @@ export default class LoginView extends React.Component {
     this.keyboardDidHideListener.remove();
   }
 
+  keyboardShown() {
+    this.setState({ keyboardPresent: true });
+  }
+
+  keyboardHidden() {
+    this.setState({ keyboardPresent: false });
+  }
+
   render() {
-    const { keyboardPresent, hide, children } = this.props;
+    const { keyboardPresent } = this.state;
+    const { hide, children } = this.props;
     return (
       <LinearGradient
         colors={['#FFFFFF', '#53B7FD']}

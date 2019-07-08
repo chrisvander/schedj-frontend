@@ -55,14 +55,14 @@ const cardStyle = StyleSheet.create({
   },
 });
 
-export const RoundedCardTitle = ({ children }) => (
-  <Text style={{
+export const RoundedCardTitle = ({ children, style }) => (
+  <Text style={[{
     fontFamily: 'Helvetica Neue',
     color: 'black',
     fontWeight: 'bold',
     fontSize: FN(26),
     alignSelf: 'stretch',
-  }}
+  }, style]}
   >
     {children}
   </Text>

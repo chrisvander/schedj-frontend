@@ -35,10 +35,9 @@ export default class GradesScreen extends React.Component {
   }
 
   componentDidMount() {
-    if (this.state.failed) this.dropdown.alertWithType('error', 'Failed to load', "Looks like we're having trouble pulling up your grades.");
   }
 
-  _renderHeader = (section, index, isActive) => (
+  renderHeader = (section, index, isActive) => (
     <View style={{
       backgroundColor: '#EFEFEF',
       padding: 15,
@@ -62,7 +61,7 @@ export default class GradesScreen extends React.Component {
     </View>
   );
 
-  _renderContent = (section) => {
+  renderContent = (section) => {
     let total = 0;
     let earned = 0;
     for (const i in section.content) {
@@ -107,8 +106,8 @@ GPA
               alignItems: 'center',
             }}
           >
-            <View>
-              <Text style={{ fontSize: FN(18), fontWeight: 'bold' }}>{translate_course(data.TITLE)}</Text>
+            <View style={{ width: '80%' }}>
+              <Text numberOfLines={1} style={{ fontSize: FN(17), fontWeight: 'bold', width: '100%' }}>{translate_course(data.TITLE)}</Text>
               <Text style={{ fontSize: FN(14), color: '#717171', paddingTop: 2 }}>{`${data.SUBJ} ${data.COURSE}`}</Text>
               <Text style={{
                 fontSize: FN(16), color: '#717171', fontWeight: 'bold', paddingTop: 2,
@@ -134,7 +133,7 @@ GPA
     );
   };
 
-  _updateSections = (activeSections) => {
+  updateSections = (activeSections) => {
     this.setState({ activeSections });
   };
 
@@ -152,6 +151,7 @@ GPA
     const {
       loaded, failed, gpa, grades, activeSections,
     } = this.state;
+    if (this.state.failed) this.dropdown.alertWithType('error', 'Failed to load', "Looks like we're having trouble pulling up your grades.");
     return (
       <React.Fragment>
         {!loaded && (
@@ -159,7 +159,7 @@ GPA
           <ActivityIndicator />
         </View>
         )}
-        {!failed
+        {loaded && !failed
           && (
           <ScrollView>
             <View style={{
@@ -180,9 +180,9 @@ GPA
             <Accordion
               sections={grades}
               activeSections={activeSections}
-              renderHeader={this._renderHeader}
-              renderContent={this._renderContent}
-              onChange={this._updateSections}
+              renderHeader={this.renderHeader}
+              renderContent={this.renderContent}
+              onChange={this.updateSections}
             />
           </ScrollView>
           )}

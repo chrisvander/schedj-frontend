@@ -12,9 +12,11 @@ import { EventRegister } from 'react-native-event-listeners';
 import * as Animatable from 'react-native-animatable';
 import { FN } from '../styles';
 import {
-  LargeNavBar, RoundedCard, UpNext,
+  LargeNavBar, RoundedCard, UpNext, UpNextOverlay
 } from '../components';
 import globals from '../globals';
+
+const warningAsset = require('../assets/icons/warning.png');
 
 const styles = StyleSheet.create({
   regSuperTitle: {
@@ -79,7 +81,7 @@ const styles = StyleSheet.create({
   },
 });
 
-_openHoldsAsync = async () => {
+const openHoldsAsync = async () => {
   try {
     await WebBrowser.openBrowserAsync(`${globals.ROUTES.fetch}rss/bwskoacc.P_ViewHold`);
   } catch (err) {
@@ -91,11 +93,11 @@ const HoldsCard = ({ holds }) => {
   if (holds) {
     return (
       <Animatable.View animation="fadeIn">
-        <RoundedCard onPress={_openHoldsAsync} style={[styles.holdsCard]} caret>
+        <RoundedCard onPress={openHoldsAsync} style={[styles.holdsCard]} caret>
           <View style={[styles.holdsContainer]}>
             <Image
               style={[styles.alertImg]}
-              source={require('../assets/icons/warning.png')}
+              source={warningAsset}
               resizeMode="cover"
             />
             <Text style={[styles.holdsTitle]}>You have a hold</Text>
@@ -118,13 +120,13 @@ const RegistrationCard = ({ state, navigation }) => {
               {' '}
               {globals.REGISTRATION.start_passed ? 'ends' : 'starts'}
               {' '}
-on:
+              on:
             </Text>
             <Text style={[styles.regTitle]}>
               { globals.REGISTRATION.start_passed
-          			? `${globals.REGISTRATION.end_date} at ${globals.REGISTRATION.end_time}`
-          			: `${globals.REGISTRATION.start_date} at ${globals.REGISTRATION.start_time}`
-          	}
+                ? `${globals.REGISTRATION.end_date} at ${globals.REGISTRATION.end_time}`
+                : `${globals.REGISTRATION.start_date} at ${globals.REGISTRATION.start_time}`
+              }
             </Text>
           </View>
         </RoundedCard>
@@ -135,11 +137,20 @@ on:
 };
 
 export default class FeedScreen extends React.Component {
+  static navigationOptions = { header: null }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      overlayVisible: false,
+    };
+  }
+
   componentWillMount() {
     try {
       this.setState({
-      	holds: false,
-      	reg: globals.REGISTRATION.start_date && !globals.REGISTRATION.end_passed,
+        holds: false,
+        reg: globals.REGISTRATION.start_date && !globals.REGISTRATION.end_passed,
       });
       if (globals.HOLDS) this.setState({ holds: globals.HOLDS });
       else EventRegister.addEventListener('load_holds', () => this.setState({ holds: globals.HOLDS }));
@@ -152,31 +163,34 @@ export default class FeedScreen extends React.Component {
     EventRegister.removeEventListener('load_holds');
   }
 
-	static navigationOptions = { header: null }
-
-	render() {
-  	return (
-    <ScrollView>
-      <LargeNavBar navigation={this.props.navigation} shadow={false} title={globals.NAME[0]} preTitle="WELCOME" />
-      <SafeAreaView>
-        <Animatable.View animation="fadeIn">
-          { (this.state.holds || this.state.reg)
-	      			&& (
-								<View style={[styles.importantBg]}>
-								  <Text style={[styles.importantText]}>IMPORTANT</Text>
-								  <HoldsCard holds={this.state.holds} />
-								  <RegistrationCard state={this.state} navigation={this.props.navigation} />
-								</View>
-	      			)
-	      		}
-        </Animatable.View>
-        <View style={{ margin: 16, marginTop: 20 }}>
-          <UpNext />
-          <RoundedCard onPress={() => { this.props.navigation.navigate('Manage'); }} color="blue" caret title="Manage Courses" />
-          <RoundedCard color="blue" caret title="Course Search" />
-        </View>
-      </SafeAreaView>
-    </ScrollView>
-	  );
-	}
+  render() {
+    const { navigation } = this.props;
+    const { holds, reg, overlayVisible } = this.state;
+    return (
+      <React.Fragment>
+        <LargeNavBar navigation={navigation} shadow title={globals.NAME[0]} preTitle="WELCOME" />
+        <ScrollView>
+          <SafeAreaView>
+            <Animatable.View animation="fadeIn">
+              { (holds || reg)
+                && (
+                <View style={[styles.importantBg]}>
+                  <Text style={[styles.importantText]}>IMPORTANT</Text>
+                  <HoldsCard holds={holds} />
+                  <RegistrationCard state={this.state} navigation={navigation} />
+                </View>
+                )
+              }
+            </Animatable.View>
+            <Animatable.View style={{ margin: 16, marginTop: 20 }} animation="fadeIn">
+              { globals.SCHEDULE.end !== '' && <UpNext />}
+              <RoundedCard onPress={() => { navigation.navigate('Manage'); }} color="blue" caret title="Manage Courses" />
+              <RoundedCard onPress={() => { navigation.navigate('Search'); }} color="blue" caret title="Course Search" />
+            </Animatable.View>
+          </SafeAreaView>
+        </ScrollView>
+        <UpNextOverlay expanded={overlayVisible} />
+      </React.Fragment>
+    );
+  }
 }

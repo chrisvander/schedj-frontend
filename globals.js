@@ -14,7 +14,7 @@ export default {
     registration: `${server}/feed/registration?term=`,
     holds: `${server}/exists_hold`,
     fetch: `${server}/fetch?url=`,
-    schedule_weekly: `${server}/schedule`,
+    schedule_weekly: `${server}/schedule_mock`,
     class_info: `${server}/class_info?crn=`,
     grades: `${server}/grades`,
   },

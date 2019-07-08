@@ -23,7 +23,10 @@ export default class ProfileScreen extends React.Component {
   componentWillMount() {
     this.setState({ loaded: false, gpa: '' });
     if (globals.GRADES.loaded) this.setState({ gpa: globals.GRADES.gpa, loaded: true });
-    else EventRegister.addEventListener('load_grades', data => this.setState({ gpa: data.gpa, loaded: true }));
+    else EventRegister.addEventListener('load_grades', (data) => {
+      if (data) this.setState({ gpa: data.gpa, loaded: true });
+      else globals.fetchGrades();
+    });
   }
 
   componentWillUnmount() {
@@ -31,10 +34,11 @@ export default class ProfileScreen extends React.Component {
   }
 
   render() {
-    const { navigation, loaded, gpa } = this.state;
+    const { loaded, gpa } = this.state;
+    const { navigation } = this.props;
     return (
       <React.Fragment>
-        <LargeNavBar navigation={navigation} title="Profile" />
+        <LargeNavBar shadow navigation={navigation} title="Profile" />
         <ScrollView style={{ padding: 16, paddingTop: 30, flexDirection: 'column' }}>
           <RoundedCard
             style={[styles.gradesCard]}

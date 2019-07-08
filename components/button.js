@@ -8,6 +8,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#2699FB',
     marginTop: 16,
     marginBottom: 16,
+    alignItems: 'center', 
+    justifyContent: 'center',
   },
   button: {
     padding: 16.5,
