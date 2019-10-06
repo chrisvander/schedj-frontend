@@ -142,7 +142,7 @@ function makeGrid({ clinfo, colors }) {
       </Row>
       <Row style={{ height: 110, width: '100%', padding: 15 }}>
         <Col>
-          <SButton 
+          <SButton
             onPress={() => {
               EventRegister.emit('schedule_breakdown');
             }}

@@ -68,7 +68,7 @@ function getNextClass() {
   return null;
 }
 
-export default (term, reject) => {
+export default () => {
   globals.get_class_info = async (cl) => {
     if (globals.SCHEDULE.loaded) return globals.SCHEDULE.next_class;
     const resJson = await fetch(globals.ROUTES.class_info + cl.CRN)

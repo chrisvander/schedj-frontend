@@ -50,6 +50,9 @@ const FeedStack = createStackNavigator({
   },
   Search: {
     screen: Search,
+    navigationOptions: {
+      header: null,
+    },
   },
 }, navOptions);
 
