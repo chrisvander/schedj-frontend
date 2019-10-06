@@ -99,8 +99,8 @@ export default () => {
     .then(res => res.json())
     .then((resJson) => {
       globals.GRADES = resJson;
+      globals.GRADES.gpa = parseFloat(globals.GRADES.gpa);
       globals.GRADES.loaded = true;
-      globals.GRADES.gpa = calculateGPA(globals.GRADES);
       EventRegister.emit('load_grades', globals.GRADES);
     })
     .catch(() => {
