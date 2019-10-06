@@ -4,6 +4,7 @@ import moment from 'moment';
 import { AsyncStorage } from 'react-native';
 import globals from '../globals';
 import translateTerm from './translate_term';
+import * as settings from './settings';
 
 const storeSave = (key, obj) => {
   try {
@@ -114,6 +115,12 @@ export default (term, reject) => {
     })
     .catch(() => {
       EventRegister.emit('load_holds', false);
+    });
+
+  settings.get()
+    .then((res) => {
+      globals.SETTINGS = res;
+      globals.SETTINGS.loaded = true;
     });
 
   const promises = [];

@@ -1,4 +1,4 @@
-import { SecureStore } from 'expo';
+import * as SecureStore from 'expo-secure-store';
 import { EventRegister } from 'react-native-event-listeners';
 import globals from '../globals';
 import getData from '../data/import_data';

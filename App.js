@@ -1,5 +1,5 @@
 import React from 'react';
-import { Font } from 'expo';
+import * as Font from 'expo-font';
 import {
   Button, Text, View, ActivityIndicator, StyleSheet, StatusBar,
 } from 'react-native';
@@ -116,6 +116,7 @@ export default class App extends React.Component {
       })
       .catch((err) => {
         this.setState({ checkedAuth: true, isConnected: false, error: err.toString() });
+        console.error(err);
       });
   }
 

@@ -1,8 +1,10 @@
 import env from './env';
-
+const port = `:${env.server.port}`;
 const server = env.server.local
-  ? `http://localhost:${env.server.port}`
-  : `http://${env.server.server_ip}:${env.server.port}`;
+  ? `http${env.server.https ? 's' : ''}://localhost${port}`
+  : `http${env.server.https ? 's' : ''}://${env.server.server_ip}${env.server.need_port ? port : ''}`;
+  
+  console.log(server);
 
 export default {
   SERVER: server,
@@ -21,6 +23,11 @@ export default {
   SCHEDULE: {
     loaded: false,
   },
-  GRADES: {},
+  GRADES: {
+    loaded: false,
+  },
+  SETTINGS: {
+    loaded: false,
+  },
   HOLDS: false,
 };
