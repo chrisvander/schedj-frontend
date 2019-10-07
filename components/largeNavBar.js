@@ -40,8 +40,6 @@ const styles = StyleSheet.create({
   back: {
     width: 20,
     height: 20,
-    marginTop: 4,
-    marginLeft: 16,
   },
 });
 
@@ -69,7 +67,7 @@ class LargeNavBar extends React.Component {
 
   render() {
     const {
-      shadow, fixed, gearHidden, preTitle, title, children, backBtn,
+      shadow, fixed, gearHidden, preTitle, title, children, backBtn, rightBtn,
     } = this.props;
     let shadowInfo = { shadowOpacity: 0.16, shadowRadius: 10 };
     if (!shadow) shadowInfo = { shadowOpacity: 0.0 };
@@ -86,7 +84,16 @@ class LargeNavBar extends React.Component {
         >
           <SafeAreaView>
             {backBtn && (
-              <View style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginTop: 6,
+                  marginLeft: 16,
+                  marginRight: 16,
+                }}
+              >
                 <TouchableOpacity onPress={this.back}>
                   <Image
                     style={[styles.back]}
@@ -95,6 +102,7 @@ class LargeNavBar extends React.Component {
                     resizeMode="cover"
                   />
                 </TouchableOpacity>
+                {rightBtn}
               </View>
             )}
             <View style={[styles.largeNavBarView]}>
