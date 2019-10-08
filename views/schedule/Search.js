@@ -22,11 +22,15 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontSize: 30,
   },
-  dropBtn: {
-  },
   dropBtnText: {
     fontSize: FN(20),
     color: '#2699FB',
+  },
+  dropdown: {
+
+  },
+  dropdownText: {
+    fontSize: FN(18),
   },
 });
 
@@ -50,8 +54,12 @@ export default class GradesScreen extends React.PureComponent {
       const selectedTerm = termsObj[0];
       this.setState({ terms: termsObj, selectedTerm, loading: false });
     } catch (err) {
-      console.log("Error fetching data-----------", err);
+      console.error('Error fetching data-----------', err);
     }
+  }
+
+  setTerm = (term) => {
+    this.setState({ selectedTerm: term });
   }
 
   searchBar = () => (
@@ -93,13 +101,14 @@ export default class GradesScreen extends React.PureComponent {
       >
         <View style={{ flexDirection: 'row' }}>
           <ModalDropdown
-            ref={(dropdown) => { this.dropdown = dropdown }}
+            ref={(dropdown) => { this.dropdown = dropdown; }}
             defaultIndex={0}
             defaultValue={opts[0]}
             options={opts}
-            style={[styles.dropBtn]}
             textStyle={[styles.dropBtnText]}
-            onSelect={index => this.setState({ selectedTerm: terms[index] })}
+            dropdownStyle={[styles.dropdown]}
+            dropdownTextStyle={[styles.dropdownText]}
+            onSelect={index => this.setTerm(terms[index])}
           />
           <Image
             source={downArrowIcon}
@@ -107,7 +116,7 @@ export default class GradesScreen extends React.PureComponent {
               width: 14,
               height: 9,
               marginLeft: 6,
-              marginTop: 5,
+              marginTop: 7,
             }}
           />
         </View>

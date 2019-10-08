@@ -89,9 +89,9 @@ class LargeNavBar extends React.Component {
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  marginTop: 6,
-                  marginLeft: 16,
-                  marginRight: 16,
+                  marginTop: 10,
+                  marginLeft: 10,
+                  marginRight: 10,
                 }}
               >
                 <TouchableOpacity onPress={this.back}>

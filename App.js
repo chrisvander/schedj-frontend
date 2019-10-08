@@ -1,17 +1,18 @@
 import React from 'react';
-import * as Font from 'expo-font';
 import {
   Button, Text, View, ActivityIndicator, StyleSheet, StatusBar,
 } from 'react-native';
 import { createAppContainer, createStackNavigator } from 'react-navigation';
 import { EventRegister } from 'react-native-event-listeners';
 import DropdownAlert from 'react-native-dropdownalert';
+import * as Font from 'expo-font';
 import { Tabs } from './navigation';
 import { Login, Settings } from './views';
 import { isSignedIn, handshake } from './auth';
 import { LoginView } from './components';
 
 const helveticaFont = require('./assets/fonts/HelveticaNeue.ttf');
+const arialFont = require('./assets/fonts/Arial.ttf');
 
 const AuthStack = authorized => createStackNavigator({
   Home: {
@@ -84,6 +85,7 @@ export default class App extends React.Component {
     this.loadNetwork();
     await Font.loadAsync({
       'Helvetica Neue': helveticaFont,
+      'Arial': arialFont,
     });
     this.setState({ fontLoaded: true });
     EventRegister.addEventListener('begin_logout', () => {

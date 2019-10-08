@@ -12,7 +12,7 @@ import { EventRegister } from 'react-native-event-listeners';
 import * as Animatable from 'react-native-animatable';
 import { FN } from '../styles';
 import {
-  LargeNavBar, RoundedCard, UpNext, UpNextOverlay
+  LargeNavBar, RoundedCard, UpNext, UpNextOverlay,
 } from '../components';
 import globals from '../globals';
 
