@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
+import { Appearance } from 'react-native-appearance';
 import { LargeNavBar } from '../../components';
 import globals from '../../globals';
 import { FN } from '../../styles';
@@ -21,6 +22,7 @@ const styles = StyleSheet.create({
     color: '#2699FB',
     textAlign: 'left',
     fontSize: 30,
+    flex: 1,
   },
   dropBtnText: {
     fontSize: FN(20),
@@ -47,6 +49,10 @@ export default class GradesScreen extends React.PureComponent {
   }
 
   async componentDidMount() {
+    this.setState({ dark: Appearance.getColorScheme() === 'dark' });
+    this.appearance = Appearance.addChangeListener(({ colorScheme }) => {
+      this.setState({ dark: colorScheme === 'dark' });
+    });
     try {
       // Assign the promise unresolved first then get the data using the json method.
       const termsApiRequest = await fetch(yacs.terms);
@@ -58,41 +64,50 @@ export default class GradesScreen extends React.PureComponent {
     }
   }
 
+  componentWillUnmount() {
+    this.appearance.remove();
+  }
+
   setTerm = (term) => {
     this.setState({ selectedTerm: term });
   }
 
-  searchBar = () => (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        paddingBottom: 10,
-      }}
-    >
-      <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-        <Image
-          defaultSource={searchIcon}
-          source={searchIcon}
-          style={{ width: 20, height: 20, marginRight: 20 }}
-        />
-        <TextInput
-          placeholderTextColor="#BCE0FD"
-          placeholder="Search"
-          autoCorrect={false}
-          returnKeyType="search"
-          style={[styles.searchBar]}
-          ref={(input) => { this.passwordField = input; }}
-          onSubmitEditing={() => {}}
-          onChangeText={searchTerm => this.setState({ searchTerm })}
-        />
+  searchBar = () => {
+    const { dark } = this.state;
+    return (
+      <View
+        style={{
+          position: 'absolute',
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+          paddingBottom: 10,
+          width: '100%',
+        }}
+      >
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+          <Image
+            defaultSource={searchIcon}
+            source={searchIcon}
+            style={{ width: 20, height: 20, marginRight: 20 }}
+          />
+          <TextInput
+            placeholderTextColor={dark ? '#5c6e7d' : '#BCE0FD'}
+            placeholder="Search"
+            autoCorrect={false}
+            returnKeyType="search"
+            style={[styles.searchBar]}
+            ref={(input) => { this.passwordField = input; }}
+            onSubmitEditing={() => {}}
+            onChangeText={searchTerm => this.setState({ searchTerm })}
+          />
+        </View>
       </View>
-    </View>
-  )
+    );
+  }
 
   picker = () => {
-    const { terms, loading } = this.state;
+    const { terms, loading, dark } = this.state;
     if (loading) return null;
     const opts = terms.map(v => v.attributes.longname);
     return (
@@ -125,18 +140,19 @@ export default class GradesScreen extends React.PureComponent {
   }
 
   render() {
-    const { loading } = this.state;
+    const { loading, dark } = this.state;
     return (
       <React.Fragment>
         <LargeNavBar gearHidden shadow backBtn rightBtn={this.picker()}>
           {this.searchBar()}
         </LargeNavBar>
-
-        {loading && (
-          <View style={{ flex: 1, alignItems: 'center' }}>
-            <Text> Loading... </Text>
-          </View>
-        )}
+        <View style={{ flex: 1, backgroundColor: dark ? 'black' : '' }}>
+          {loading && (
+            <View style={{ flex: 1, alignItems: 'center' }}>
+              <Text> Loading... </Text>
+            </View>
+          )}
+        </View>
       </React.Fragment>
     );
   }

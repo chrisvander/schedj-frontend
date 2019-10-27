@@ -248,6 +248,10 @@ export default class ScheduleScreen extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    EventRegister.removeEventListener('load_schedule');
+  }
+
   render() {
     const { loading, schedule } = this.state;
     const { navigation } = this.props;

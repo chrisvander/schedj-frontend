@@ -35,11 +35,8 @@ export default class ProfileScreen extends React.Component {
   }
 
   componentWillUnmount() {
-    this.appearance.remove();
-  }
-
-  componentWillUnmount() {
     EventRegister.removeEventListener('load_grades');
+    this.appearance.remove();
   }
 
   render() {
@@ -48,7 +45,7 @@ export default class ProfileScreen extends React.Component {
     return (
       <React.Fragment>
         <LargeNavBar shadow navigation={navigation} title="Profile" />
-        <ScrollView style={{ padding: 16, paddingTop: 30, flexDirection: 'column', backgroundColor: dark ? 'black' : 'white' }}>
+        <ScrollView style={{ padding: 16, paddingTop: 30, flexDirection: 'column', backgroundColor: dark ? 'black' : '' }}>
           {loaded && (
             <RoundedCard
               style={[styles.gradesCard]}
