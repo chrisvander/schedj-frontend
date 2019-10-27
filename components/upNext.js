@@ -1,32 +1,34 @@
 import React from 'react';
 import {
-  StyleSheet, Text, View, ScrollView, ActivityIndicator,
+  StyleSheet, Text, View, ScrollView,
 } from 'react-native';
 import { EventRegister } from 'react-native-event-listeners';
 import * as Animatable from 'react-native-animatable';
+import { Appearance } from 'react-native-appearance';
 import RoundedCard, { RoundedCardTitle } from './roundedCard';
 import Drawer from './drawer';
 import { FN } from '../styles';
 import globals from '../globals';
 import translateTitle from '../data/translate_course_title';
 
-const styles = StyleSheet.create({
+const styles = dark => StyleSheet.create({
   overlay: {
     position: 'absolute',
     height: 400,
     width: '100%',
-    backgroundColor: 'white',
+    backgroundColor: dark ? 'black' : 'white',
     bottom: 0,
   },
   titleText: {
     fontSize: FN(26),
     fontWeight: 'bold',
     alignSelf: 'stretch',
+    color: dark ? 'white' : 'black',
   },
   classText: {
     fontSize: FN(18),
     fontFamily: 'Arial',
-    color: '#575757',
+    color: dark ? '#777777' : '#575757',
     paddingTop: FN(10),
   },
   tagContainer: {
@@ -34,7 +36,7 @@ const styles = StyleSheet.create({
     marginTop: 11,
   },
   tag: {
-    backgroundColor: '#EFEFEF',
+    backgroundColor: dark ? '#343434' : '#EFEFEF',
     padding: FN(8),
     borderRadius: 10,
     marginRight: FN(8),
@@ -47,11 +49,28 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Tag = ({ children }) => (
-  <View style={[styles.tag]}>
-    <Text style={[styles.tagText]}>{children}</Text>
-  </View>
-);
+export class Tag extends React.Component {
+  componentWillMount() {
+    this.setState({ dark: Appearance.getColorScheme() === 'dark' });
+    this.appearance = Appearance.addChangeListener(({ colorScheme }) => {
+      this.setState({ dark: colorScheme === 'dark' });
+    });
+  }
+
+  componentWillUnmount() {
+    this.appearance.remove();
+  }
+
+  render() {
+    const { children } = this.props;
+    const { dark } = this.state;
+    return (
+      <View style={[styles(dark).tag]}>
+        <Text style={[styles(dark).tagText]}>{children}</Text>
+      </View>
+    );
+  }
+}
 
 export default class UpNext extends React.Component {
   constructor(props) {
@@ -65,12 +84,17 @@ export default class UpNext extends React.Component {
   }
 
   componentWillMount() {
+    this.setState({ dark: Appearance.getColorScheme() === 'dark' });
+    this.appearance = Appearance.addChangeListener(({ colorScheme }) => {
+      this.setState({ dark: colorScheme === 'dark' });
+    });
     if (globals.SCHEDULE.loaded) this.loadInfo();
     else EventRegister.addEventListener('load_schedule', () => this.loadInfo());
   }
 
   componentWillUnmount() {
     EventRegister.removeEventListener('load_schedule');
+    this.appearance.remove();
   }
 
   loadInfo() {
@@ -86,15 +110,15 @@ export default class UpNext extends React.Component {
 
   render() {
     const {
-      className, loading, tags,
+      className, loading, tags, dark,
     } = this.state;
     if (className) {
       return (
         <RoundedCard onPress={() => EventRegister.emit('toggle_overlay')} style={loading ? { flexDirection: 'row', justifyContent: 'center' } : {}}>
           <React.Fragment>
-            <RoundedCardTitle>Up Next</RoundedCardTitle>
-            <Text style={[styles.classText]}>{className ? translateTitle(className) : ''}</Text>
-            <View style={[styles.tagContainer]}>
+            <RoundedCardTitle style={{ color: dark ? 'white' : 'black' }}>Up Next</RoundedCardTitle>
+            <Text style={[styles(dark).classText]}>{className ? translateTitle(className) : ''}</Text>
+            <View style={[styles(dark).tagContainer]}>
               {tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
             </View>
           </React.Fragment>
@@ -103,25 +127,25 @@ export default class UpNext extends React.Component {
     }
     return !loading ? (
       <RoundedCard>
-        <RoundedCardTitle>Up Next</RoundedCardTitle>
-        <Text style={[styles.classText]}>You're done with classes today.</Text>
+        <RoundedCardTitle style={{ color: dark ? 'white' : 'black' }}>Up Next</RoundedCardTitle>
+        <Text style={[styles(dark).classText]}>You're done with classes today.</Text>
       </RoundedCard>
     ) : (
       <Animatable.View animation="fadeIn">
         <RoundedCard>
           <RoundedCardTitle>Up Next</RoundedCardTitle>
-          <Text style={[styles.classText]}>Loading...</Text>
+          <Text style={[styles(dark).classText]}>Loading...</Text>
         </RoundedCard>
       </Animatable.View>
     );
   }
 }
 
-export const ClassCard = ({ clinfo }) => (
+export const ClassCard = ({ clinfo, dark }) => (
   <RoundedCard style={{ flexDirection: 'row', justifyContent: 'left' }}>
     <React.Fragment>
-      <Text style={[styles.classText, { fontWeight: 'bold', paddingTop: 0 }]}>{translateTitle(clinfo.name)}</Text>
-      <View style={[styles.tagContainer]}>
+      <Text style={[styles(dark).classText, { fontWeight: 'bold', paddingTop: 0 }]}>{translateTitle(clinfo.name)}</Text>
+      <View style={[styles(dark).tagContainer]}>
         <Tag>{clinfo.location}</Tag>
         <Tag>{clinfo.start_time}</Tag>
       </View>
@@ -140,10 +164,18 @@ export class UpNextOverlay extends React.Component {
   componentWillMount() {
     if (globals.SCHEDULE.loaded) this.setState({ loaded: true });
     else EventRegister.addEventListener('load_schedule', () => this.setState({ loaded: true }));
+    this.setState({ dark: Appearance.getColorScheme() === 'dark' });
+    this.appearance = Appearance.addChangeListener(({ colorScheme }) => {
+      this.setState({ dark: colorScheme === 'dark' });
+    });
+  }
+
+  componentWillUnmount() {
+    this.appearance.remove();
   }
 
   render() {
-    const { loaded } = this.state;
+    const { loaded, dark } = this.state;
     if (loaded) {
       return (
         <Drawer offset="100%" event="toggle_overlay" expandedOffset={FN(150)}>
@@ -156,7 +188,7 @@ export class UpNextOverlay extends React.Component {
             }}
           >
             <RoundedCardTitle style={{ fontSize: FN(36), marginBottom: 16 }}>Today</RoundedCardTitle>
-            {globals.SCHEDULE.today.map(item => <ClassCard key={item.CRN} clinfo={item} />)}
+            {globals.SCHEDULE.today.map(item => <ClassCard key={item.CRN} clinfo={item} dark={dark} />)}
           </ScrollView>
         </Drawer>
       );

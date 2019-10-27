@@ -8,14 +8,15 @@ import {
   Text,
   Image,
 } from 'react-native';
+import { Appearance } from 'react-native-appearance';
 import { FN } from '../styles';
 
 const rightCaret = require('../assets/icons/right_caret.png');
 
-const cardStyle = StyleSheet.create({
+const cardStyle = dark => StyleSheet.create({
   view: {
     borderRadius: 20,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: dark ? '#272727' : '#FFFFFF',
     width: '100%',
     elevation: 6,
     padding: FN(18),
@@ -27,7 +28,7 @@ const cardStyle = StyleSheet.create({
     marginBottom: 17,
   },
   container: {
-    shadowColor: '#000000',
+    shadowColor: dark ? '#171717' : '#000000',
     shadowOpacity: 0.16,
     shadowRadius: 10,
     shadowOffset: {
@@ -42,12 +43,12 @@ const cardStyle = StyleSheet.create({
   regButton: {
     width: FN(45),
     height: FN(45),
-    backgroundColor: 'white',
+    backgroundColor: dark ? '#444444' : '#FFFFFF',
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#F1F9FF',
+    borderColor: dark ? '#343434' : '#F1F9FF',
   },
   regButtonImg: {
     width: 10,
@@ -109,43 +110,58 @@ class Animation extends React.Component {
   }
 }
 
-const caretComp = () => (
-  <View style={[cardStyle.regButton]}>
+const caretComp = dark => (
+  <View style={[cardStyle(dark).regButton]}>
     <Image
-      style={[cardStyle.regButtonImg]}
+      style={[cardStyle(dark).regButtonImg]}
       source={rightCaret}
       resizeMode="cover"
     />
   </View>
 );
 
-export default
-function RoundedCard({
-  onPress, containerStyle, children, caret, right, style, color, title,
-}) {
-  return (
-    <Animation onPress={onPress}>
-      <View style={[
-        cardStyle.container,
-        containerStyle,
-      ]}
-      >
+export default class RoundedCard extends React.Component {
+  componentWillMount() {
+    this.setState({ dark: Appearance.getColorScheme() === 'dark' });
+    this.appearance = Appearance.addChangeListener(({ colorScheme }) => {
+      this.setState({ dark: colorScheme === 'dark' });
+    });
+  }
+
+  componentWillUnmount() {
+    this.appearance.remove();
+  }
+
+  render() {
+    const {
+      onPress, containerStyle, children, caret, right, style, color, title,
+    } = this.props;
+    const { dark } = this.state;
+    return (
+      <Animation onPress={onPress}>
         <View style={[
-          cardStyle.view,
-          style,
-          color === 'blue' ? { backgroundColor: '#CCEAFF' } : {},
+          cardStyle(dark).container,
+          containerStyle,
         ]}
         >
-          <View>
-            {title
-              ? <RoundedCardTitle>{title}</RoundedCardTitle>
-              : <React.Fragment />}
-            {children}
+          <View style={[
+            cardStyle(dark).view,
+            style,
+            color === 'blue' ? { backgroundColor: dark ? '#335166' : '#CCEAFF' } : {},
+          ]}
+          >
+            <View>
+              {title
+                ? <RoundedCardTitle style={{ color: dark ? 'white' : 'black' }}>{title}</RoundedCardTitle>
+                : <React.Fragment />}
+              {children}
+            </View>
+            {caret && caretComp(dark)}
+            {right}
           </View>
-          {caret && caretComp()}
-          {right}
         </View>
-      </View>
-    </Animation>
-  );
+      </Animation>
+    );
+  }
 }
+

@@ -104,6 +104,7 @@ export default () => {
       EventRegister.emit('load_grades', globals.GRADES);
     })
     .catch(() => {
+      globals.GRADES.loaded = true;
       EventRegister.emit('load_grades', null);
     });
   globals.fetchGrades();

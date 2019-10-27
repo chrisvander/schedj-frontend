@@ -3,11 +3,12 @@ import {
   Text, View, Image, TouchableOpacity, StyleSheet,
 } from 'react-native';
 import { SafeAreaView, withNavigation } from 'react-navigation';
+import { Appearance } from 'react-native-appearance';
 
 const gearIcon = require('../assets/icons/gear.png');
 const backIcon = require('../assets/icons/backBtn.png');
 
-const styles = StyleSheet.create({
+const stylesFunc = dark => StyleSheet.create({
   subTitle: {
     fontSize: 14,
     fontFamily: 'System',
@@ -18,13 +19,14 @@ const styles = StyleSheet.create({
     fontSize: 34,
     fontFamily: 'System',
     fontWeight: 'bold',
+    color: dark ? 'white' : 'black',
   },
   largeNavBarView: {
     height: 100,
     paddingLeft: 16,
     paddingBottom: 6,
     justifyContent: 'space-between',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: dark ? 'black' : 'white',
     flexDirection: 'row',
   },
   gearContainer: {
@@ -55,6 +57,17 @@ const styles = StyleSheet.create({
 // children (JSX) replaces title/pretitle contents
 
 class LargeNavBar extends React.Component {
+  componentWillMount() {
+    this.setState({ dark: Appearance.getColorScheme() === 'dark' });
+    this.appearance = Appearance.addChangeListener(({ colorScheme }) => {
+      this.setState({ dark: colorScheme === 'dark' });
+    });
+  }
+
+  componentWillUnmount() {
+    this.appearance.remove();
+  }
+
   settings = () => {
     const { navigation } = this.props;
     navigation.navigate('Settings');
@@ -69,8 +82,10 @@ class LargeNavBar extends React.Component {
     const {
       shadow, fixed, gearHidden, preTitle, title, children, backBtn, rightBtn,
     } = this.props;
+    const { dark } = this.state;
     let shadowInfo = { shadowOpacity: 0.16, shadowRadius: 10 };
     if (!shadow) shadowInfo = { shadowOpacity: 0.0 };
+    const styles = stylesFunc(dark);
     return (
       <React.Fragment>
         <View style={[
@@ -80,7 +95,7 @@ class LargeNavBar extends React.Component {
               position: 'absolute', top: 0, left: 0, right: 0, zIndex: 1,
             }
             : {},
-          { backgroundColor: '#FFFFFF' }]}
+          { backgroundColor: dark ? 'black' : '#FFFFFF' }]}
         >
           <SafeAreaView>
             {backBtn && (
@@ -92,6 +107,7 @@ class LargeNavBar extends React.Component {
                   marginTop: 10,
                   marginLeft: 10,
                   marginRight: 10,
+                  backgroundColor: dark ? 'black' : 'white',
                 }}
               >
                 <TouchableOpacity onPress={this.back}>

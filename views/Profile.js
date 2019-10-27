@@ -3,6 +3,7 @@ import { EventRegister } from 'react-native-event-listeners';
 import {
   Text, ScrollView, StyleSheet,
 } from 'react-native';
+import { Appearance } from 'react-native-appearance';
 import { LargeNavBar, RoundedCard } from '../components';
 import globals from '../globals';
 import { FN } from '../styles';
@@ -22,11 +23,19 @@ const styles = StyleSheet.create({
 export default class ProfileScreen extends React.Component {
   componentWillMount() {
     this.setState({ loaded: false, gpa: '' });
-    if (globals.GRADES.loaded) this.setState({ gpa: globals.GRADES.gpa, loaded: true });
+    if (globals.GRADES.loaded) this.setState({ gpa: globals.GRADES.gpa, loaded: Object.keys(globals.GRADES).length > 1 });
     else EventRegister.addEventListener('load_grades', (data) => {
-      if (data) this.setState({ gpa: data.gpa, loaded: true });
+      if (data) this.setState({ gpa: data.gpa, loaded: Object.keys(data).length > 1 });
       else globals.fetchGrades();
     });
+    this.setState({ dark: Appearance.getColorScheme() === 'dark' });
+    this.appearance = Appearance.addChangeListener(({ colorScheme }) => {
+      this.setState({ dark: colorScheme === 'dark' });
+    });
+  }
+
+  componentWillUnmount() {
+    this.appearance.remove();
   }
 
   componentWillUnmount() {
@@ -34,27 +43,29 @@ export default class ProfileScreen extends React.Component {
   }
 
   render() {
-    const { loaded, gpa } = this.state;
+    const { loaded, gpa, dark } = this.state;
     const { navigation } = this.props;
     return (
       <React.Fragment>
         <LargeNavBar shadow navigation={navigation} title="Profile" />
-        <ScrollView style={{ padding: 16, paddingTop: 30, flexDirection: 'column' }}>
-          <RoundedCard
-            style={[styles.gradesCard]}
-            color="blue"
-            caret
-            title="Grades"
-            onPress={() => navigation.navigate('Grades')}
-          >
-            {loaded && (
-            <Text style={{ fontSize: 18 }}>
-              Overall GPA:
-              {' '}
-              {gpa}
-            </Text>
-            )}
-          </RoundedCard>
+        <ScrollView style={{ padding: 16, paddingTop: 30, flexDirection: 'column', backgroundColor: dark ? 'black' : 'white' }}>
+          {loaded && (
+            <RoundedCard
+              style={[styles.gradesCard]}
+              color="blue"
+              caret
+              title="Grades"
+              onPress={() => navigation.navigate('Grades')}
+            >
+              {loaded && (
+              <Text style={{ fontSize: 18, color: dark ? '#DCDCDC' : '#000000' }}>
+                Overall GPA:
+                {' '}
+                {gpa}
+              </Text>
+              )}
+            </RoundedCard>
+          )}
         </ScrollView>
       </React.Fragment>
     );

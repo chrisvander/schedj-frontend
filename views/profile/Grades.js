@@ -5,6 +5,7 @@ import {
 import { EventRegister } from 'react-native-event-listeners';
 import DropdownAlert from 'react-native-dropdownalert';
 import Accordion from 'react-native-collapsible/Accordion';
+import { Appearance } from 'react-native-appearance';
 import {
   Tag, RoundedCardTitle,
 } from '../../components';
@@ -13,6 +14,7 @@ import { FN } from '../../styles';
 import globals from '../../globals.js';
 import translate_term from '../../data/translate_term';
 import translate_course from '../../data/translate_course_title';
+
 
 function gradeColor(attempted, points) {
   if (attempted == 0) return '#2699FB';
@@ -30,6 +32,10 @@ export default class GradesScreen extends React.Component {
     this.setState({
       loaded: false, failed: false, gpa: '', activeSections: [0], grades: [],
     });
+    this.setState({ dark: Appearance.getColorScheme() === 'dark' });
+    this.appearance = Appearance.addChangeListener(({ colorScheme }) => {
+      this.setState({ dark: colorScheme === 'dark' });
+    });
     if (globals.GRADES.loaded) this.loadInfo(globals.GRADES);
     else EventRegister.addEventListener('load_grades', data => this.loadInfo(data));
   }
@@ -37,11 +43,15 @@ export default class GradesScreen extends React.Component {
   componentDidMount() {
   }
 
+  componentWillUnmount() {
+    this.appearance.remove();
+  }
+
   renderHeader = (section, index, isActive) => (
     <View style={{
-      backgroundColor: '#EFEFEF',
+      backgroundColor: this.state.dark ? '#171717' : '#EFEFEF',
       padding: 15,
-      borderBottomColor: '#D0D0D0',
+      borderBottomColor: this.state.dark ? '#373737' : '#D0D0D0',
       borderBottomWidth: 1,
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -71,7 +81,7 @@ export default class GradesScreen extends React.Component {
     const gpa = Number((earned / total).toFixed(2));
     return (
       <View style={{
-        backgroundColor: '#F4FAFF',
+        backgroundColor: this.state.dark ? '#171000' : '#F4FAFF',
         padding: FN(20),
       }}
       >
@@ -107,10 +117,10 @@ GPA
             }}
           >
             <View style={{ width: '80%' }}>
-              <Text numberOfLines={1} style={{ fontSize: FN(17), fontWeight: 'bold', width: '100%' }}>{translate_course(data.TITLE)}</Text>
-              <Text style={{ fontSize: FN(14), color: '#717171', paddingTop: 2 }}>{`${data.SUBJ} ${data.COURSE}`}</Text>
+              <Text numberOfLines={1} style={{ fontSize: FN(17), color: this.state.dark ? 'white' : '#717171', fontWeight: 'bold', width: '100%' }}>{translate_course(data.TITLE)}</Text>
+              <Text style={{ fontSize: FN(14), color: this.state.dark ? '#DADADA' : '#717171', paddingTop: 2 }}>{`${data.SUBJ} ${data.COURSE}`}</Text>
               <Text style={{
-                fontSize: FN(16), color: '#717171', fontWeight: 'bold', paddingTop: 2,
+                fontSize: FN(16), fontWeight: 'bold', color: this.state.dark ? '#DADADA' : '#717171', paddingTop: 2,
               }}
               >
                 {`${Math.floor(data.ATTEMPTED)} credits`}
@@ -138,7 +148,7 @@ GPA
   };
 
   loadInfo(data) {
-    if (data) {
+    if (Object.keys(data).length > 1) {
       const grades = [];
       for (entry in data) if (entry != 'loaded' && entry != 'gpa') grades.push({ term: translate_term(entry), content: data[entry] });
       grades.sort().reverse();
@@ -149,19 +159,23 @@ GPA
 
   render() {
     const {
-      loaded, failed, gpa, grades, activeSections,
+      loaded, failed, gpa, grades, activeSections, dark,
     } = this.state;
-    if (this.state.failed) this.dropdown.alertWithType('error', 'Failed to load', "Looks like we're having trouble pulling up your grades.");
     return (
       <React.Fragment>
-        {!loaded && (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <ActivityIndicator />
-        </View>
+        {failed && (
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: dark ? 'black' : 'white' }}>
+            <Text style={{ color: dark ? 'white' : 'black' }}>Failed to load your grades.</Text>
+          </View>
+        )}
+        {!loaded && !failed && (
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: dark ? 'black' : 'white' }}>
+            <ActivityIndicator />
+          </View>
         )}
         {loaded && !failed
           && (
-          <ScrollView>
+          <ScrollView style={{ backgroundColor: dark ? 'black' : 'white' }}>
             <View style={{
               padding: FN(15),
               paddingTop: FN(20),
@@ -170,7 +184,7 @@ GPA
               justifyContent: 'space-between',
             }}
             >
-              <RoundedCardTitle>Overall</RoundedCardTitle>
+              <RoundedCardTitle style={{ color: dark ? 'white' : 'black' }}>Overall</RoundedCardTitle>
               <Tag>
                 {Number.parseFloat(gpa).toFixed(2)}
                 {' '}
@@ -186,7 +200,7 @@ GPA
             />
           </ScrollView>
           )}
-        <DropdownAlert ref={ref => this.dropdown = ref} inactiveStatusBarStyle="default" />
+        <DropdownAlert ref={(ref) => { this.dropdown = ref; }} inactiveStatusBarStyle="default" />
       </React.Fragment>
     );
   }

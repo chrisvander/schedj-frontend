@@ -5,6 +5,7 @@ import { StyleSheet, Image } from 'react-native';
 import { Feed, Schedule, Profile } from '../views';
 import { Grades } from '../views/profile/index';
 import { Manage, Search } from '../views/schedule/index';
+import { Appearance } from 'react-native-appearance';
 
 const s = StyleSheet.create({
   tabIcon: {
@@ -13,18 +14,22 @@ const s = StyleSheet.create({
   },
 });
 
-const navOptions = {
+const navOptions = dark => ({
   defaultNavigationOptions: {
-    headerTintColor: '#2699FB',
+    headerTintColor: dark ? 'white' : '#2699FB',
     headerTitleStyle: {
       fontWeight: 'bold',
       fontFamily: 'Helvetica Neue',
       fontSize: 14,
     },
+    headerStyle: {
+      backgroundColor: dark ? 'black' : 'white',
+      borderBottomColor: '#373737',
+    },
   },
-};
+});
 
-const ProfileStack = createStackNavigator({
+const ProfileStack = dark => createStackNavigator({
   Profile: {
     screen: Profile,
     navigationOptions: {
@@ -35,9 +40,9 @@ const ProfileStack = createStackNavigator({
   Grades: {
     screen: Grades,
   },
-}, navOptions);
+}, navOptions(dark));
 
-const FeedStack = createStackNavigator({
+const FeedStack = dark => createStackNavigator({
   Feed: {
     screen: Feed,
     navigationOptions: {
@@ -54,13 +59,13 @@ const FeedStack = createStackNavigator({
       header: null,
     },
   },
-}, navOptions);
+}, navOptions(dark));
 
-const TabNavigator = createBottomTabNavigator(
+const TabNavigator = dark => createBottomTabNavigator(
   {
-    Feed: FeedStack,
+    Feed: FeedStack(dark),
     Schedule,
-    Profile: ProfileStack,
+    Profile: ProfileStack(dark),
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -83,11 +88,11 @@ const TabNavigator = createBottomTabNavigator(
     }),
     tabBarOptions: {
       tabBarPosition: 'bottom',
-      activeTintColor: '#FFFFFF',
-      inactiveTintColor: '#68B8FC',
+      activeTintColor: dark ? '#68B8FC' : '#FFFFFF',
+      inactiveTintColor: dark ? '#555555' : '#68B8FC',
       showLabel: false,
       style: {
-        backgroundColor: '#2699FB',
+        backgroundColor: dark ? '#171717' : '#2699FB',
       },
     },
     animationEnabled: true,

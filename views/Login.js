@@ -9,8 +9,9 @@ import {
 } from 'react-native';
 import { EventRegister } from 'react-native-event-listeners';
 import DropdownAlert from 'react-native-dropdownalert';
+import { Appearance } from 'react-native-appearance';
 import { LoginView, SButton } from '../components';
-import { LoginStyle } from '../styles';
+import { LoginStyleFunc } from '../styles';
 import { signIn } from '../auth';
 
 const sisMan = require('../assets/sis_man.png');
@@ -21,8 +22,16 @@ function dismiss() {
 
 export default class FeedScreen extends React.Component {
   componentWillMount() {
+    this.setState({ dark: Appearance.getColorScheme() === 'dark' });
+    this.appearance = Appearance.addChangeListener(({ colorScheme }) => {
+      this.setState({ dark: colorScheme === 'dark' });
+    });
     this.sis_man = (<Image style={{ marginTop: 43, marginBottom: 30 }} source={sisMan} />);
     this.setState({ username: '', password: '', loading: false });
+  }
+
+  componentWillUnmount() {
+    this.appearance.remove();
   }
 
   login() {
@@ -41,7 +50,8 @@ export default class FeedScreen extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    const { loading } = this.state;
+    const { loading, dark } = this.state;
+    const LoginStyle = LoginStyleFunc(dark);
     return (
       <React.Fragment>
         <LoginView>
@@ -49,7 +59,7 @@ export default class FeedScreen extends React.Component {
           <Text style={[LoginStyle.sisText]}>Student Information System</Text>
           <View style={[LoginStyle.textInputContainer]}>
             <TextInput
-              placeholderTextColor="#BCE0FD"
+              placeholderTextColor={dark ? '#546572' : '#BCE0FD'}
               style={[LoginStyle.textInput]}
               placeholder="RIN"
               autoCorrect={false}
@@ -62,7 +72,7 @@ export default class FeedScreen extends React.Component {
           </View>
           <View style={[LoginStyle.textInputContainer]}>
             <TextInput
-              placeholderTextColor="#BCE0FD"
+              placeholderTextColor={dark ? '#546572' : '#BCE0FD'}
               style={[LoginStyle.textInput]}
               placeholder="Password"
               autoCorrect={false}
@@ -86,7 +96,7 @@ export default class FeedScreen extends React.Component {
         { loading
           && (
           <View style={[LoginStyle.overlay]}>
-            <ActivityIndicator size="large" color="#0000ff" />
+            <ActivityIndicator size="large" color={dark ? '#aaaaff' : '#0000ff'}/>
           </View>
           )
         }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { WebBrowser } from 'expo';
+import * as WebBrowser from 'expo-web-browser';
 import {
   StyleSheet,
   SafeAreaView,
@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { EventRegister } from 'react-native-event-listeners';
 import * as Animatable from 'react-native-animatable';
+import { Appearance } from 'react-native-appearance';
 import { FN } from '../styles';
 import {
   LargeNavBar, RoundedCard, UpNext, UpNextOverlay,
@@ -18,7 +19,9 @@ import globals from '../globals';
 
 const warningAsset = require('../assets/icons/warning.png');
 
-const styles = StyleSheet.create({
+let styles;
+
+const stylesFunc = dark => StyleSheet.create({
   regSuperTitle: {
     fontFamily: 'Helvetica Neue',
     fontWeight: '500',
@@ -41,7 +44,7 @@ const styles = StyleSheet.create({
     height: 15,
   },
   holdsCard: {
-    backgroundColor: '#FF9191',
+    backgroundColor: dark ? '#880000' : '#FF9191',
     padding: FN(10),
     paddingLeft: 20,
     paddingRight: 20,
@@ -52,7 +55,7 @@ const styles = StyleSheet.create({
   },
   holdsTitle: {
     fontFamily: 'Helvetica Neue',
-    color: 'black',
+    color: dark ? 'white' : 'black',
     fontWeight: 'bold',
     fontSize: FN(23),
     lineHeight: FN(50),
@@ -67,8 +70,7 @@ const styles = StyleSheet.create({
     height: FN(50),
   },
   importantBg: {
-    marginTop: 5,
-    backgroundColor: '#DEDEDE',
+    backgroundColor: dark ? '#171717' : '#DEDEDE',
     padding: 16,
     paddingTop: 10,
     paddingBottom: 10,
@@ -81,12 +83,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const openHoldsAsync = async () => {
-  try {
-    await WebBrowser.openBrowserAsync(`${globals.ROUTES.fetch}rss/bwskoacc.P_ViewHold`);
-  } catch (err) {
-    throw new Error(err);
-  }
+const openHoldsAsync = () => {
+  fetch(globals.ROUTES.token)
+    .then(res => res.json())
+    .then(async (res) => {
+      try {
+        await WebBrowser.openBrowserAsync(`${globals.ROUTES.fetch}rss/bwskoacc.P_ViewHold&token=${res.SESSID}`);
+      } catch (err) {
+        throw new Error(err);
+      }
+    });
 };
 
 const HoldsCard = ({ holds }) => {
@@ -147,6 +153,12 @@ export default class FeedScreen extends React.Component {
   }
 
   componentWillMount() {
+    this.setState({ dark: Appearance.getColorScheme() === 'dark' });
+    styles = stylesFunc(Appearance.getColorScheme() === 'dark');
+    this.appearance = Appearance.addChangeListener(({ colorScheme }) => {
+      this.setState({ dark: colorScheme === 'dark' });
+      styles = stylesFunc(colorScheme === 'dark');
+    });
     try {
       this.setState({
         holds: false,
@@ -161,16 +173,17 @@ export default class FeedScreen extends React.Component {
 
   componentWillUnmount() {
     EventRegister.removeEventListener('load_holds');
+    this.appearance.remove();
   }
 
   render() {
     const { navigation } = this.props;
-    const { holds, reg, overlayVisible } = this.state;
+    const { holds, reg, overlayVisible, dark } = this.state;
     return (
       <React.Fragment>
         <LargeNavBar navigation={navigation} shadow title={globals.NAME[0]} preTitle="WELCOME" />
-        <ScrollView>
-          <SafeAreaView>
+        <ScrollView style={{ backgroundColor: dark ? 'black' : 'white' }}>
+          <SafeAreaView style={{ backgroundColor: dark ? 'black' : 'white' }}>
             <Animatable.View animation="fadeIn">
               { (holds || reg)
                 && (
@@ -182,7 +195,7 @@ export default class FeedScreen extends React.Component {
                 )
               }
             </Animatable.View>
-            <Animatable.View style={{ margin: 16, marginTop: 20 }} animation="fadeIn">
+            <Animatable.View style={{ margin: 16, marginTop: 20, backgroundColor: dark ? 'black' : 'white' }} animation="fadeIn">
               { globals.SCHEDULE.end !== '' && <UpNext />}
               <RoundedCard onPress={() => { navigation.navigate('Manage'); }} color="blue" caret title="Manage Courses" />
               <RoundedCard onPress={() => { navigation.navigate('Search'); }} color="blue" caret title="Course Search" />

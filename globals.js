@@ -11,6 +11,7 @@ export default {
     login: `${server}/login`,
     logout: `${server}/logout`,
     handshake: `${server}/verify_status`,
+    token: `${server}/session_token`,
     address: `${server}/address`,
     registration: `${server}/feed/registration?term=`,
     holds: `${server}/exists_hold`,

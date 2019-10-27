@@ -1,2 +1,3 @@
-export { default as LoginStyle } from './login.js'
-export { default as FN } from './normalize.js';
+export { default as LoginStyleFunc } from './login';
+export { default as FN } from './normalize';
+export { default as ThemeSwitch } from './dark';
