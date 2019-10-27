@@ -40,13 +40,19 @@ export const signIn = (user, pass) => new Promise((resolve, reject) => {
     reject(new Error('No username or password provided'));
     return;
   }
-  const url = `${globals.ROUTES.login
-  }?user=${encodeURIComponent(user)}&pass=${encodeURIComponent(pass)}`;
+  const url = `${globals.ROUTES.login}`;
   handshake().then(() => {
     fetch(url, {
       method: 'POST',
       timeout: 20,
       credentials: 'same-origin',
+      body: JSON.stringify({
+        user: encodeURIComponent(user),
+        pass: encodeURIComponent(pass),
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
       .then(handleErrors)
       .then((res) => {
