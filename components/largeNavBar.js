@@ -24,16 +24,17 @@ const stylesFunc = dark => StyleSheet.create({
   largeNavBarView: {
     height: 100,
     paddingLeft: 16,
+    paddingRight: 16,
     paddingBottom: 6,
     justifyContent: 'space-between',
     backgroundColor: dark ? 'black' : 'white',
     flexDirection: 'row',
+    zIndex: 2,
   },
   gearContainer: {
     flexDirection: 'column',
     alignSelf: 'flex-end',
     paddingBottom: 6,
-    paddingRight: 16,
   },
   gear: {
     width: 36,
@@ -122,7 +123,7 @@ class LargeNavBar extends React.Component {
               </View>
             )}
             <View style={[styles.largeNavBarView]}>
-              <View style={{ flexDirection: 'column', justifyContent: 'flex-end' }}>
+              <View style={{ flexDirection: 'column', justifyContent: 'flex-end', flex: 1 }}>
                 {!children && (
                   <React.Fragment>
                     <Text style={[styles.subTitle]}>{preTitle}</Text>
