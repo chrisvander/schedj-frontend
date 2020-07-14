@@ -1,3 +1,5 @@
+## WARNING: Security protocols for SIS have changed, so this solution no longer functions. Unless we find another way around, we are considering this project deprecated.
+
 # SCHEDJ Frontend
 [![Build](https://travis-ci.com/Schedj/schedj-frontend.svg?branch=master)](https://travis-ci.com/Schedj/schedj-frontend)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
