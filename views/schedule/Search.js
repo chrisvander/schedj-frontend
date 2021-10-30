@@ -48,19 +48,22 @@ export default class GradesScreen extends React.PureComponent {
     loading: true,
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.setState({ dark: Appearance.getColorScheme() === 'dark' });
     this.appearance = Appearance.addChangeListener(({ colorScheme }) => {
       this.setState({ dark: colorScheme === 'dark' });
     });
     try {
       // Assign the promise unresolved first then get the data using the json method.
-      const termsApiRequest = await fetch(yacs.terms);
-      const termsObj = (await termsApiRequest.json()).data;
-      const selectedTerm = termsObj[0];
-      this.setState({ terms: termsObj, selectedTerm, loading: false });
+      fetch(yacs.terms)
+        .then(res => res.json())
+        .then((reqBody) => {
+          const termsObj = reqBody.data;
+          const selectedTerm = termsObj[0];
+          this.setState({ terms: termsObj, selectedTerm, loading: false });
+        });
     } catch (err) {
-      console.error('Error fetching data-----------', err);
+      throw new Error(err);
     }
   }
 
